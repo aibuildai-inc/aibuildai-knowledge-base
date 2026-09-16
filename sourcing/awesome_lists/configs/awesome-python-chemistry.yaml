@@ -1,0 +1,14 @@
+# Python Chemistry Tools — feature engineering for molecular property prediction
+name: awesome-python-chemistry
+source_type: awesome_list
+repo: lmmentel/awesome-python-chemistry
+description: >-
+  Python libraries for computational chemistry including RDKit molecular descriptors,
+  fingerprint computation, SMILES processing, and molecular property calculators
+  essential for feature engineering in ADMET prediction.
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents
+  - Uncategorized

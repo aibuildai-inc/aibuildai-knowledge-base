@@ -1,0 +1,14 @@
+---
+title: "MAIS: Memory-Attention for Interactive Segmentation."
+entry_type: paper
+source: "https://arxiv.org/abs/2505.07511"
+upstream_list: "liliu-avril/Awesome-Segment-Anything"
+venue: "ArXiv"
+year: "2025"
+---
+
+# MAIS: Memory-Attention for Interactive Segmentation.
+
+**Source**: [https://arxiv.org/abs/2505.07511](https://arxiv.org/abs/2505.07511)
+
+**Year**: 2025 | **Venue**: ArXiv

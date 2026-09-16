@@ -1,0 +1,15 @@
+---
+title: "DreamBooth: Fine Tuning Text-to-Image Diffusion Models for Subject-Driven Generation"
+entry_type: paper
+source: "https://openaccess.thecvf.com/content/CVPR2023/papers/Ruiz_DreamBooth_Fine_Tuning_Text-to-Image_Diffusion_Models_for_Subject-Driven_Generation_CVPR_2023_paper.pdf"
+upstream_list: "AlonzoLeeeooo/awesome-text-to-image-studies"
+category: "Personalized Text-to-Image Generation"
+venue: "CVPR"
+year: "2023"
+---
+
+# DreamBooth: Fine Tuning Text-to-Image Diffusion Models for Subject-Driven Generation
+
+**Source**: [https://openaccess.thecvf.com/content/CVPR2023/papers/Ruiz_DreamBooth_Fine_Tuning_Text-to-Image_Diffusion_Models_for_Subject-Driven_Generation_CVPR_2023_paper.pdf](https://openaccess.thecvf.com/content/CVPR2023/papers/Ruiz_DreamBooth_Fine_Tuning_Text-to-Image_Diffusion_Models_for_Subject-Driven_Generation_CVPR_2023_paper.pdf)
+
+**Year**: 2023 | **Venue**: CVPR | **Category**: Personalized Text-to-Image Generation

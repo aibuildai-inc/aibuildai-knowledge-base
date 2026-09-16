@@ -1,0 +1,13 @@
+---
+title: "Prompt Compression with Context-Aware Sentence Encoding for Fast and Improved LLM Inference"
+entry_type: paper
+source: "https://arxiv.org/abs/2409.01227"
+upstream_list: "Xnhyacinth/Awesome-LLM-Long-Context-Modeling"
+authors: "Barys Liskavets, Maxim Ushakov, Shuvendu Roy, Mark Klibanov, Ali Etemad, Shane Luke."
+---
+
+# Prompt Compression with Context-Aware Sentence Encoding for Fast and Improved LLM Inference
+
+**Source**: [https://arxiv.org/abs/2409.01227](https://arxiv.org/abs/2409.01227)
+
+**Authors**: Barys Liskavets, Maxim Ushakov, Shuvendu Roy, Mark Klibanov, Ali Etemad, Shane Luke.

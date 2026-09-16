@@ -1,0 +1,54 @@
+# Part of the 2nd place solution (Jack's model)
+
+Competition: indoor-location-navigation
+Rank: #2
+Source: https://www.kaggle.com/c/indoor-location-navigation/discussion/240141
+
+My main contribution to the team was to provide the absolute position prediction from signal strength of wifi as an input to the team's ensemble. There are other things I've done in our team, but I'll write about this here. My prediction accounts for about 1/3 of the weight of the ensemble.
+
+-----
+
+# Data Preparation
+- The spacing of the way points is too sparse to be combined with the wifi information, so the location between way points was interpolated by host's function "compute_step_positions" and generate the target value at intervals of 1 second.
+- As input features to the model, I generated data with each column having RSSI value for each BSSID, as well as the others. However, I completely ignored the timestamp of the wifi data and instead adopted last_seen_timestamp as the true timestamp.
+- The last_seen_timestamp was rounded to the nearest second, and the BSSIDs observed during that time were stored in the same row, and combined with the target.
+
+I've added some other processing, but roughly, this data is the input for training my model.
+
+-----
+
+# Model
+- I built one model per floor, because I thought that the information on the other sites, and even on the other floors of the same building, didn't seem to help much in estimating the location.
+- What is characteristic, I think, is that I approached the problem of location estimation not as a regression task, but as a multiclass classification task. To be more precise, I discretized the coordinates into square regions of 2m on a side, and then trained a model to predict which region has the highest probability of being present. (For a floor with a width and height of 200 meters, this means a multiclass classification of 10,000 classes.)
+- My model is NN (non-RNN), and I introduced my own innovations to make it learn well as a multi-class classification problem.
+- By the trained model, the probability of existence in each region for every second was output and the region with the high probability (the average of the x, y values of the top 30 regions) was adopted as the location prediction.
+- Depending on the hyperparameters, it took about 4-6h using the GPU in Kaggle Notebook to do a 5-fold CV of all the sites/floors appearing in the test data. (about 1 min per model)
+
+-----
+
+# Post-processing
+- Since my model is not an RNN, the accuracy is low without post-processing, and it can only make good predictions when [cost minimization](https://www.kaggle.com/saitodevel01/indoor-post-processing-by-cost-minimization) post-processing is applied. Rather, I decided that there is not much benefit to learn the dependencies of time series by RNN, since it can be introduced by the post-processing.
+- Since my model is a multiclass classification model, the predictions for each second have a confidence level, and it was effective to weight the predictions by this confidence level in cost minimization.
+- It was also effective to iterate the process, ignoring the points where the position changed significantly as a result of the cost minimization, and redoing the cost minimization.
+- This, with some minor angular corrections and thinned out to a way point timestamp, was the input to the team's ensemble.
+
+-----
+
+# Performance
+The score when this prediction is submitted without ensemble and further post-processing is as follows:
+
+public : 3.54326
+private: 4.07147
+
+Before I joined the team, I added various further post-processing steps (snap to corridor, snap to grid, and so on) after that, but they were not applied for the input of team's ensemble.
+If they are applied, the score is:
+
+public : 2.73972
+private: 3.31607
+
+If I hadn't teamed up and gotten no improvement in my post-processing, the score would have been about this.
+
+-----
+
+It was a great honor to play in this competition with a very good team.
+Thank you to all the team members, the hosts, and the competitors!

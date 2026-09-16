@@ -1,0 +1,14 @@
+---
+title: "Neural Fields for Robotic Object Manipulation from a Single Image"
+entry_type: paper
+source: "https://arxiv.org/pdf/2210.12126.pdf"
+upstream_list: "zubair-irshad/Awesome-Implicit-NeRF-Robotics"
+category: "Manipulation/RL"
+venue: "ICRA, 2023"
+---
+
+# Neural Fields for Robotic Object Manipulation from a Single Image
+
+**Source**: [https://arxiv.org/pdf/2210.12126.pdf](https://arxiv.org/pdf/2210.12126.pdf)
+
+**Venue**: ICRA, 2023 | **Category**: Manipulation/RL

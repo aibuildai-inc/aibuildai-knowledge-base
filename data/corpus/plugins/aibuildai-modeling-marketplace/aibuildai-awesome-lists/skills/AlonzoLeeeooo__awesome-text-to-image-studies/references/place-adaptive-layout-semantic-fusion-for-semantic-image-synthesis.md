@@ -1,0 +1,15 @@
+---
+title: "PLACE: Adaptive Layout-Semantic Fusion for Semantic Image Synthesis"
+entry_type: paper
+source: "https://arxiv.org/pdf/2403.01852.pdf"
+upstream_list: "AlonzoLeeeooo/awesome-text-to-image-studies"
+category: "Conditional Text-to-Image Generation"
+venue: "CVPR"
+year: "2024"
+---
+
+# PLACE: Adaptive Layout-Semantic Fusion for Semantic Image Synthesis
+
+**Source**: [https://arxiv.org/pdf/2403.01852.pdf](https://arxiv.org/pdf/2403.01852.pdf)
+
+**Year**: 2024 | **Venue**: CVPR | **Category**: Conditional Text-to-Image Generation

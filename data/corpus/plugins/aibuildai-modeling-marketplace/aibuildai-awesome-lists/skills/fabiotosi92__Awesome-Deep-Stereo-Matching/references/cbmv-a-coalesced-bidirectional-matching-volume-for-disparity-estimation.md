@@ -1,0 +1,16 @@
+---
+title: "CBMV: A coalesced bidirectional matching volume for disparity estimation"
+entry_type: paper
+source: "https://openaccess.thecvf.com/content_cvpr_2018/papers/Batsos_CBMV_A_Coalesced_CVPR_2018_paper.pdf"
+upstream_list: "fabiotosi92/Awesome-Deep-Stereo-Matching"
+category: "Frameworks"
+subcategory: "Matching Cost"
+venue: "*CVPR, 2018*"
+year: "2018"
+---
+
+# CBMV: A coalesced bidirectional matching volume for disparity estimation
+
+**Source**: [https://openaccess.thecvf.com/content_cvpr_2018/papers/Batsos_CBMV_A_Coalesced_CVPR_2018_paper.pdf](https://openaccess.thecvf.com/content_cvpr_2018/papers/Batsos_CBMV_A_Coalesced_CVPR_2018_paper.pdf)
+
+**Year**: 2018 | **Venue**: *CVPR, 2018* | **Category**: Frameworks | **Subcategory**: Matching Cost

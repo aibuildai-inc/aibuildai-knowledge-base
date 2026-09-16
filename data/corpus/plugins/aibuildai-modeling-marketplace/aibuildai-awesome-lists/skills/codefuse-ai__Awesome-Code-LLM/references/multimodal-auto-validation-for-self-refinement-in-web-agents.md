@@ -1,0 +1,15 @@
+---
+title: "Multimodal Auto Validation For Self-Refinement in Web Agents"
+entry_type: paper
+source: "https://arxiv.org/abs/2410.00689"
+upstream_list: "codefuse-ai/Awesome-Code-LLM"
+category: "3. When Coding Meets Reasoning"
+subcategory: "3.5 Frontend Navigation"
+year: 2024
+---
+
+# Multimodal Auto Validation For Self-Refinement in Web Agents
+
+**Source**: [https://arxiv.org/abs/2410.00689](https://arxiv.org/abs/2410.00689)
+
+**Year**: 2024 | **Category**: 3. When Coding Meets Reasoning | **Subcategory**: 3.5 Frontend Navigation

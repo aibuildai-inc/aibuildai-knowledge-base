@@ -1,0 +1,14 @@
+---
+title: "LLM-Guided Probabilistic Program Induction for POMDP Model Estimation"
+entry_type: paper
+source: "https://openreview.net/group?id=NeurIPS.cc/2025/Workshop/EWM#tab-accept-oral"
+upstream_list: "knightnemo/Awesome-World-Models"
+category: "General Approaches to World Models"
+subcategory: "5. Building World Models by Bridging Language and Vision Intelligence"
+---
+
+# LLM-Guided Probabilistic Program Induction for POMDP Model Estimation
+
+**Source**: [https://openreview.net/group?id=NeurIPS.cc/2025/Workshop/EWM#tab-accept-oral](https://openreview.net/group?id=NeurIPS.cc/2025/Workshop/EWM#tab-accept-oral)
+
+**Category**: General Approaches to World Models | **Subcategory**: 5. Building World Models by Bridging Language and Vision Intelligence

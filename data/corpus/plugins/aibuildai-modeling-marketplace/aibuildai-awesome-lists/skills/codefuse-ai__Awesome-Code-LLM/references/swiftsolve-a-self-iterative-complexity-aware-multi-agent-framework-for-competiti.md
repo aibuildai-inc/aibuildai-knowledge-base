@@ -1,0 +1,15 @@
+---
+title: "SwiftSolve: A Self-Iterative, Complexity-Aware Multi-Agent Framework for Competitive Programming"
+entry_type: paper
+source: "https://arxiv.org/abs/2510.22626"
+upstream_list: "codefuse-ai/Awesome-Code-LLM"
+category: "3. When Coding Meets Reasoning"
+subcategory: "3.3 Code Agents"
+year: 2025
+---
+
+# SwiftSolve: A Self-Iterative, Complexity-Aware Multi-Agent Framework for Competitive Programming
+
+**Source**: [https://arxiv.org/abs/2510.22626](https://arxiv.org/abs/2510.22626)
+
+**Year**: 2025 | **Category**: 3. When Coding Meets Reasoning | **Subcategory**: 3.3 Code Agents

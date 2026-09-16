@@ -1,0 +1,18 @@
+---
+title: "Motion-Appearance Co-Memory Networks for Video Question Answering"
+entry_type: paper
+source: "http://openaccess.thecvf.com/content_cvpr_2018/html/Gao_Motion-Appearance_Co-Memory_Networks_CVPR_2018_paper.html"
+upstream_list: "jokieleung/awesome-visual-question-answering"
+category: "CVPR 2018"
+venue: "CVPR 2018"
+year: "2018"
+authors: "Jiyang Gao et al"
+---
+
+# Motion-Appearance Co-Memory Networks for Video Question Answering
+
+**Source**: [http://openaccess.thecvf.com/content_cvpr_2018/html/Gao_Motion-Appearance_Co-Memory_Networks_CVPR_2018_paper.html](http://openaccess.thecvf.com/content_cvpr_2018/html/Gao_Motion-Appearance_Co-Memory_Networks_CVPR_2018_paper.html)
+
+**Year**: 2018 | **Venue**: CVPR 2018 | **Category**: CVPR 2018
+
+**Authors**: Jiyang Gao et al

@@ -1,0 +1,13 @@
+---
+title: "V-Triune"
+entry_type: paper
+source: "https://arxiv.org/abs/2505.18129"
+upstream_list: "HITsz-TMG/Awesome-Large-Multimodal-Reasoning-Models"
+category: "2.3.3 MM-R1"
+---
+
+# V-Triune
+
+**Source**: [https://arxiv.org/abs/2505.18129](https://arxiv.org/abs/2505.18129)
+
+**Category**: 2.3.3 MM-R1

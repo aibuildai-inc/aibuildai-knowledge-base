@@ -1,0 +1,15 @@
+---
+title: "SWE-World: Building Software Engineering Agents in Docker-Free Environments"
+entry_type: paper
+source: "https://arxiv.org/abs/2602.03419"
+upstream_list: "codefuse-ai/Awesome-Code-LLM"
+category: "3. When Coding Meets Reasoning"
+subcategory: "3.3 Code Agents"
+year: 2026
+---
+
+# SWE-World: Building Software Engineering Agents in Docker-Free Environments
+
+**Source**: [https://arxiv.org/abs/2602.03419](https://arxiv.org/abs/2602.03419)
+
+**Year**: 2026 | **Category**: 3. When Coding Meets Reasoning | **Subcategory**: 3.3 Code Agents

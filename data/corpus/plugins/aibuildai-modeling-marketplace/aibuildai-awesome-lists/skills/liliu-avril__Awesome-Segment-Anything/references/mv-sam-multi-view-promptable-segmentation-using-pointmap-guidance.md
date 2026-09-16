@@ -1,0 +1,14 @@
+---
+title: "MV-SAM: Multi-view Promptable Segmentation using Pointmap Guidance."
+entry_type: paper
+source: "https://arxiv.org/abs/2601.17866"
+upstream_list: "liliu-avril/Awesome-Segment-Anything"
+venue: "ArXiv"
+year: "2026"
+---
+
+# MV-SAM: Multi-view Promptable Segmentation using Pointmap Guidance.
+
+**Source**: [https://arxiv.org/abs/2601.17866](https://arxiv.org/abs/2601.17866)
+
+**Year**: 2026 | **Venue**: ArXiv

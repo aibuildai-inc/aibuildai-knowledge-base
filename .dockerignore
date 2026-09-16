@@ -1,0 +1,10 @@
+**
+!pyproject.toml
+!aibuildai_mcp/
+!aibuildai_mcp/**
+!data/
+!data/corpus/
+!data/corpus/plugins/
+!data/corpus/plugins/**
+!deploy/
+!deploy/Dockerfile

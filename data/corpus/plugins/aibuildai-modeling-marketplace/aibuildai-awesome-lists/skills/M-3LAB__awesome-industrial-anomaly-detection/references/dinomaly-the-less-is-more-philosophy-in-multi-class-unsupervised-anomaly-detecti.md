@@ -1,0 +1,16 @@
+---
+title: "Dinomaly: The Less is More Philosophy in Multi-Class Unsupervised Anomaly Detection"
+entry_type: paper
+source: "https://arxiv.org/abs/2405.14325"
+upstream_list: "M-3LAB/awesome-industrial-anomaly-detection"
+category: "CVPR 2025"
+code_url: "https://github.com/guojiajeremy/Dinomaly"
+---
+
+# Dinomaly: The Less is More Philosophy in Multi-Class Unsupervised Anomaly Detection
+
+**Source**: [https://arxiv.org/abs/2405.14325](https://arxiv.org/abs/2405.14325)
+
+**Code**: [https://github.com/guojiajeremy/Dinomaly](https://github.com/guojiajeremy/Dinomaly)
+
+**Category**: CVPR 2025

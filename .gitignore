@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+*.egg-info/
+# Every runtime store -- the Kb index and the sourcing outputs -- lives under the
+# runtime root, which defaults to runtime/ here (see sourcing/utils/work_dir.py).
+/runtime/

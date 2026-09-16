@@ -1,0 +1,10 @@
+---
+title: "PIXIU (貔貅)"
+entry_type: paper
+source: "https://arxiv.org/abs/2306.05443"
+upstream_list: "luban-agi/Awesome-Domain-LLM"
+---
+
+# PIXIU (貔貅)
+
+**Source**: [https://arxiv.org/abs/2306.05443](https://arxiv.org/abs/2306.05443)

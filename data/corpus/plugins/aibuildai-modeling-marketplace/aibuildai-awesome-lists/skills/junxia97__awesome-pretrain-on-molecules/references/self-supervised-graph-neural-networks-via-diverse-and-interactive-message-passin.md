@@ -1,0 +1,15 @@
+---
+title: "Self-supervised Graph Neural Networks via Diverse and Interactive Message Passing"
+entry_type: paper
+source: "https://yangliang.github.io/pdf/aaai22.pdf"
+upstream_list: "junxia97/awesome-pretrain-on-molecules"
+category: "Pretraining Strategies"
+venue: "AAAI 2022"
+year: "2022"
+---
+
+# Self-supervised Graph Neural Networks via Diverse and Interactive Message Passing
+
+**Source**: [https://yangliang.github.io/pdf/aaai22.pdf](https://yangliang.github.io/pdf/aaai22.pdf)
+
+**Year**: 2022 | **Venue**: AAAI 2022 | **Category**: Pretraining Strategies

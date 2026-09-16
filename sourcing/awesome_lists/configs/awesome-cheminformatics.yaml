@@ -1,0 +1,12 @@
+# Cheminformatics — core tools for molecular ML
+name: awesome-cheminformatics
+source_type: awesome_list
+repo: hsiaoyi0504/awesome-cheminformatics
+description: >-
+  Cheminformatics libraries and software covering molecular representations,
+  descriptor computation, QSAR/QSPR modeling, and drug discovery tools.
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents

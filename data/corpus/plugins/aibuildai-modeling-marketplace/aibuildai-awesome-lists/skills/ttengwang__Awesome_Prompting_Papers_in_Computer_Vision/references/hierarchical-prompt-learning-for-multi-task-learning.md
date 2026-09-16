@@ -1,0 +1,18 @@
+---
+title: "Hierarchical Prompt Learning for Multi-Task Learning"
+entry_type: paper
+source: "https://openaccess.thecvf.com/content/CVPR2023/papers/Liu_Hierarchical_Prompt_Learning_for_Multi-Task_Learning_CVPR_2023_paper.pdf"
+upstream_list: "ttengwang/Awesome_Prompting_Papers_in_Computer_Vision"
+category: "Vision-Language Prompt"
+venue: "CVPR 2023"
+year: 2023
+code_url: "https://github.com/lynlynlyn/hipro"
+---
+
+# Hierarchical Prompt Learning for Multi-Task Learning
+
+**Source**: [https://openaccess.thecvf.com/content/CVPR2023/papers/Liu_Hierarchical_Prompt_Learning_for_Multi-Task_Learning_CVPR_2023_paper.pdf](https://openaccess.thecvf.com/content/CVPR2023/papers/Liu_Hierarchical_Prompt_Learning_for_Multi-Task_Learning_CVPR_2023_paper.pdf)
+
+**Code**: [https://github.com/lynlynlyn/hipro](https://github.com/lynlynlyn/hipro)
+
+**Year**: 2023 | **Venue**: CVPR 2023 | **Category**: Vision-Language Prompt

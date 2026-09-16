@@ -1,0 +1,13 @@
+---
+title: "Mitigating Hallucination in Visual Language Models with Visual Supervision"
+entry_type: paper
+source: "https://arxiv.org/abs/2311.16479"
+upstream_list: "showlab/Awesome-MLLM-Hallucination"
+category: "Hallucination Mitigation"
+---
+
+# Mitigating Hallucination in Visual Language Models with Visual Supervision
+
+**Source**: [https://arxiv.org/abs/2311.16479](https://arxiv.org/abs/2311.16479)
+
+**Category**: Hallucination Mitigation

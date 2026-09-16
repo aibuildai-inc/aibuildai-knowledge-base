@@ -1,0 +1,9 @@
+# share your secret sauce
+
+Competition: facebook-recruiting-iv-human-or-bot
+Rank: #3
+Source: https://www.kaggle.com/c/facebook-recruiting-iv-human-or-bot/discussion/14628#81396
+
+<p>Congrats to all the winners!<br>I used scikit learn RandomForestClassifier algorithm.<br>List of decent features according to cross-validation feature selection method I used:<br>1. absolute number of bids per user.<br>2. num uniq devices, auctions, ips and urls<br>3. avg and first-non-zero time diffs between user bids<br>4. percentage of bids made with favorite(most common) device<br>5. percentage of bids made from favorite country<br>6. max number of bids in a single auction<br>7. number of simultaneous bids<br>8. number of device switches, numer of auctions switches, number of ips switches, number of countries switches<br> e.g. this sequence corresponds to 3 'switches' (with 2 devices): [dev1, dev1, dev2, dev2, dev2, dev2, dev1]<br>9. percentage of user bids made in first/last 5% of auction observed timeline <br> (observed timeline doesn't correspond to real auction timeline, but in my opinion still helps to understand if user prefers to bid at the beginning or end of an auction)<br>10. average number of transaction in the same country in 1-hour window with various normalizations<br> (in my opinion this feature roughly reflects user favorite bidding time of the day)<br>11. two categ-&gt;response transformations features. average response for country and device.<br> the same idea as discussed here: https://www.kaggle.com/forums/f/15/kaggle-forum/t/8005/replacing-categorical-variables-with-historic-response-rate</p>
+<p>there were also a few other trivial features</p>
+<p>For cross validation I calculated average AUC for 10 different but fixed 10-fold splits, so totaly it's 10*10 algorithm trains for a single feature check.</p>

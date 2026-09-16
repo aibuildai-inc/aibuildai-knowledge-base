@@ -1,0 +1,4 @@
+{
+  "name": "aibuildai-posttrain",
+  "description": "Hand-written skills for post-training a base language model: the workflow of one run, the training data, the method, and the frameworks that run it. Load the training skill first for the whole workflow, then the others per decision."
+}

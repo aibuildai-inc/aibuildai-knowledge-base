@@ -1,0 +1,16 @@
+---
+title: "GLU Variants Improve Transformer"
+entry_type: paper
+source: "https://github.com/guyulongcs/Deep-Learning-for-Search-Recommendation-Advertisements/blob/master/04_Ranking/Activation-Function/2020%28Arxiv%29%20%20%5BGLU%5D%20GLU%20Variants%20Improve%20Transformer.pdf"
+upstream_list: "guyulongcs/Awesome-Deep-Learning-Papers-for-Search-Recommendation-Advertising"
+category: "04_Ranking"
+subcategory: "Activation-Function"
+venue: "Arxiv"
+year: "2020"
+---
+
+# GLU Variants Improve Transformer
+
+**Source**: [https://github.com/guyulongcs/Deep-Learning-for-Search-Recommendation-Advertisements/blob/master/04_Ranking/Activation-Function/2020%28Arxiv%29%20%20%5BGLU%5D%20GLU%20Variants%20Improve%20Transformer.pdf](https://github.com/guyulongcs/Deep-Learning-for-Search-Recommendation-Advertisements/blob/master/04_Ranking/Activation-Function/2020%28Arxiv%29%20%20%5BGLU%5D%20GLU%20Variants%20Improve%20Transformer.pdf)
+
+**Year**: 2020 | **Venue**: Arxiv | **Category**: 04_Ranking | **Subcategory**: Activation-Function

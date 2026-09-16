@@ -1,0 +1,15 @@
+# Self-Supervised Learning awesome list
+name: awesome-self-supervised-learning
+source_type: awesome_list
+repo: jason718/awesome-self-supervised-learning
+description: >-
+  Self-supervised learning methods including contrastive learning, masked
+  prediction, and pretext tasks across vision, NLP, and graph domains.
+include_types:
+  - paper
+  - repo
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents

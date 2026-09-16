@@ -1,0 +1,15 @@
+---
+title: "Selection of Prompt Engineering Techniques for Code Generation through Predicting Code Complexity"
+entry_type: paper
+source: "https://arxiv.org/abs/2409.16416"
+upstream_list: "codefuse-ai/Awesome-Code-LLM"
+category: "5. Methods/Models for Downstream Tasks"
+subcategory: "Code Generation"
+year: 2024
+---
+
+# Selection of Prompt Engineering Techniques for Code Generation through Predicting Code Complexity
+
+**Source**: [https://arxiv.org/abs/2409.16416](https://arxiv.org/abs/2409.16416)
+
+**Year**: 2024 | **Category**: 5. Methods/Models for Downstream Tasks | **Subcategory**: Code Generation

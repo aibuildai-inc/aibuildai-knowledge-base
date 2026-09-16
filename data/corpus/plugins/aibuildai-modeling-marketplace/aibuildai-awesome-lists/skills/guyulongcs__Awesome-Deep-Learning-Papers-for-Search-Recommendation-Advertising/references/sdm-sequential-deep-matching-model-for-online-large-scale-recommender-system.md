@@ -1,0 +1,15 @@
+---
+title: "SDM - Sequential deep matching model for online large-scale recommender system"
+entry_type: paper
+source: "https://github.com/guyulongcs/Deep-Learning-for-Search-Recommendation-Advertisements/blob/master/02_Matching/2019%20%28Alibaba%29%20%28CIKM%29%20%2A%5BSDM%5D%20SDM%20-%20Sequential%20deep%20matching%20model%20for%20online%20large-scale%20recommender%20system.pdf"
+upstream_list: "guyulongcs/Awesome-Deep-Learning-Papers-for-Search-Recommendation-Advertising"
+category: "02_Matching"
+venue: "CIKM"
+year: "2019"
+---
+
+# SDM - Sequential deep matching model for online large-scale recommender system
+
+**Source**: [https://github.com/guyulongcs/Deep-Learning-for-Search-Recommendation-Advertisements/blob/master/02_Matching/2019%20%28Alibaba%29%20%28CIKM%29%20%2A%5BSDM%5D%20SDM%20-%20Sequential%20deep%20matching%20model%20for%20online%20large-scale%20recommender%20system.pdf](https://github.com/guyulongcs/Deep-Learning-for-Search-Recommendation-Advertisements/blob/master/02_Matching/2019%20%28Alibaba%29%20%28CIKM%29%20%2A%5BSDM%5D%20SDM%20-%20Sequential%20deep%20matching%20model%20for%20online%20large-scale%20recommender%20system.pdf)
+
+**Year**: 2019 | **Venue**: CIKM | **Category**: 02_Matching

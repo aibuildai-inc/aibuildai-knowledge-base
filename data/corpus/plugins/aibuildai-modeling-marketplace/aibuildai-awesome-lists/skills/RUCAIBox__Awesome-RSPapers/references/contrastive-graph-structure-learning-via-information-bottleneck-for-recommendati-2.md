@@ -1,0 +1,13 @@
+---
+title: "Contrastive Graph Structure Learning via Information Bottleneck for Recommendation"
+entry_type: paper
+source: ""
+upstream_list: "RUCAIBox/Awesome-RSPapers"
+category: "Contrastive Learning based"
+venue: "NIPS"
+year: "2022"
+---
+
+# Contrastive Graph Structure Learning via Information Bottleneck for Recommendation
+
+**Year**: 2022 | **Venue**: NIPS | **Category**: Contrastive Learning based

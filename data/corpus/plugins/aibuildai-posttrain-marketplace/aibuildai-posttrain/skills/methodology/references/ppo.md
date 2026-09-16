@@ -1,0 +1,120 @@
+# PPO
+
+https://arxiv.org/abs/1707.06347
+
+An actor-critic policy-gradient method that replaces TRPO's hard KL trust-region constraint with a clipped probability-ratio objective, trained with ordinary SGD.
+
+**PPO** (Proximal Policy Optimization) is a family of policy-gradient RL algorithms introduced by Schulman et al. as methods that alternate between sampling data through interaction with the environment, and optimizing a "surrogate" objective function using stochastic gradient ascent [1]. Its parent is Trust Region Policy Optimization (TRPO) [2], described in its own abstract as an iterative procedure for optimizing policies with guaranteed monotonic improvement, built from several approximations to a theoretically-justified procedure [2]; the PPO paper's own description is that TRPO uses a hard constraint rather than a penalty because it is hard to choose a single penalty coefficient that performs well across different problems [1], and separately critiques TRPO as "relatively complicated, and is not compatible with architectures that include noise (such as dropout) or parameter sharing (between the policy and value function, or with auxiliary tasks)" [1]. PPO replaces the constrained optimization with either a clipped surrogate objective or an adaptive KL penalty, both optimizable with several epochs of minibatch SGD instead of TRPO's conjugate-gradient solver [1]. The paper gives three reasons for existing: TRPO's implementation complexity, the goal of a method with the data efficiency and reliable performance of TRPO while using only first-order optimization, and better sample complexity (empirically) than online policy-gradient methods and vanilla policy gradient [1].
+
+PPO trains an explicit value network (critic) alongside the policy (actor) and uses Generalized Advantage Estimation (GAE) [3] for the advantage estimates that go into the objective [1]. The method is the RL step behind InstructGPT's RLHF pipeline: "Step 3: Optimize a policy against the reward model using PPO," using the reward model's output as a scalar reward to fine-tune the supervised policy [4], and human evaluators preferred outputs from the 1.3B-parameter PPO-tuned InstructGPT model over the 175B GPT-3 model (Figure 1) [4]. In the originating paper's own MuJoCo ablation, the clipped objective at ε = 0.2 scored 0.82 (normalized score, best of the tested variants) versus −0.39 with no clipping or penalty at all (Table 1) [1]. Lineage in one line: TRPO (2015 [2]) -> PPO (2017 [1]) -> adopted by InstructGPT/RLHF (2022 [4]) -> named successor GRPO, "a variant of Proximal Policy Optimization (PPO), that... optimiz[es] the memory usage of PPO" by removing the critic (DeepSeekMath, 2024 [5]). The identification of arXiv:1707.06347 as "the" PPO paper was confirmed as the top-cited match under an exact-title search for "Proximal Policy Optimization Algorithms."
+
+**When to pick it**: online RL when you can afford to train a full second network (the critic) alongside the policy and want a per-token learned baseline rather than a group- or batch-level one; the clipped or KL-penalized surrogate lets you take multiple SGD epochs per batch of on-policy data without the complexity of TRPO's constrained solve [1]. Prefer GRPO [5] when memory for a critic is the binding constraint and rewards are cheap to sample in groups per prompt. Prefer DPO [6] when you only have static preference pairs and no way to sample fresh completions: DPO "eliminat[es] the need for sampling from the LM during fine-tuning" [6], i.e. it is offline. Nearest online neighbor besides GRPO is TRPO itself [2], which PPO approximates with a first-order, unconstrained objective in place of TRPO's hard constraint [1].
+
+**Variant of**: TRPO [2].
+
+**Data it needs**: prompts (or environment states) plus a way to score each generated rollout with a scalar reward — a reward model in the RLHF setting [4] or an environment reward signal in the original paper's control-task experiments [1]. On-policy: PPO's own algorithm runs N parallel actors that each collect T timesteps of fresh trajectories from the current policy before every set of updates (Algorithm 1) [1]; a pre-collected, static dataset cannot be substituted. The paper's benchmark scale was small by LLM standards — 1M timesteps per MuJoCo task, and its Roboschool experiments used 32 actors for the locomotion tasks and 128 actors for the flagrun tasks (Table 4) [1] — while InstructGPT's RLHF run trains on RM-scored prompts sampled from the API distribution at each PPO step [4].
+
+**Extra models**: always a value network (critic) — the objective's `L^VF` term is a per-timestep squared-error loss against a value target, combined with the clipped policy loss and an entropy bonus in `L^CLIP+VF+S` (Eq. 9) [1]; this is a full second network trained end-to-end, not optional in the paper's own definition. RLHF applications add a reference model and reward model on top: InstructGPT adds a per-token KL penalty against the frozen SFT model at each token to mitigate overoptimization of the reward model, with the value function initialized from the reward model [4] — this fixed-reference KL is InstructGPT's addition, not part of PPO's own objective, which instead uses an (optional) adaptive penalty between consecutive policy iterates `π_θold` and `π_θ` with no separate frozen network (Eq. 8) [1]. See Extra models detail continued under Cost.
+
+**Shipped by**: trl, `trl.experimental.ppo.PPOTrainer` / `PPOConfig` — not exported from the top-level `trl` package (confirmed by grepping `trl/__init__.py` at commit `2396dfe5d2be7b18c0b615d80957d64ecdeb7cc0`, which lists `GRPOConfig`/`GRPOTrainer` but no `PPOConfig`/`PPOTrainer`; the experimental subpackage's own `__init__.py` exports `PPOConfig` and `PPOTrainer` under `trl.experimental.ppo`) [7][8] — an experimental, not top-level-supported, entry point. verl, `python3 -m verl.trainer.main_ppo` with `algorithm.adv_estimator: gae` — verl's own default advantage estimator, i.e. PPO is verl's baseline algorithm, not an add-on [9][10].
+
+## How it works
+
+Each iteration: run the current policy in the environment (or generate completions) for N actors × T timesteps to collect a batch of trajectories; compute per-timestep advantage estimates from the critic's value predictions; run K epochs of minibatch SGD/Adam on the combined clipped-objective loss; repeat [1].
+
+**The clipped surrogate objective** [1], Eq. 7. Let $r_t(\theta) = \dfrac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$ be the probability ratio between the policy being trained and the policy that generated the data (Eq. 6 defines $L^{CPI}(\theta) = \hat{\mathbb{E}}_t[r_t(\theta)\hat{A}_t]$, the unclipped "conservative policy iteration" surrogate):
+
+$$ L^{CLIP}(\theta) = \hat{\mathbb{E}}_t\left[\min\!\left(r_t(\theta)\hat{A}_t,\ \operatorname{clip}(r_t(\theta),\,1-\varepsilon,\,1+\varepsilon)\,\hat{A}_t\right)\right] $$
+
+$\hat{A}_t$ is the estimated advantage at timestep $t$; $\varepsilon$ is the clip range, 0.2 in the paper's main experiments [1]. Taking the min of the clipped and unclipped terms makes the objective a pessimistic (lower) bound: when $\hat{A}_t > 0$ the objective is capped once $r_t$ exceeds $1+\varepsilon$, removing the incentive to push the policy arbitrarily far in a good direction on one batch of data; when $\hat{A}_t < 0$ it is capped once $r_t$ falls below $1-\varepsilon$, symmetrically limiting how far a bad action's probability is driven down (Figure 1's explanation) [1].
+
+**The adaptive KL-penalty objective** [1], Eq. 8, which the paper describes as usable either as an alternative to the clipped surrogate objective or in addition to it:
+
+$$ L^{KLPEN}(\theta) = \hat{\mathbb{E}}_t\left[r_t(\theta)\hat{A}_t - \beta\, \mathrm{KL}\!\left[\pi_{\theta_{old}}(\cdot|s_t),\,\pi_\theta(\cdot|s_t)\right]\right] $$
+
+Here the KL is between the old and new policy at the same state (not against a separate frozen reference model), and $\beta$ is adapted after each policy update: compute $d = \hat{\mathbb{E}}_t[\mathrm{KL}[\pi_{\theta_{old}},\pi_\theta]]$; if $d < d_{targ}/1.5$, halve $\beta$; if $d > d_{targ}\times 1.5$, double $\beta$ [1].
+
+**The combined training loss** [1], Eq. 9, run when actor and critic share parameters:
+
+$$ L_t^{CLIP+VF+S}(\theta) = \hat{\mathbb{E}}_t\left[L_t^{CLIP}(\theta) - c_1 L_t^{VF}(\theta) + c_2 S[\pi_\theta](s_t)\right], \qquad L_t^{VF} = \left(V_\theta(s_t) - V_t^{targ}\right)^2 $$
+
+$S$ is an entropy bonus encouraging exploration; $c_1, c_2$ are loss-mixing coefficients (Atari run: $c_1=1$, $c_2=0.01$) [1].
+
+**Advantage estimation — GAE** [1][3], Eq. 11-12, the estimator PPO uses for $\hat{A}_t$: with $\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$ (Eq. temporal-difference residual),
+
+$$ \hat{A}_t = \delta_t + (\gamma\lambda)\delta_{t+1} + \cdots + (\gamma\lambda)^{T-t+1}\delta_{T-1} $$
+
+$\gamma$ is the discount factor and $\lambda$ trades bias for variance in the estimator [1][3]. The paper's own MuJoCo hyperparameters (Table 3) use $\gamma = 0.99$, $\lambda = 0.95$, horizon $T = 2048$, 10 epochs, minibatch size 64, Adam stepsize $3\times10^{-4}$ [1]. Worked example with a 3-step, single-actor rollout, $\gamma=0.99$, $\lambda=0.95$: if $\delta_0=1.0$, $\delta_1=0.5$, $\delta_2=-0.2$, then $\hat{A}_0 = \delta_0 + (\gamma\lambda)\delta_1 + (\gamma\lambda)^2\delta_2 \approx 1.0 + 0.9405(0.5) + 0.8845(-0.2) \approx 1.293$ — the residual at $t=0$ dominates, and later residuals are down-weighted geometrically by $(\gamma\lambda)^k$; this arithmetic follows the paper's own truncated-GAE formula and is not a claim about any framework's convention.
+
+**Algorithm 1** [1]: for each of many iterations, run N parallel actors for T timesteps each (total batch $NT$), compute $\hat{A}_1,\ldots,\hat{A}_T$ for each actor with GAE, then optimize $L^{CLIP+VF+S}$ with Adam for $K$ epochs over minibatches of size $M \le NT$, and set $\theta_{old} \leftarrow \theta$.
+
+## Cost
+
+**Theory, from the method's own math:**
+
+- Time: on-policy generation is required every iteration — $N$ actors each collect $T$ fresh timesteps before any update can happen (Algorithm 1) [1]; the theory-level quantity is that no update reuses trajectories from an earlier policy iterate beyond the $K$ epochs run immediately after collection.
+- Memory: the combined loss $L^{CLIP+VF+S}$ requires holding two trained networks end-to-end — the policy (actor) and the value function (critic) — both with gradients and optimizer state, since the value loss $L^{VF}$ is a squared-error regression trained jointly (Eq. 9) [1]. Adam's own update rule keeps two per-parameter moment estimates (first and second moments of the gradient) [11], so each trained network's optimizer state is roughly two extra weight-sized tensors on top of the weights and gradients themselves; a shared-critic PPO setup pays this twice (once for actor, once for critic) unless the two networks share parameters. RLHF-style PPO additionally needs a frozen reward model (forward-only) and, per InstructGPT's own recipe, a frozen SFT reference model for the KL penalty (forward-only) [4] — these do not carry gradients or optimizer state but do occupy weight memory.
+- A naive reading might assume the KL penalty in $L^{KLPEN}$ requires a separate frozen network like InstructGPT's reference model; the paper's own formula does not — it computes KL between the current policy and the immediately preceding iterate $\pi_{\theta_{old}}$, which the algorithm already keeps as the sampling policy for that batch (Eq. 8) [1].
+
+**In practice, per framework:**
+
+- trl `PPOTrainer` [8]: lives only under `trl.experimental.ppo`, not the top-level package (confirmed against `trl/__init__.py` at commit `2396dfe5d2be7b18c0b615d80957d64ecdeb7cc0`, which exports `GRPOTrainer`/`GRPOConfig` but not `PPOTrainer`/`PPOConfig`) [7]. `PPOConfig` defaults include a reward model path defaulting to `EleutherAI/pythia-160m`, `num_ppo_epochs: int = 4`, `kl_coef: float = 0.05`, and `ds3_gather_for_generation: bool = True` [8]; the `ref_model` argument is optional and, if left `None`, trl creates a copy of the policy model to serve as the reference [8] — i.e. a frozen fourth model is present by default even without the user supplying one.
+- verl [9][10]: PPO is the default `algorithm.adv_estimator: gae` (raw `verl/trainer/config/ppo_trainer.yaml`, verl-project/verl commit `474c2f45226be29427e50ca6151f9f74c1398002`) [10], and its own docs state plainly: "PPO requires both an actor model (policy) and a critic model (value function). This differs from other algorithms like GRPO and RLOO that don't require a critic model" [9]. The reference model is loaded only when `actor.use_kl_loss` or `algorithm.use_kl_in_reward` is true — both default to `False`/`false` in the raw config [10] — so a stock verl PPO run trains actor and critic only, with no reference model in memory, unless the KL term is explicitly turned on. Forward/backward memory is bounded by `ppo_micro_batch_size_per_gpu` rather than by trajectory count, trading speed for GPU memory [12].
+
+## How to use it
+
+- Prompts/states: sampled fresh from the target environment or prompt distribution every iteration, since PPO is strictly on-policy within each set of $K$ epochs [1]. In RLHF use, InstructGPT samples prompts from its API distribution at each PPO step and scores completions with a trained reward model [4].
+- Reward convention (RLHF): trl scores a completion with the reward model's scalar output and then subtracts a KL penalty term against the reference policy before computing the objective, logging the net quantity as `objective/rlhf_reward` (`= score − non_score_reward`, where `non_score_reward = beta * kl.sum(1)`) [8]. InstructGPT's own recipe adds this per-token KL penalty from the SFT model at each token and separately mixes in a pretraining-loss term with its own coefficient $\gamma$ (set to 0 for its "PPO" models) — this $\gamma$ is InstructGPT's pretraining-mix weight, not PPO's discount factor of the same letter, and the two must not be conflated [4].
+- Key knobs, with each source's own value ("not stated" = the source was checked and does not give it; "not checked" = this card did not verify that source's key):
+
+| knob | trl `PPOConfig` default [8] | verl default (`ppo_trainer.yaml` / `actor.yaml`, commit `474c2f4`) [10] | paper (Table 3, MuJoCo) [1] |
+| --- | --- | --- | --- |
+| discount $\gamma$ | `gamma` 1.0 | `algorithm.gamma` 1.0 | 0.99 |
+| GAE $\lambda$ | `lam` 0.95 | `algorithm.lam` 1.0 | 0.95 |
+| clip range $\varepsilon$ | `cliprange` 0.2 | `actor.clip_ratio` 0.2 | 0.2 |
+| value-clip range | `cliprange_value` 0.2 | `critic.cliprange_value` 0.5 | not stated |
+| epochs per batch (K) | `num_ppo_epochs` 4 | `actor.ppo_epochs` 1 | 10 |
+| KL coefficient $\beta$ | `kl_coef`&dagger; 0.05 (reference-model penalty) | `kl_ctrl.kl_coef`&Dagger; 0.001, off by default (`use_kl_in_reward: false`) | adaptive $\beta$&sect;, $d_{targ}$-controlled (Eq. 8), not a fixed default |
+| minibatch size | `num_mini_batches` 1 (whole batch) | `ppo_mini_batch_size` 256 | 64 |
+| Adam stepsize | not checked | not checked | $3\times10^{-4}$ |
+
+  &dagger;&Dagger;&sect; The KL-coefficient row is not one quantity under three names: trl's `kl_coef` is a fixed penalty against a real frozen reference model, created automatically when `ref_model=None` [8]; verl's `kl_ctrl.kl_coef` (in `ppo_trainer.yaml`, gated by `algorithm.use_kl_in_reward`, commit `474c2f4`) is the reward-side analogue closest to InstructGPT's fixed reference-model penalty, distinct from verl's separate GRPO-labeled `actor.kl_loss_coef` field, which the raw config itself comments as "for GRPO" [10]; the paper's own $\beta$ (Eq. 8) has no separate frozen network at all and instead adapts against the immediately preceding policy iterate $\pi_{\theta_{old}}$ [1]. Three readings of the rest of the table: verl's `algorithm.lam` default of 1.0 disables GAE's variance reduction entirely (reduces to the full-return advantage), unlike the paper's own tuned 0.95 [1][10] — a chooser copying verl's default is not reproducing the paper's bias/variance tradeoff. verl's epoch count of 1 versus the paper's 10 means a stock verl run takes a single gradient pass per rollout batch, so the clip range matters less for staying "proximal" to the sampling policy than it does when $K$ is larger.
+- Batch/epoch trade-off: more epochs per batch ($K$) extracts more gradient signal from one round of environment interaction but risks the ratio $r_t(\theta)$ drifting far from 1 before the next data collection, which is exactly what the clip (or adaptive KL) is meant to bound [1].
+- Install, launch, and the rest of the framework surface (FSDP strategy, vLLM rollout wiring, distributed launch flags) belong to the framework skill's own cards; this card stops at the knobs that define the method.
+
+## While it runs
+
+- Signals and their healthy shapes, from trl's own PPOTrainer logging: `objective/rlhf_reward` is "the ultimate objective of the RLHF training. If training works as intended, this metric should keep going up" [8]. `val/ratio` — trl's name for $r_t(\theta)$ — "should float around 1.0, and it gets clipped by --cliprange 0.2... So if this ratio is too high like 2.0 or 1000.0 or too small like 0.1, it means the updates between consecutive policies are too drastic" [8]. trl also logs `objective/kl`, `objective/entropy`, `policy/approxkl_avg`, `policy/clipfrac_avg`, `loss/policy_avg`, `loss/value_avg`, and `val/num_eos_tokens` for tracking completion truncation [8].
+- Published reference runs: the paper's own Table 1 MuJoCo ablation is the canonical PPO-vs-no-clipping comparison — clipping at $\varepsilon=0.2$ scores 0.82 (normalized, best variant) against −0.39 with no clipping or penalty at all, and against 0.76/0.70 at $\varepsilon=0.1$/0.3 and 0.62–0.74 across the fixed/adaptive KL-penalty variants [1]. trl reports a PPO-tuned checkpoint preferred 64.7% of the time versus the SFT baseline's 33.0% on TL;DR summarization under a GPT-4o-mini judge [8]. verl reports its own PPO run on Qwen2.5-0.5B-Instruct scoring 56.7 versus the untuned pretrained checkpoint's 36.4 (verl v0.2, "PPO Command and Logs") [9].
+- Degeneracies and defaults: verl's `algorithm.lam` default of 1.0 (raw config, commit `474c2f4`) turns off GAE's bias-variance smoothing that the paper tunes to 0.95 — a silent divergence from the paper if not overridden [10]. trl's reference model is created automatically whenever `ref_model=None`, so a user who believes they are running "plain" PPO without a KL penalty is still paying for and being regularized by a frozen reference copy unless `kl_coef` is explicitly set to 0 [8].
+- Named successors: GRPO removes the critic entirely and substitutes a group-relative reward baseline; its own paper describes it as a PPO variant that "enhances mathematical reasoning abilities while concurrently optimizing the memory usage of PPO" [5].
+- Known failure modes: from the paper's own presentation, no explicit "Limitations" section was found in the fetched text; the paper instead frames the clipping/adaptive-KL ablation itself (Table 1) as evidence that an unconstrained (`no clipping or penalty`) surrogate is unstable, collapsing to −0.39 versus 0.82 for the clipped version — i.e. the failure mode the paper documents is exactly the one its own method is designed to prevent [1]. No maintainer-reported failure modes were found for trl's PPOTrainer or verl's PPO path in the fetched documentation pages; this card did not query either project's GitHub issue tracker, so the absence here reflects a search of the docs pages only, not of closed issues.
+- What the gain is — and is not: the paper's own framing is that PPO seeks "the data efficiency and reliable performance of TRPO, while using only first-order optimization" [1] and shows better empirical sample complexity than vanilla policy gradient and other online methods on its benchmark suite (Sections 6.2-6.4) [1]. It is a training-stability and optimization-simplicity improvement over TRPO on the same class of tasks, not a claim that PPO reaches higher asymptotic reward than TRPO on every task — Section 6.2's comparison shows PPO ahead on most but not declared universally superior in the fetched text.
+
+## Sources
+
+In-text markers [n] refer to this list, numbered by first appearance. Framework docs (trl, verl web pages) are `main`/`latest` builds, unpinned and mutable; claims from them are dated 2026-08-07 readings. Claims from raw GitHub source/config files carry the specific commit SHA read.
+
+[1] Schulman, Wolski, Dhariwal, Radford, Klimov, "Proximal Policy Optimization Algorithms", 2017. https://arxiv.org/abs/1707.06347 — defines the clipped surrogate objective, adaptive KL-penalty objective, combined loss, Algorithm 1, MuJoCo/Roboschool/Atari experiments and hyperparameter tables. Fetched 2026-08-07 (PDF full text, pages 1-10).
+
+[2] Schulman, Levine, Moritz, Jordan, Abbeel, "Trust Region Policy Optimization", 2015. https://arxiv.org/abs/1502.05477 — TRPO, the parent method: hard KL constraint, monotonic improvement guarantee. Fetched 2026-08-07 (abstract).
+
+[3] Schulman, Moritz, Levine, Jordan, Abbeel, "High-Dimensional Continuous Control Using Generalized Advantage Estimation", 2015. https://arxiv.org/abs/1506.02438 — GAE, the advantage estimator PPO uses. Cited via [1]'s own reference to and reuse of the GAE formula (Eq. 11-12); the GAE paper itself was not separately fetched in this session, so its formula is taken from [1]'s restatement.
+
+[4] Ouyang et al., "Training language models to follow instructions with human feedback" (InstructGPT), 2022. https://arxiv.org/abs/2203.02155 — landmark PPO adopter: RLHF Step 3, per-token KL penalty against the SFT reference model, pretraining-loss coefficient, Figure 1 preference results. Fetched 2026-08-07 (PDF full text, grepped for "PPO" and "KL").
+
+[5] Shao et al., "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models", 2024. https://arxiv.org/abs/2402.03300 — introduces GRPO as a PPO variant that removes the critic. Fetched 2026-08-07 (abstract).
+
+[6] Rafailov et al., "Direct Preference Optimization: Your Language Model is Secretly a Reward Model", 2023. https://arxiv.org/abs/2305.18290 — DPO, the nearest offline alternative. Fetched 2026-08-07 (abstract).
+
+[7] trl `__init__.py`, huggingface/trl, main branch, commit `2396dfe5d2be7b18c0b615d80957d64ecdeb7cc0`. https://github.com/huggingface/trl/blob/main/trl/__init__.py — top-level package export list; grepped for "PPO" (no `PPOTrainer`/`PPOConfig` match) and "GRPO" (`GRPOTrainer`/`GRPOConfig` present). Fetched 2026-08-07.
+
+[8] trl `PPOTrainer` documentation and `trl/experimental/ppo/__init__.py`. https://huggingface.co/docs/trl/main/en/ppo_trainer and https://github.com/huggingface/trl/blob/main/trl/experimental/ppo/__init__.py — confirms the experimental-only export path, logged metrics and their guidance, `PPOConfig` defaults, TL;DR benchmark. Fetched 2026-08-07.
+
+[9] verl PPO algorithm documentation. https://verl.readthedocs.io/en/latest/algo/ppo.html — actor+critic requirement statement, published Qwen2.5-0.5B-Instruct reference run. Fetched 2026-08-07.
+
+[10] verl `trainer/config/ppo_trainer.yaml`, `actor/actor.yaml`, `critic/critic.yaml`, verl-project/verl, main branch, commit `474c2f45226be29427e50ca6151f9f74c1398002`. https://github.com/verl-project/verl/blob/main/verl/trainer/config/ppo_trainer.yaml (and sibling actor/critic config files) — raw default values for gamma, lam, clip_ratio, kl_loss settings, ppo_epochs, cliprange_value. Fetched 2026-08-07.
+
+[11] Kingma and Ba, "Adam: A Method for Stochastic Optimization", 2015. https://arxiv.org/abs/1412.6980 — the two per-parameter moment estimates behind the optimizer-state sizing claim. Fetched 2026-08-07 (PDF, pages 1-3).
+
+[12] verl Config Explanation page. https://verl.readthedocs.io/en/latest/examples/config.html — `ppo_micro_batch_size_per_gpu` and related batch-key meanings. Fetched 2026-08-07.

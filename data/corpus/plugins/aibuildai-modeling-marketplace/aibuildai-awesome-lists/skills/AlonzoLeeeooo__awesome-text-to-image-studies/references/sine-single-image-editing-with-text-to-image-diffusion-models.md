@@ -1,0 +1,15 @@
+---
+title: "SINE: SINgle Image Editing with Text-to-Image Diffusion Models"
+entry_type: paper
+source: "https://openaccess.thecvf.com/content/CVPR2023/papers/Zhang_SINE_SINgle_Image_Editing_With_Text-to-Image_Diffusion_Models_CVPR_2023_paper.pdf"
+upstream_list: "AlonzoLeeeooo/awesome-text-to-image-studies"
+category: "Text-Guided Image Editing"
+venue: "CVPR"
+year: "2023"
+---
+
+# SINE: SINgle Image Editing with Text-to-Image Diffusion Models
+
+**Source**: [https://openaccess.thecvf.com/content/CVPR2023/papers/Zhang_SINE_SINgle_Image_Editing_With_Text-to-Image_Diffusion_Models_CVPR_2023_paper.pdf](https://openaccess.thecvf.com/content/CVPR2023/papers/Zhang_SINE_SINgle_Image_Editing_With_Text-to-Image_Diffusion_Models_CVPR_2023_paper.pdf)
+
+**Year**: 2023 | **Venue**: CVPR | **Category**: Text-Guided Image Editing

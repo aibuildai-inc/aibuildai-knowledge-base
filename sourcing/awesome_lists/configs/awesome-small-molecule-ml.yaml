@@ -1,0 +1,16 @@
+# Small Molecule ML — covers ADMET, property prediction, representations
+name: awesome-small-molecule-ml
+source_type: awesome_list
+repo: benb111/awesome-small-molecule-ml
+description: >-
+  Machine learning for small-molecule drug discovery covering property prediction,
+  ADMET modeling, molecular representations, fingerprints, and benchmarks
+  (MoleculeNet, TDC).
+include_types:
+  - paper
+  - repo
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents

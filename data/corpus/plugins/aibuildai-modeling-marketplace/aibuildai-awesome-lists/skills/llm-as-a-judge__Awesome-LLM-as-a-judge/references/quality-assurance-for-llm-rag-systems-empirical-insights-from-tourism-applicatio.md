@@ -1,0 +1,14 @@
+---
+title: "Quality Assurance for LLM-RAG Systems: Empirical Insights from Tourism Application Testing"
+entry_type: paper
+source: "https://arxiv.org/abs/2502.05782"
+upstream_list: "llm-as-a-judge/Awesome-LLM-as-a-judge"
+venue: "ArXiv preprint"
+year: "2025"
+---
+
+# Quality Assurance for LLM-RAG Systems: Empirical Insights from Tourism Application Testing
+
+**Source**: [https://arxiv.org/abs/2502.05782](https://arxiv.org/abs/2502.05782)
+
+**Year**: 2025 | **Venue**: ArXiv preprint

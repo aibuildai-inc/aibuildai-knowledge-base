@@ -1,0 +1,16 @@
+# Multi-Task Learning — relevant for joint 9-endpoint ADMET prediction
+name: awesome-multi-task-learning
+source_type: awesome_list
+repo: thuml/awesome-multi-task-learning
+description: >-
+  Multi-task learning architectures and optimization including hard/soft parameter
+  sharing, gradient balancing, task weighting, and loss balancing strategies
+  for joint multi-output regression.
+include_types:
+  - paper
+  - repo
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents

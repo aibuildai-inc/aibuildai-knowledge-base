@@ -1,0 +1,16 @@
+---
+title: "DiffEyeSyn: Diffusion-based User-specific Eye Movement Synthesis"
+entry_type: paper
+source: "https://arxiv.org/pdf/2409.01240"
+upstream_list: "yyysjz1997/Awesome-TimeSeries-SpatioTemporal-Diffusion-Model"
+category: "Applications"
+subcategory: "Healthcare"
+venue: "ArXiv"
+year: "2024"
+---
+
+# DiffEyeSyn: Diffusion-based User-specific Eye Movement Synthesis
+
+**Source**: [https://arxiv.org/pdf/2409.01240](https://arxiv.org/pdf/2409.01240)
+
+**Year**: 2024 | **Venue**: ArXiv | **Category**: Applications | **Subcategory**: Healthcare

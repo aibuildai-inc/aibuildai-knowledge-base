@@ -1,0 +1,13 @@
+---
+title: "Learning Efficient Object Detection Models with Knowledge Distillation"
+entry_type: paper
+source: "http://papers.nips.cc/paper/6676-learning-efficient-object-detection-models-with-knowledge-distillation.pdf"
+upstream_list: "memoiry/Awesome-model-compression-and-acceleration"
+category: "Distilling"
+---
+
+# Learning Efficient Object Detection Models with Knowledge Distillation
+
+**Source**: [http://papers.nips.cc/paper/6676-learning-efficient-object-detection-models-with-knowledge-distillation.pdf](http://papers.nips.cc/paper/6676-learning-efficient-object-detection-models-with-knowledge-distillation.pdf)
+
+**Category**: Distilling

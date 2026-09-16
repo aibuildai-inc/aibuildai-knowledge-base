@@ -1,0 +1,14 @@
+---
+title: "GraphX-Convolution for Point Cloud Deformation in 2D-to-3D Conversion"
+entry_type: paper
+source: "http://openaccess.thecvf.com/content_ICCV_2019/papers/Nguyen_GraphX-Convolution_for_Point_Cloud_Deformation_in_2D-to-3D_Conversion_ICCV_2019_paper.pdf"
+upstream_list: "Yochengliu/awesome-point-cloud-analysis"
+venue: "ICCV"
+year: "2019"
+---
+
+# GraphX-Convolution for Point Cloud Deformation in 2D-to-3D Conversion
+
+**Source**: [http://openaccess.thecvf.com/content_ICCV_2019/papers/Nguyen_GraphX-Convolution_for_Point_Cloud_Deformation_in_2D-to-3D_Conversion_ICCV_2019_paper.pdf](http://openaccess.thecvf.com/content_ICCV_2019/papers/Nguyen_GraphX-Convolution_for_Point_Cloud_Deformation_in_2D-to-3D_Conversion_ICCV_2019_paper.pdf)
+
+**Year**: 2019 | **Venue**: ICCV

@@ -1,0 +1,16 @@
+---
+title: "MM-ViT: Multi-Modal Video Transformer for Compressed Video Action Recognition"
+entry_type: paper
+source: "https://arxiv.org/abs/2108.09322"
+upstream_list: "cmhungsteve/Awesome-Transformer-Attention"
+category: "Video (High-level)"
+subcategory: "Action Recognition"
+venue: "WACV"
+year: 2022
+---
+
+# MM-ViT: Multi-Modal Video Transformer for Compressed Video Action Recognition
+
+**Source**: [https://arxiv.org/abs/2108.09322](https://arxiv.org/abs/2108.09322)
+
+**Year**: 2022 | **Venue**: WACV | **Category**: Video (High-level) | **Subcategory**: Action Recognition

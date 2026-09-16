@@ -1,0 +1,13 @@
+---
+title: "基于层叠CRFs的中文句子评价对象抽取."
+entry_type: paper
+source: "http://jcip.cipsc.org.cn/CN/abstract/abstract1718.shtml"
+upstream_list: "haiker2011/awesome-nlp-sentiment-analysis"
+category: "评价对象和评价词抽取"
+---
+
+# 基于层叠CRFs的中文句子评价对象抽取.
+
+**Source**: [http://jcip.cipsc.org.cn/CN/abstract/abstract1718.shtml](http://jcip.cipsc.org.cn/CN/abstract/abstract1718.shtml)
+
+**Category**: 评价对象和评价词抽取

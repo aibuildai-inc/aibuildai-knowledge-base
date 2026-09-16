@@ -1,0 +1,93 @@
+# MixGRPO
+
+Repository: https://github.com/Tencent-Hunyuan/MixGRPO
+
+A single-paper research codebase for GRPO-style RLHF fine-tuning of the FLUX.1-dev flow-matching image generator, built on a private fork of FastVideo - pick it only if you specifically want to reproduce or extend MixGRPO/MixGRPO-Flash on FLUX, not as a general post-training library.
+
+MixGRPO is the reference implementation for "MixGRPO: Unlocking Flow-based GRPO Efficiency with Mixed ODE-SDE", a framework that speeds up flow-matching GRPO by sampling and optimizing with an SDE only inside a sliding window of denoising timesteps and using ODE sampling outside it, so the optimization overhead is confined to the window and higher-order ODE solvers become usable outside it [1]. It is authored by researchers at Tencent Hunyuan and Peking University and released under the `Tencent-Hunyuan` GitHub organization [2]; the code tree is a modified copy of the FastVideo package (`pyproject.toml` names the project `fastvideo`) [3], with GRPO training driven by a single script, `fastvideo/train_grpo_flux.py`, that is launched directly with `torchrun` and configured entirely through CLI flags - there is no trainer-class API [4].
+
+**When to pick it**: only to reproduce or build directly on the MixGRPO / MixGRPO-Flash paper's FLUX.1-dev GRPO recipe (sliding-window mixed ODE-SDE sampling, optional multi-reward mixing of HPS-v2.1, PickScore, ImageReward, CLIP score, and a "unified reward" model) [5]; the paper's own abstract states MixGRPO cuts training time by "nearly 50%" against the DanceGRPO baseline it forked its RL loop from, with the MixGRPO-Flash variant (DPM-Solver++ outside the sliding window) cutting it by 71% - these are the abstract's headline figures, not a specific ablation table, since only the abstract page was read for this card [1]. It is not a general-purpose post-training library: it ships one training entry point for one model family (FLUX.1-dev), and the license restricts use to academic purposes [6]. It is also unpolished at the edges - the README's own training instructions name a script, `finetune_flux_grpo_FastGRPO.sh`, that does not exist anywhere in the commit's file tree (only `finetune_flux_grpo_MixGRPO.sh` and `finetune_flux_grpo_MixGRPO_Flash.sh` do) [3][7], and setting `--resume_from_checkpoint` silently does nothing rather than resuming (see Save it) [4]. Weigh trl or verl (cross-reference; not covered here) for general LLM/diffusion post-training with a maintained trainer API.
+
+**Methods it ships**: GRPO is the base algorithm the training loop implements (`fastvideo/utils/grpo_states.py` and the reward/advantage code in `fastvideo/train_grpo_flux.py`) [8] - GRPO's own definition and math live on its methodology card, not here. MixGRPO and MixGRPO-Flash are this repo's own contribution on top of GRPO, not separately documented methods elsewhere: a `GRPOTrainingStates` object tracks a current timestep and a sliding window (`group_size` timesteps), advancing the window every `iters_per_group` iterations under one of four sampling strategies (`progressive`, `random`, `decay`, `exp_decay`) [8]. `--training_strategy part` (the mixed ODE-SDE / MixGRPO path) trains only inside that window; `--training_strategy all` (the DanceGRPO-style full-MDP path) trains every denoising step [4]. The Flash variant is selected by setting `--dpm_algorithm_type dpmsolver++` for the ODE steps outside the window, and drops the plain SDE noise-level flags used by the base recipe [9]. There is no separate import path or package boundary between the two variants - they are the same script under different CLI flags.
+
+**Scale it handles**: single-GPU FSDP training is possible in principle (the script takes `--sp_size 1`), but the only shipped launch config is multi-node: the finetune scripts default to 4 nodes x 8 GPUs = 32 GPUs, launched with `pdsh` fanning out `torchrun --nnodes 4 --nproc_per_node 8 ...` over a hostfile at `data/hosts/hostfile` [9]. Sequence parallelism is a first-class flag (`--sp_size`, `--train_sp_batch_size`) but the finetune scripts run with `sp_size=1`, so sharding a single sample's sequence across GPUs is documented as mechanism only, with no published benchmark at `sp_size>1` in the material read for this card [9]. FSDP full-state-dict checkpointing (not FSDP2, not DeepSpeed) is the only sharding backend in the code read [10].
+
+**Install**: no PyPI package; clone the repo and run `bash env_setup.sh` inside a fresh `conda create -n MixGRPO python=3.12` environment [3]. `env_setup.sh` pins `torch==2.5.0` against the `cu121` wheel index and `flash-attn==2.7.0.post2`, then `pip install -e .` (which pulls the `pyproject.toml` pins: `transformers==4.46.1`, `diffusers==0.32.0`, `peft==0.13.2`, `liger_kernel==0.4.1`, `accelerate==1.0.1`, among ~45 exact-pinned packages) [3]. The rest of `env_setup.sh` then runs a long sequence of later, mostly-unpinned `pip install` calls in this order: `pydantic==1.10.9` and `huggingface_hub==0.24.0` and `protobuf==3.20.0`, then unpinned `accelerate`, then `wandb`, then `pydantic==2.11.5` (overriding the `1.10.9` line above it), then unpinned `liger_kernel`, then unpinned `peft`, then finally `diffusers==0.32.2` - because pip applies each call in sequence, the load-bearing versions actually left installed are the LAST line for each package, not the `pyproject.toml` pin: `accelerate` and `liger_kernel` and `peft` end up unpinned/latest despite the exact pins named above, `diffusers` ends at `0.32.2` not `0.32.0`, and `pydantic` ends at `2.11.5` not `1.10.9` [3]. No CUDA/hardware minimum is stated anywhere in the files read; the `cu121` PyTorch wheel choice in `env_setup.sh` is the only signal of a target CUDA toolkit [3]. Licence: the repository carries no SPDX/OSI licence (GitHub reports `NOASSERTION`) and ships its own `License.txt`, which restricts MixGRPO "only for academic purposes" and bars commercial or production use [6].
+
+**Maintained by**: Tencent Hunyuan, with Peking University co-authors [2]; the repository's own README dates its latest news entry to 2026-07-01, an ECCV 2026 acceptance notice, and the commit read for this card (`19946fa`) is that same push [2][11]. No release tags or GitHub Releases exist for this repository as of the commit read.
+
+## Quick start
+
+There is no minimal Python snippet - the shipped path is shell scripts driving `torchrun`, quoted from the README [3]:
+
+```bash
+conda create -n MixGRPO python=3.12
+conda activate MixGRPO
+bash env_setup.sh
+```
+
+Model and reward-model weights must be downloaded first (FLUX.1-dev to `./data/flux`, HPS-v2.1 to `./hps_ckpt`, ImageReward to `./image_reward_ckpt`), and prompts are preprocessed into embeddings with `bash scripts/preprocess/preprocess_flux_rl_embeddings.sh` [3]. The README's own "Run Training" step then names `bash scripts/finetune/finetune_flux_grpo_FastGRPO.sh` [3] - but no file of that name exists in the commit's file tree; the two finetune scripts that do exist are `scripts/finetune/finetune_flux_grpo_MixGRPO.sh` (SDE) and `scripts/finetune/finetune_flux_grpo_MixGRPO_Flash.sh` (DPM-Solver++) [7], so use one of those in place of the README's stale name. Inference against a trained checkpoint downloaded from the paper's own Hugging Face model repo (`tulvgengenr/MixGRPO`, not part of the shortlisted org's own Hub models) runs via `bash scripts/inference/inference_flux.sh` [3].
+
+## Start it
+
+- One GPU: the training script accepts `--sp_size 1` and a single-process `torchrun` invocation is possible in principle, but no single-GPU launch script or config is shipped - both finetune scripts hard-code a 4-node x 8-GPU `pdsh`/`torchrun` fan-out [9].
+- Multi-node: `scripts/finetune/finetune_flux_grpo_MixGRPO.sh` (SDE/MixGRPO) and `scripts/finetune/finetune_flux_grpo_MixGRPO_Flash.sh` (DPM-Solver++ outside the window) set `nnodes_custom=4`, `nproc_per_node_custom=8`, read node IPs from `data/hosts/hostfile`, and fan the same `torchrun` command out over `pdsh` [9].
+- Effective batch: the script computes `total_batch_size = train_batch_size * world_size * gradient_accumulation_steps / sp_size * train_sp_batch_size`; the shipped configs run `train_batch_size=1`, `gradient_accumulation_steps=3`, `sp_size=1`, `train_sp_batch_size=1` [4][9].
+- `--mixed_precision` has no library default (`default=None`, so it falls through to whatever training-loop code path is taken), but both shipped finetune scripts explicitly pass `--mixed_precision bf16`, and `--gradient_checkpointing` / `--allow_tf32` are both set [9].
+- `--use_cpu_offload` (param/gradient/optimizer CPU offload) and `--selective_checkpointing` (fraction of layers to checkpoint, default 1.0) are the two documented OOM knobs in the training script's argument list; neither is enabled in the shipped configs [4]. On the generation/reward side, `--num_generations` (rollouts per prompt, default 16, shipped configs use 12) is the main memory lever, since each rollout is decoded through the VAE and scored by every active reward model [4][9].
+
+## Watch it
+
+The mechanics only - what a given curve means for GRPO training lives on the GRPO methodology card, not here.
+
+- Logging goes to Weights & Biases only, and the code contradicts its own flag documentation: `--wandb_key`'s help text reads "Wandb API key for logging. If not provided, will not log to Wandb" with `default=None`, documenting it as optional - but `wandb.login(key=args.wandb_key)` runs unconditionally right after argument parsing, and `wandb.init(project="flux", config=args, name=args.experiment_name, ...)` is likewise called unconditionally on rank 0 inside the training loop, with no check on whether a key was ever supplied [4]. (The shipped `finetune_flux_grpo_MixGRPO.sh` also exports `WANDB_DISABLED=true` and `WANDB_MODE=offline` ahead of the same script that calls `wandb.init` - the script itself does not reconcile this contradiction, so treat wandb availability as a prerequisite to check, not a documented toggle.) [9]
+- Metric names logged every step, read directly from the `wandb.log(log_dict, ...)` call: `train_loss`, `policy_loss`, `kl_loss`, `clip_frac`, `cur_timesteps`, `cur_iter_in_group`, `learning_rate`, `step_time`, `avg_step_time`, `grad_norm`, `epoch`, plus per-reward-model keys `reward_<model_name>` when `--multi_reward_mix advantage_aggr` (the shipped default) or a single `reward` key under `reward_aggr` [4].
+- Sample-level logging: on rank 0, at `index == 0` of each rollout batch, one decoded FLUX image per step is written to `<output_dir>/<training_strategy>_<experiment_name>/images/flux_<global_step>_<rank>.png`; this is a file write, not a wandb media log, in the code read [4].
+- No held-out evaluation loop or `eval_dataset`/`eval_steps` fields exist in the training script's argument list; `scripts/evaluate/eval_reward.sh` and `fastvideo/eval/eval_reward.py` run reward scoring as a separate offline step against inference outputs, not during training [3].
+- No stopping-rule or health-limit threshold is published: `train_grpo_flux.py`'s argument list and the two finetune scripts define no early-stopping, patience, or KL-threshold flag, and the README states no numeric limit to watch for; training runs for a fixed `--max_train_steps` (300 in both shipped configs) [4][9].
+
+## Save it
+
+- Checkpoints are written by `save_checkpoint()` in `fastvideo/utils/checkpoint.py` to `<output_dir>/<training_strategy>_<experiment_name>/checkpoint-<step>-<epoch>/`, containing `diffusion_pytorch_model.safetensors` (the FSDP-gathered full-precision transformer weights) and `config.json`; no optimizer or scheduler state is written by this call [10].
+- Cadence is `--checkpointing_steps` (default 500; shipped configs use 50) [4][9].
+- Resume is a silent no-op, not an error: the training loop runs `if args.resume_from_checkpoint: assert NotImplementedError("resume_from_checkpoint is not supported now.")`. Because `assert <exception-instance>` tests the truthiness of the already-constructed exception object (which is always truthy) rather than raising it, this assertion never fails and the `if` body falls through without loading anything - the flag is accepted by the CLI parser, does not error, and simply has no effect: training starts from scratch every time regardless of what `--resume_from_checkpoint` is set to [4].
+- `checkpoint.py` does ship a LoRA/PEFT save path, `save_lora_checkpoint()`, which is the function that calls `peft.get_peft_model_state_dict()` - but `train_grpo_flux.py` imports both `save_checkpoint` and `save_lora_checkpoint` from `checkpoint.py` and only ever calls `save_checkpoint()` in its training loop, so `save_lora_checkpoint` is imported but dead code in the shipped GRPO path: every checkpoint the training script actually writes is full transformer weights, not an adapter [4][10].
+- Loader handoff: a `checkpoint-<step>-<epoch>/` directory holds only `diffusion_pytorch_model.safetensors` and `config.json` for the transformer submodule - it is not a full pipeline directory (no VAE, text encoder, or scheduler config) and needs to be loaded into a `FluxTransformer2DModel`-compatible structure and recombined with the rest of the FLUX pipeline, matching the pattern the inference script itself uses when it downloads `diffusion_pytorch_model.safetensors` into `./mix_grpo_ckpt/` for `scripts/inference/inference_flux.sh` [3][10].
+
+## Find it in the docs
+
+There is no versioned documentation site for this repository - the README, the paper, and the code are the only sources.
+
+- Repository: https://github.com/Tencent-Hunyuan/MixGRPO - the README is the entire user-facing doc; look up CLI flags directly in `fastvideo/train_grpo_flux.py`'s `argparse` block (`if __name__ == "__main__":` section) [4].
+- Paper (method definition, ablations, the 50%/71% training-time numbers): https://arxiv.org/abs/2507.21802 [1].
+- Project page (visual comparisons, not additional API docs): https://tulvgengenr.github.io/MixGRPO-Project-Page/ [2].
+- Released model checkpoint (FLUX.1-dev fine-tuned with MixGRPO, HPS-v2/ImageReward/PickScore multi-reward): https://huggingface.co/tulvgengenr/MixGRPO - this Hub repo is outside the `Tencent-Hunyuan` org and is not counted in this card's own org-level Hub model count [3][12].
+- Runnable references beyond the README: the shipped shell scripts under `scripts/` are the closest thing to worked examples - `scripts/finetune/finetune_flux_grpo_MixGRPO.sh` and `..._Flash.sh` for training, `scripts/inference/inference_flux.sh` for sampling, `scripts/evaluate/eval_reward.sh` for offline reward scoring, `scripts/preprocess/preprocess_flux_rl_embeddings.sh` for data prep [3]. The dataset used is HPDv2's training/test prompt splits, referenced from `data/prompts.txt` and `data/prompts_test.txt` [3].
+- Community layer: the README's own Acknowledgement section is the closest thing to a curated pointer list, crediting DanceGRPO, Flow-GRPO, FastVideo, and HPSv2 as the codebases MixGRPO builds on [3] - there is no separate tutorials page or MCP endpoint for this repository.
+- Trap, from the code itself rather than an issue thread (no closed-issue trap was found in the material read for this card): `--resume_from_checkpoint` is present in the CLI argument parser, but the `assert NotImplementedError(...)` guard meant to block it never fires because an already-constructed exception is always truthy, so a reader who sets the flag gets no error and no crash - training silently restarts from scratch instead of resuming (see Save it) [4].
+
+## Sources
+
+[1] MixGRPO: Unlocking Flow-based GRPO Efficiency with Mixed ODE-SDE (arXiv abstract). https://arxiv.org/abs/2507.21802. Fetched 2026-08-12.
+
+[2] MixGRPO GitHub repository, page/API metadata (org, authors via README, project page link). https://github.com/Tencent-Hunyuan/MixGRPO and https://api.github.com/repos/Tencent-Hunyuan/MixGRPO. Fetched 2026-08-12.
+
+[3] MixGRPO README, commit `19946facaefa33eca1b565ec87c6fc7cca14e339`. https://raw.githubusercontent.com/Tencent-Hunyuan/MixGRPO/19946facaefa33eca1b565ec87c6fc7cca14e339/README.md and `env_setup.sh` / `pyproject.toml` at the same commit. Read 2026-08-12.
+
+[4] `fastvideo/train_grpo_flux.py` at commit `19946facaefa33eca1b565ec87c6fc7cca14e339` (argparse flags, training loop, wandb calls, checkpoint call site, resume stub). https://raw.githubusercontent.com/Tencent-Hunyuan/MixGRPO/19946facaefa33eca1b565ec87c6fc7cca14e339/fastvideo/train_grpo_flux.py. Read 2026-08-12.
+
+[5] Reward-model setup instructions (HPS-v2.1, PickScore, ImageReward, CLIP score) in the README. Same source as [3]. Read 2026-08-12.
+
+[6] `License.txt` at commit `19946facaefa33eca1b565ec87c6fc7cca14e339`. https://raw.githubusercontent.com/Tencent-Hunyuan/MixGRPO/19946facaefa33eca1b565ec87c6fc7cca14e339/License.txt. Read 2026-08-12.
+
+[7] MixGRPO git tree listing at commit `19946facaefa33eca1b565ec87c6fc7cca14e339` (full recursive file listing, confirming `finetune_flux_grpo_MixGRPO.sh` and `finetune_flux_grpo_MixGRPO_Flash.sh` exist and `finetune_flux_grpo_FastGRPO.sh` does not). https://api.github.com/repos/Tencent-Hunyuan/MixGRPO/git/trees/19946facaefa33eca1b565ec87c6fc7cca14e339. Fetched 2026-08-12.
+
+[8] `fastvideo/utils/grpo_states.py` at commit `19946facaefa33eca1b565ec87c6fc7cca14e339` (sliding-window `GRPOTrainingStates` class and sampling strategies). https://raw.githubusercontent.com/Tencent-Hunyuan/MixGRPO/19946facaefa33eca1b565ec87c6fc7cca14e339/fastvideo/utils/grpo_states.py. Read 2026-08-12.
+
+[9] `scripts/finetune/finetune_flux_grpo_MixGRPO.sh` and `scripts/finetune/finetune_flux_grpo_MixGRPO_Flash.sh` at commit `19946facaefa33eca1b565ec87c6fc7cca14e339` (launch command, node/GPU counts, CLI flag values, wandb env vars). https://raw.githubusercontent.com/Tencent-Hunyuan/MixGRPO/19946facaefa33eca1b565ec87c6fc7cca14e339/scripts/finetune/finetune_flux_grpo_MixGRPO.sh and .../finetune_flux_grpo_MixGRPO_Flash.sh. Read 2026-08-12.
+
+[10] `fastvideo/utils/checkpoint.py` at commit `19946facaefa33eca1b565ec87c6fc7cca14e339` (`save_checkpoint` contents, saved-file layout). https://raw.githubusercontent.com/Tencent-Hunyuan/MixGRPO/19946facaefa33eca1b565ec87c6fc7cca14e339/fastvideo/utils/checkpoint.py. Read 2026-08-12.
+
+[11] GitHub repository API record (`pushed_at`, `created_at`, no releases/tags found). https://api.github.com/repos/Tencent-Hunyuan/MixGRPO, https://api.github.com/repos/Tencent-Hunyuan/MixGRPO/releases, https://api.github.com/repos/Tencent-Hunyuan/MixGRPO/tags. Fetched 2026-08-12 (releases and tags both returned empty).
+
+[12] `tulvgengenr/MixGRPO` Hugging Face model page. https://huggingface.co/tulvgengenr/MixGRPO. Fetched 2026-08-12.

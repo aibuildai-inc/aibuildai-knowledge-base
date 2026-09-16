@@ -1,0 +1,15 @@
+---
+title: "Anchored Diffusion for Video Face Reenactment"
+entry_type: paper
+source: "https://arxiv.org/abs/2407.15153"
+upstream_list: "Kedreamix/Awesome-Talking-Head-Synthesis"
+category: "Portrait Animation"
+venue: "ArXiv 2024"
+year: "2024"
+---
+
+# Anchored Diffusion for Video Face Reenactment
+
+**Source**: [https://arxiv.org/abs/2407.15153](https://arxiv.org/abs/2407.15153)
+
+**Year**: 2024 | **Venue**: ArXiv 2024 | **Category**: Portrait Animation

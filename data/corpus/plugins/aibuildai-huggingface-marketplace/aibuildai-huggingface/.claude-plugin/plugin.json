@@ -1,0 +1,4 @@
+{
+  "name": "aibuildai-huggingface",
+  "description": "The Hugging Face ecosystem: the hf CLI, Hub datasets and models, trainers, community evals, Gradio apps, paper publishing, and Hub-backed storage."
+}

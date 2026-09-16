@@ -1,0 +1,93 @@
+# 5th place solution (based only on Mask-RCNN)
+
+Competition: data-science-bowl-2018
+Rank: #5
+Source: https://www.kaggle.com/c/data-science-bowl-2018/discussion/56326
+
+## Model overview ##
+
+Codes now available on GitHub: [https://github.com/mirzaevinom/data_science_bowl_2018](https://github.com/mirzaevinom/data_science_bowl_2018)
+
+For this competition, I modified [Matterport's][1] implementation of [Mask-RCNN][3] deep neural network for object instance segmentation. I adapted the existing model configurations to detect small nuclei in images with varying size and modality. To ensure that the model doesn't overfit, I used an [external dataset][4] and relied heavily on image augmentation. Moreover, generated mosaics from train images based on [this notebook][8]. To improve generalizability of the model, I split (using stratification) the `stage1_train` dataset into train and validation sets based on 5 image modalities provided by [Allen Goodman][5]. After training the model using Resnet101 as a backbone encoder and Adam as an optimizer, I improved prediction accuracy by test time augmentation and post-processing the masks.
+
+*__Huge thanks to Heng CherKeng!!! I learned a lot from your posts.__*
+
+## Training Method(s) ##
+
+### Pre-processing
+- I noticed some issues with the provided masks. Therefore, used the annotations and mask provided by [Konstantin Lopuhin][15] in [data quality issues][14] thread.
+- Removed the alpha channel from the images.
+- Filled holes in the masks
+- Splitted (using stratification) the `stage1_train` dataset into 90% train and 10% validation sets based on 5 image modalities provided by [Allen Goodman][5].
+- Used an [external dataset][4] provided in the forum. Divided the images and the masks into 4 pieces due their large sizes. External dataset [download links][19].
+- Generated mosaics from train images based on [Emil's][8] notebook.
+
+
+### Model and Training
+* Modified [Matterport's][1] implementation of [Mask-RCNN][3] deep neural network for object instance segmentation.
+* Tuned hyperparameters to detect small nuclei from the images. (I found [this tutorial][7] very useful for understanding the model hyperparameters)
+    + Original Matterport implementation was validating only on one image so fixed this [validation issue][20].
+    + Reduced RPN (region proposal network) anchor sizes since the nuclei are mostly small.
+    + Increased number of anchors to be used since the nuclei are small and can be found anywhere on an image.
+    + Increased maximum number of predicted objects since an image can contain 300 or more nuclei.
+    + Increased `POST_NMS_ROIS_TRAINING` to get more region proposals during training.
+    + Added extra parameter `DETECTION_MASK_THRESHOLD` to model configuration. Default was hardcoded in the model as 0.5 but setting it to 0.35 helped in detection of small nuclei boundaries.
+    + Resized images and masks to 512x512
+* Relied heavily on image augmentation due to small training set:
+    - Random horizontal or vertical flips
+    - Random 90 or -90 degrees rotation
+    - [Random rotations][18] in the range of (-15, 15) degrees
+    - [Random cropping][18] of bigger images and masks to 256x256x3.
+    - [Random scaling][18] of image and mask scaling in the range (0.5, 2.0)
+
+* Used Resnet101 architecture as a backbone encoder but initialized the first 50 layers of the model with pre-trained Resnet50 weights from [ImageNet competition][16].
+* Trained the model with [Adam][17] optimizer for 75 epochs:
+    - 25 epochs with learning rate 1e-4
+    - 25 epochs with learning rate 1e-5
+    - 25 epochs with learning rate 1e-6
+* Did not retrain the model with stage1 test data during stage 2 as I was afraid of overfitting on black and white images.
+
+
+### Post-processing
+
+- Combined predictions on actual image and horizontally flipped image: took unions of masks with maximum overlap and removed false positive masks with small overlap.
+- Due to configured RPN anchor sizes, the model predicts small nuclei very well. However, it struggles at predicting large nuclei. Therefore, if a model predicts no masks for an image then I scale down the image and predict once again.
+- Removed overlaps between predicted nuclei based on their objectness score. In other words, removed intersections from the masks with lower scores.
+    - If this intersection removal results in multiple objects in that mask, then removing all the small pieces.
+- Closing small holes inside the masks using morphological operations (dilation followed by erosion).
+
+## Interesting findings ##
+
+- Mask-RCNN model overfits easily without image augmentation.
+- Removing false positive mask predictions improves the overall score significantly.
+- Since images are on different scales, predicting masks on scaled images helps with the model generalizability.
+- Dilating and then eroding individual masks helped me achieve slightly better result.
+- Matterport's original implementation was only [validating on only one image][6]. Fixing this issue made the training process reproducible.
+- I found that the model reaches a local minima faster when trained using Adam optimizer compared to default SGD optimizer.
+
+## Unsuccessful approaches tried
+- Trained the model with Dice Coefficient Loss instead of default binary cross-entropy loss for the masks heads. Although got comparable results couldn't beat prediction accuracy of binary cross-entropy on my validation set.
+- Trained with random Gaussian and Poisson (or shot) noise for image augmentation. It actually hurt overall model performance.
+- Tried ensembling actual image predictions with horizontal and vertical flip predictions. Used non-maximum suppression for removing overlaps. Did not improve prediction accuracy on the validation set.
+- Trained end-to-end without initializing with pre-trained ImageNet weights. Mostly got to Mean IoU score of 0.35 on stage1 test set.
+- Trained on preprocessed images with adaptive histogram equalization (CLAHE). The model performed way worse.
+
+[1]: https://github.com/matterport/Mask_RCNN
+[2]: https://www.osc.edu/
+[3]: https://arxiv.org/abs/1703.06870
+[4]: https://www.kaggle.com/voglinio/external-h-e-data-with-mask-annotations
+[5]: https://www.kaggle.com/c/data-science-bowl-2018/discussion/48130
+[6]: https://github.com/matterport/Mask_RCNN/issues/89
+[7]: https://engineering.matterport.com/splash-of-color-instance-segmentation-with-mask-r-cnn-and-tensorflow-7c761e238b46
+[8]: https://www.kaggle.com/bonlime/train-test-image-mosaic
+[10]: https://nucleisegmentationbenchmark.weebly.com/dataset.html
+[11]: http://mbi.osu.edu
+[12]: http://www.lerner.ccf.org/thor/scott/lab/
+[13]: https://promise12.grand-challenge.org
+[14]: https://www.kaggle.com/c/data-science-bowl-2018/discussion/47572
+[15]: https://github.com/lopuhin/kaggle-dsbowl-2018-dataset-fixes
+[16]: https://github.com/fchollet/deep-learning-models/releases/
+[17]: https://arxiv.org/abs/1412.6980
+[18]: https://www.kaggle.com/c/data-science-bowl-2018/discussion/49692
+[19]: https://nucleisegmentationbenchmark.weebly.com/dataset.html
+[20]: https://github.com/matterport/Mask_RCNN/issues/89

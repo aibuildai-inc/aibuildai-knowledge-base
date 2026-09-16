@@ -1,0 +1,24 @@
+---
+title: "GroupViT: Semantic Segmentation Emerges from Text Supervision"
+entry_type: paper
+source: "http://arxiv.org/pdf/2202.11094v5"
+upstream_list: "awaisrauf/Awesome-CV-Foundational-Models"
+year: 2022
+authors: "Jiarui Xu,  Shalini De Mello,  Sifei Liu,  Wonmin Byeon,  Thomas Breuel,  J. Kautz,  X. Wang"
+code_url: "https://github.com/NVlabs/GroupViT"
+description: "Grouping and recognition are important components of visual scene understanding, e.g., for object detection and semantic segmentation. With end-to-end deep learning systems, grouping of image regions usually happens implicitly via top-down supervision from pixel-level recognition labels. Instead, in this paper, we propose to bring back the grouping mechanism into deep networks, which allows semantic segments to emerge automatically with only text supervision. We propose a hierarchical Grouping Vision Transformer (GroupViT), which goes beyond the regular grid structure representation and learns to group image regions into progressively larger arbitrary-shaped segments. We train GroupViT jointly with a text encoder on a large-scale image-text dataset via contrastive losses. With only text supervision and without any pixel-level annotations, GroupViT learns to group together semantic regions and successfully transfers to the task of semantic segmentation in a zero-shot manner, i.e., without any further fine-tuning. It achieves a zero-shot accuracy of 52.3% mIoU on the PASCAL VOC 2012 and 22.4% mIoU on PASCAL Context datasets, and performs competitively to state-of-the-art transfer-learning methods requiring greater levels of supervision. We open-source our code at https://github.com/NVlabs/GroupViT ."
+---
+
+# GroupViT: Semantic Segmentation Emerges from Text Supervision
+
+**Source**: [http://arxiv.org/pdf/2202.11094v5](http://arxiv.org/pdf/2202.11094v5)
+
+**Code**: [https://github.com/NVlabs/GroupViT](https://github.com/NVlabs/GroupViT)
+
+**Year**: 2022
+
+**Authors**: Jiarui Xu,  Shalini De Mello,  Sifei Liu,  Wonmin Byeon,  Thomas Breuel,  J. Kautz,  X. Wang
+
+## Description
+
+Grouping and recognition are important components of visual scene understanding, e.g., for object detection and semantic segmentation. With end-to-end deep learning systems, grouping of image regions usually happens implicitly via top-down supervision from pixel-level recognition labels. Instead, in this paper, we propose to bring back the grouping mechanism into deep networks, which allows semantic segments to emerge automatically with only text supervision. We propose a hierarchical Grouping Vision Transformer (GroupViT), which goes beyond the regular grid structure representation and learns to group image regions into progressively larger arbitrary-shaped segments. We train GroupViT jointly with a text encoder on a large-scale image-text dataset via contrastive losses. With only text supervision and without any pixel-level annotations, GroupViT learns to group together semantic regions and successfully transfers to the task of semantic segmentation in a zero-shot manner, i.e., without any further fine-tuning. It achieves a zero-shot accuracy of 52.3% mIoU on the PASCAL VOC 2012 and 22.4% mIoU on PASCAL Context datasets, and performs competitively to state-of-the-art transfer-learning methods requiring greater levels of supervision. We open-source our code at https://github.com/NVlabs/GroupViT .

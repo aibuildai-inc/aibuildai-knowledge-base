@@ -1,0 +1,10 @@
+---
+title: "Navigation World Models"
+entry_type: paper
+source: "https://arxiv.org/abs/2412.03572"
+upstream_list: "uncbiag/Awesome-Foundation-Models"
+---
+
+# Navigation World Models
+
+**Source**: [https://arxiv.org/abs/2412.03572](https://arxiv.org/abs/2412.03572)

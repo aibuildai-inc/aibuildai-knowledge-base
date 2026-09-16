@@ -1,0 +1,18 @@
+---
+title: "Decoupling MaxLogit for Out-of-Distribution Detection"
+entry_type: paper
+source: "https://openaccess.thecvf.com/content/CVPR2023/papers/Zhang_Decoupling_MaxLogit_for_Out-of-Distribution_Detection_CVPR_2023_paper.pdf"
+upstream_list: "huytransformer/Awesome-Out-Of-Distribution-Detection"
+category: "OOD Detection"
+venue: "CVPR 2023"
+year: "2023"
+authors: "Zhang and Xiang"
+---
+
+# Decoupling MaxLogit for Out-of-Distribution Detection
+
+**Source**: [https://openaccess.thecvf.com/content/CVPR2023/papers/Zhang_Decoupling_MaxLogit_for_Out-of-Distribution_Detection_CVPR_2023_paper.pdf](https://openaccess.thecvf.com/content/CVPR2023/papers/Zhang_Decoupling_MaxLogit_for_Out-of-Distribution_Detection_CVPR_2023_paper.pdf)
+
+**Year**: 2023 | **Venue**: CVPR 2023 | **Category**: OOD Detection
+
+**Authors**: Zhang and Xiang

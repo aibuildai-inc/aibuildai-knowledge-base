@@ -1,0 +1,10 @@
+---
+title: "Kinematics-based incremental visual servo for robotic capture of non-cooperative target"
+entry_type: paper
+source: "https://www.baidu.com/link?url=bPpedLCJ7n1GR2u8fDlVnJZ0HZRL15k0OlRXzPjPYzpPzELq79znoqkbnO7CG9CDTh2fmC-C-wbgc1xjXfrjDacDBkiztLvViFj1FGnbfVIlu_ur8gAKyBPywPHgnxfxasqSKF5NapFdvaMSZ7Z4A6YKY2aqAY1DQf2LdXbyXPaIsbOov2PiBj7Twb73KrAIkCfcpu2ZvODrzVhG0RGM9K&wd=&eqid=f29332170003bec5000000055e59ff3f"
+upstream_list: "Hardy-Uint/awesome-3D-vision"
+---
+
+# Kinematics-based incremental visual servo for robotic capture of non-cooperative target
+
+**Source**: [https://www.baidu.com/link?url=bPpedLCJ7n1GR2u8fDlVnJZ0HZRL15k0OlRXzPjPYzpPzELq79znoqkbnO7CG9CDTh2fmC-C-wbgc1xjXfrjDacDBkiztLvViFj1FGnbfVIlu_ur8gAKyBPywPHgnxfxasqSKF5NapFdvaMSZ7Z4A6YKY2aqAY1DQf2LdXbyXPaIsbOov2PiBj7Twb73KrAIkCfcpu2ZvODrzVhG0RGM9K&wd=&eqid=f29332170003bec5000000055e59ff3f](https://www.baidu.com/link?url=bPpedLCJ7n1GR2u8fDlVnJZ0HZRL15k0OlRXzPjPYzpPzELq79znoqkbnO7CG9CDTh2fmC-C-wbgc1xjXfrjDacDBkiztLvViFj1FGnbfVIlu_ur8gAKyBPywPHgnxfxasqSKF5NapFdvaMSZ7Z4A6YKY2aqAY1DQf2LdXbyXPaIsbOov2PiBj7Twb73KrAIkCfcpu2ZvODrzVhG0RGM9K&wd=&eqid=f29332170003bec5000000055e59ff3f)

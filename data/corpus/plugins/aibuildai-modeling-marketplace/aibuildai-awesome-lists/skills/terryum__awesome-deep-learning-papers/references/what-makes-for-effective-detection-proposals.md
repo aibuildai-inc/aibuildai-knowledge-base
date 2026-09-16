@@ -1,0 +1,18 @@
+---
+title: "What makes for effective detection proposals?"
+entry_type: paper
+source: "https://arxiv.org/pdf/1502.05082"
+upstream_list: "terryum/awesome-deep-learning-papers"
+category: "Appendix: More than Top 100"
+subcategory: "2016"
+year: "2016"
+authors: "J. Hosang et al."
+---
+
+# What makes for effective detection proposals?
+
+**Source**: [https://arxiv.org/pdf/1502.05082](https://arxiv.org/pdf/1502.05082)
+
+**Year**: 2016 | **Category**: Appendix: More than Top 100 | **Subcategory**: 2016
+
+**Authors**: J. Hosang et al.

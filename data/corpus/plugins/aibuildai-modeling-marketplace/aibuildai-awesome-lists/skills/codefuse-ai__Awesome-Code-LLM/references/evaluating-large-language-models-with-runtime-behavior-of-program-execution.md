@@ -1,0 +1,15 @@
+---
+title: "Evaluating Large Language Models with Runtime Behavior of Program Execution"
+entry_type: paper
+source: "https://arxiv.org/abs/2403.16437"
+upstream_list: "codefuse-ai/Awesome-Code-LLM"
+category: "3. When Coding Meets Reasoning"
+subcategory: "3.2 Code Simulation"
+year: 2024
+---
+
+# Evaluating Large Language Models with Runtime Behavior of Program Execution
+
+**Source**: [https://arxiv.org/abs/2403.16437](https://arxiv.org/abs/2403.16437)
+
+**Year**: 2024 | **Category**: 3. When Coding Meets Reasoning | **Subcategory**: 3.2 Code Simulation

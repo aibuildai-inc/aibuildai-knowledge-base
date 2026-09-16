@@ -1,0 +1,14 @@
+---
+title: "Generalizable Humanoid Manipulation with Improved 3D Diffusion Policies"
+entry_type: paper
+source: "https://arxiv.org/abs/2410.10803"
+upstream_list: "jonyzhang2023/awesome-humanoid-learning"
+category: "Manipulation"
+year: "2024"
+---
+
+# Generalizable Humanoid Manipulation with Improved 3D Diffusion Policies
+
+**Source**: [https://arxiv.org/abs/2410.10803](https://arxiv.org/abs/2410.10803)
+
+**Year**: 2024 | **Category**: Manipulation

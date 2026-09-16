@@ -1,0 +1,13 @@
+---
+title: "Federated Graph Learning with Structure Proxy Alignment."
+entry_type: paper
+source: "https://dl.acm.org/doi/10.1145/3637528.3671717"
+upstream_list: "youngfish42/Awesome-FL"
+category: "kdd"
+---
+
+# Federated Graph Learning with Structure Proxy Alignment.
+
+**Source**: [https://dl.acm.org/doi/10.1145/3637528.3671717](https://dl.acm.org/doi/10.1145/3637528.3671717)
+
+**Category**: kdd

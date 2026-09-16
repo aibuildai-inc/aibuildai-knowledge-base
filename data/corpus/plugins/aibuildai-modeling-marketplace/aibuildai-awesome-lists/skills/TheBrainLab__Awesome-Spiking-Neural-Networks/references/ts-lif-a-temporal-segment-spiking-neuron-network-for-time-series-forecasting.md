@@ -1,0 +1,15 @@
+---
+title: "TS-LIF: A Temporal Segment Spiking Neuron Network for Time Series Forecasting"
+entry_type: paper
+source: "https://openreview.net/forum?id=rDe9yQQYKt"
+upstream_list: "TheBrainLab/Awesome-Spiking-Neural-Networks"
+category: "AAAI, ICLR, CVPR, ICML, IJCAI, ICCV, ACM MM, Neurips"
+venue: "ICLR 2025"
+year: "2025"
+---
+
+# TS-LIF: A Temporal Segment Spiking Neuron Network for Time Series Forecasting
+
+**Source**: [https://openreview.net/forum?id=rDe9yQQYKt](https://openreview.net/forum?id=rDe9yQQYKt)
+
+**Year**: 2025 | **Venue**: ICLR 2025 | **Category**: AAAI, ICLR, CVPR, ICML, IJCAI, ICCV, ACM MM, Neurips

@@ -1,0 +1,15 @@
+---
+title: "Stochastic Classifiers for Unsupervised Domain Adaptation"
+entry_type: paper
+source: "http://openaccess.thecvf.com/content_CVPR_2020/papers/Lu_Stochastic_Classifiers_for_Unsupervised_Domain_Adaptation_CVPR_2020_paper.pdf"
+upstream_list: "zhaoxin94/awesome-domain-adaptation"
+category: "Unsupervised DA"
+subcategory: "Other Methods"
+venue: "Conference"
+---
+
+# Stochastic Classifiers for Unsupervised Domain Adaptation
+
+**Source**: [http://openaccess.thecvf.com/content_CVPR_2020/papers/Lu_Stochastic_Classifiers_for_Unsupervised_Domain_Adaptation_CVPR_2020_paper.pdf](http://openaccess.thecvf.com/content_CVPR_2020/papers/Lu_Stochastic_Classifiers_for_Unsupervised_Domain_Adaptation_CVPR_2020_paper.pdf)
+
+**Venue**: Conference | **Category**: Unsupervised DA | **Subcategory**: Other Methods

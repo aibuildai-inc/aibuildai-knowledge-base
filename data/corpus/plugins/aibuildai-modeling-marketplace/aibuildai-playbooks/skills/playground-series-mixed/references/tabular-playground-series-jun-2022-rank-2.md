@@ -1,0 +1,12 @@
+# #2 Solution
+
+Competition: tabular-playground-series-jun-2022
+Rank: #2
+Source: https://www.kaggle.com/c/tabular-playground-series-jun-2022/discussion/334319
+
+First of all, I have learned from the winners of the previous Tabular Playground (May 2022) that the introductory text can give a hint. I paid attention to the next extract: “*The dataset has similarities to the May 2022 Tabular Playground,…*” I concluded that the best model from the previous competition must be able to untangle the same patterns of the current dataset. That’s why I decided to use the May 2022 Tabular Playground 1# Solution [notebook](https://www.kaggle.com/code/pourchot/tpsmay22-keras-test-tuned). For all of that thanks to [@ambrosm](https://www.kaggle.com/ambrosm) and [@pourchot](https://www.kaggle.com/pourchot).
+Second, I found nothing more useful than just the mean technique for the F_1 and F_3 groups. But I think it’s the same for all of us.
+As for the F_4 group, I started using one column as the target and the others as features. So, I tuned the model for the F_4 group and got stuck at about 0.85. 
+The fruitful idea for improvement of my approach was suggested by [@ehekatlact](https://www.kaggle.com/ehekatlact) (thanks and see [notebook](https://www.kaggle.com/code/ehekatlact/tps2206-the-na-count-of-each-record-is-critical/notebook?scriptVersionId=98204877)). I split the F_4 data into six groups: without NaNs, with one, two, three, four and five NaNs. The first group was used for training, the others – for predicting. But I trained different models for these x-NaNs groups by changing the number of outputs for x. For example, for the group with two NaNs in the columns F_4_0 and F_4_1 I used two outputs for them and 13 features as inputs (for the columns from F_4_2 to F_4_14). So, I had to train a lot more than just 80 regressors (see [discussion](https://www.kaggle.com/competitions/tabular-playground-series-jun-2022/discussion/328369)). And it took a lot of time for training. That’s why my work consists of different notebooks. 
+An example of my training notebook for 4-NaNs group is [here](https://www.kaggle.com/code/arturra/nn-with-four-nans/notebook). Splitting F_4 data into six groups is [here](https://www.kaggle.com/code/arturra/analysis-of-nans).
+After all I got stuck at about 0.8358 and couldn’t do anything for further improvement. It was good enough for the second place but I was still behind the first place. I can just say: Congrats to [Sebastian van Gerwen](https://www.kaggle.com/sebastianvangerwen).

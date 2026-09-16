@@ -1,0 +1,18 @@
+# Diffusion Models awesome list
+name: awesome-diffusion-models
+source_type: awesome_list
+repo: diff-usion/Awesome-Diffusion-Models
+description: >-
+  Diffusion model papers and resources covering denoising diffusion,
+  score-based models, and their applications in image, video, audio,
+  text, and molecular generation.
+include_types:
+  - paper
+  - repo
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents
+  - Introductory Posts
+  - Introductory Papers

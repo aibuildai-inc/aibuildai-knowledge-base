@@ -1,0 +1,15 @@
+# Knowledge Distillation awesome list
+name: awesome-knowledge-distillation
+source_type: awesome_list
+repo: dkozlov/awesome-knowledge-distillation
+description: >-
+  Knowledge distillation methods for model compression, covering response-based,
+  feature-based, and relation-based approaches across vision, NLP, and speech.
+include_types:
+  - paper
+  - repo
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents

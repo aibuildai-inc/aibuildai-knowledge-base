@@ -1,0 +1,15 @@
+---
+title: "HuatuoGPT: Taming Language Model to Be a Doctor"
+entry_type: paper
+source: "https://arxiv.org/pdf/2305.15075.pdf"
+upstream_list: "Tebmer/Awesome-Knowledge-Distillation-of-LLMs"
+category: "Medical & Healthcare"
+venue: "EMNLP"
+year: 2023
+---
+
+# HuatuoGPT: Taming Language Model to Be a Doctor
+
+**Source**: [https://arxiv.org/pdf/2305.15075.pdf](https://arxiv.org/pdf/2305.15075.pdf)
+
+**Year**: 2023 | **Venue**: EMNLP | **Category**: Medical & Healthcare

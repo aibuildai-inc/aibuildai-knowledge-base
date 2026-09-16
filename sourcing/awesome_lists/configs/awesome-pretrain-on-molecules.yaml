@@ -1,0 +1,18 @@
+# Pre-trained Molecular Models — critical for ADMET with sparse data
+name: awesome-pretrain-on-molecules
+source_type: awesome_list
+repo: junxia97/awesome-pretrain-on-molecules
+description: >-
+  Pre-trained molecular models including GNN pre-training, SMILES language models
+  (ChemBERTa, MolBERT, MoLFormer), contrastive and generative pre-training methods
+  for molecular property prediction with limited labeled data.
+include_types:
+  - paper
+  - repo
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents
+  - Star History
+  - Acknowledgements

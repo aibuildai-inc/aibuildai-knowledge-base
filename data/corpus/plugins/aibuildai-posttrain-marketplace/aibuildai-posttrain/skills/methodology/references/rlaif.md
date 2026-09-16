@@ -1,0 +1,108 @@
+# RLAIF
+
+RLHF with the human preference labels swapped for an off-the-shelf LLM's judgments: an AI labeler rates response pairs, a reward model (or the LLM itself) scores rollouts, and the same RL fine-tuning loop as RLHF runs on top.
+
+**RLAIF** (Reinforcement Learning from AI Feedback) is a post-training method that replaces the human annotators in the RLHF pipeline with an "off-the-shelf" LLM - one pre-trained or instruction-tuned for general use but not fine-tuned for the labeling task itself - which rates pairs of candidate responses to build the preference dataset a reward model is trained on [1]. The term and the technique were introduced by the Constitutional AI paper, which trained a preference model on AI-generated preferences and then ran RL against it, writing that in doing so "we use 'RL from AI Feedback' (RLAIF)" [2]; the paper carded here is a later, dedicated head-to-head study, not the originating paper, and cites Bai et al. as the first work to explore RLAIF [1]. RLAIF's parent is the standard RLHF pipeline - supervised fine-tuning, then reward-model training on pairwise human comparisons, then RL fine-tuning against the reward model - introduced by Christiano et al. for general RL from trajectory preferences [3] and adapted to language-model summarization and instruction-following by Stiennon et al. and Ouyang et al. [4][5]. The paper gives two reasons to substitute AI for human labels: gathering high-quality human preference labels is expensive, and modern LLMs already show a high degree of alignment with human judgment, making LLM-generated labels a plausible substitute [1]. The paper is at https://arxiv.org/abs/2309.00267 [1].
+
+RLAIF was presented at ICML 2024 [1]. On the originating side, Bai et al.'s Constitutional AI paper trained its RL-CAI policy on AI-generated harmlessness labels mixed with human helpfulness labels, and reports that crowdworkers preferred RL-CAI's harmlessness over the paper's own models trained on previously collected human feedback labels, while RL-CAI stayed non-evasive by explaining its objections to harmful queries rather than refusing outright [2]. In this paper's own head-to-head study, human evaluators preferred RLAIF over an SFT baseline 71% of the time on summarization and 63% on helpful dialogue generation, statistically indistinguishable from RLHF's 73% and 64%; on harmless dialogue generation RLAIF scored an 88% harmless rate versus RLHF's 76% and SFT's 64%, a statistically significant RLAIF-over-RLHF gap (Table 1) [1]. Lineage in one line: RLHF (Christiano 2017 [3]; Stiennon 2020 [4]; Ouyang 2022 [5]) -> RLAIF (Constitutional AI, Bai et al. 2022 [2]) -> this scaling study's canonical RLAIF and direct-RLAIF (Lee et al., ICML 2024 [1]).
+
+**When to pick it**: pick RLAIF over RLHF when the bottleneck is the cost or speed of collecting human preference labels - the paper estimates AI labeling at over 10x cheaper than Google Cloud's human annotation rate for its summarization setup ($0.06 vs. $0.67 per example) [1] - and when an off-the-shelf LLM's preferences are an acceptable proxy for the target human judgments; the paper's own AI-labeler alignment with held-out human labels tops out around 78% (Table 3) [1], so pick RLHF's parent pipeline directly when labeling accuracy against a specific human population is the priority. Nearest offline alternative is DPO, which skips the RL loop entirely and optimizes a classification-style loss directly on preference pairs instead of training a reward model and running RL against it [6]; DPO works with either human- or AI-labeled pairs, but this paper does not test that combination. Within RLAIF itself, the nearest neighbor is direct-RLAIF (d-RLAIF), the paper's own variant that skips reward-model training and queries the off-the-shelf LLM for a score directly during RL, avoiding reward-model "staleness" as the policy drifts from its initial distribution [1].
+
+**Variant of**: RLHF [3][4][5], with the AI-feedback substitution introduced as RLAIF by Bai et al. [2].
+
+**Data it needs**: prompts from the target task distribution, matching the RLHF pipeline's own three phases [1]. Reward-model training needs no human comparison labels - the AI labeler produces a preference distribution over each pair, e.g. $[0.6, 0.4]$, from the softmax of the LLM's log-probabilities on the tokens "1" and "2" after being shown a preamble, an input, and the two candidate responses [1]; the RM is trained on this soft label with cross-entropy loss [1]. The paper downsampled to 3-4k labeled examples per task (15% of the summarization training split, 10% for helpful and harmless dialogue) for its AI-labeling experiments [1], and trained the RL policy on the full training split (128 batch size, 8 epochs) [1]. RLAIF's RL phase is on-policy: rollouts are sampled fresh from the current policy each step, same as RLHF.
+
+**Extra models**: a reward model trained on AI-generated preferences (dropped entirely in d-RLAIF, where the off-the-shelf LLM scores rollouts directly) [1]; a value/baseline network for the REINFORCE policy gradient, initialized from the SFT model and trained alongside the policy [1]; and an implicit frozen copy of the SFT policy used in the KL-penalty term of the RL objective [1]. This paper uses REINFORCE with a baseline rather than PPO for the RL phase, calling it simpler while still effective, so there is no separate PPO value/critic distinct from this REINFORCE baseline, and no clipping [1]. Details in Cost.
+
+**Shipped by**: no library ships a trainer named "RLAIF" - it is a labeling-source substitution layered on an existing RLHF pipeline, not a new loss. Canonical RLAIF can be built from an AI-labeling script (calling any instruction-tuned LLM) feeding trl's `RewardTrainer` (top-level export, supported) [7] for the reward model, followed by an online RL trainer; trl's own `PPOTrainer` sits under the experimental namespace `trl.experimental.ppo`, not trl's top-level package [8]. Direct-RLAIF maps onto trl's `GRPOTrainer` (top-level, supported), whose `reward_funcs` argument accepts an arbitrary callable, including one that queries an LLM judge in place of a trained reward model [9].
+
+## How it works
+
+The loop, per RL step: sample a rollout from the current policy, score it with either a trained reward model (canonical RLAIF) or a direct LLM query (d-RLAIF), and update the policy with REINFORCE plus a value baseline and a KL penalty against the SFT model [1].
+
+**Preference labeling.** For each pair of candidate responses, the LLM is shown a prompt with a preamble, optional few-shot exemplars, the input and the two candidates, and an ending string such as "Preferred Response="; the log-probabilities of the tokens "1" and "2" are extracted and softmaxed into a preference distribution [1]. To mitigate position bias - the order in which candidates appear can bias which one an LLM prefers, especially for smaller labelers [1] - every pair is scored twice with the order reversed, and the two resulting distributions are averaged [1]. Chain-of-thought prompting, which asks the LLM to explain its reasoning before scoring, generally improves the AI labeler's alignment with human preferences (Table 2) [1].
+
+**Reward model training (canonical RLAIF).** The soft AI preference label (e.g. $[0.6, 0.4]$) trains the RM with a cross-entropy loss on the RM's own softmaxed pairwise scores, which the paper frames as a form of model distillation from the AI labeler into the RM [1].
+
+**RL objective.** Both RLHF and RLAIF in this paper optimize the same objective, following the RLHF pipeline of Stiennon and Ouyang [4][5]:
+
+$$ J(\theta) = \mathbb{E}_{y \sim \pi_\theta(\cdot|x)}\Big[(1-\beta)\, r_\phi(y|x) - \beta\, D_{KL}\big(\pi_\theta^{RL}(y|x) \,\|\, \pi^{SFT}(y|x)\big)\Big] $$
+
+$r_\phi$ is the reward-model score (or, in d-RLAIF, the direct LLM-derived score); $\beta \in [0,1]$ trades reward against staying close to the SFT policy, discouraging reward hacking - language that scores well under $r_\phi$ but is low-quality or unnatural [1].
+
+**Policy gradient.** The policy is trained with REINFORCE adapted to language modeling, not PPO: only the final token of a completion receives a nonzero reward $R_T$, and with discount $\gamma=1$ the return simplifies to $Z_t = R_T$ for every token [1]:
+
+$$ \mathcal{L}_{PG}(\theta) = -\sum_t \log\pi_\theta(A_t|X_t)\,\overline{\big(Z_t - V^\pi_\psi(X_t)\big)}, \qquad \mathcal{L}_V(\psi) = \sum_t \big(Z_t - V^\pi_\psi(X_t)\big)^2 $$
+
+$V^\pi_\psi$ is a learned baseline value function (initialized from the SFT model) that estimates the return-to-go, and the overline marks that no gradient flows through the advantage term [1]. The KL term from the objective above is folded into this policy-gradient loss during training [1]. There is no probability-ratio clip: this is REINFORCE with a baseline, not PPO's clipped surrogate [1][10].
+
+**Direct-RLAIF advantage/score.** Instead of a trained RM, the LLM is prompted to rate a generation from 1-10; the likelihoods of the ten score tokens are normalized into a probability distribution and combined into a weighted score $s(y|x) = \sum_{i=1}^{10} i\, P(i|y,x)$, which is then rescaled to $[-1, 1]$ and used directly as $r_\phi$ in the objective above [1]. Worked example: if the LLM places probability mass entirely on token "8", $s(y|x) = 8$; a distribution split 0.5/0.5 between "7" and "9" gives the same $s(y|x)=8$ but reflects more score uncertainty that a single trained RM logit would not expose.
+
+**Which variant the paper itself prefers.** D-RLAIF outperformed the paper's own same-size canonical RLAIF: 74% win rate over SFT for d-RLAIF versus 68% for same-size canonical RLAIF on summarization, and annotators preferred d-RLAIF over same-size RLAIF head-to-head 60% of the time [1].
+
+## Cost
+
+**Theory, from the method's own math:**
+
+- Time (labeling): building the preference dataset costs one LLM inference per candidate pair, doubled to two inferences to correct for position bias, run once up front for canonical RLAIF (the AI labeler is not called during RL) [1]. In d-RLAIF the AI labeler is called on every rollout during RL instead, trading the one-time labeling cost for a per-step inference cost that recurs for the life of training [1].
+- Time (RL): REINFORCE with a baseline needs one training forward/backward pass over the policy and one over the value network per rollout, plus a reference-model forward pass for the KL term - no separate PPO-style multi-epoch minibatch reuse of a rollout is described in this paper's setup [1].
+- Memory: canonical RLAIF holds a policy, a value/baseline network, a reward model, and an implicit frozen SFT reference for the KL term - the same four-model footprint as standard RLHF, since AI feedback only changes how the RM's training labels were produced, not how many models the RL phase holds [1]. D-RLAIF drops the reward model, since the off-the-shelf LLM scores rollouts directly [1], but that LLM itself must be loaded and run at every RL step, which is a memory and latency cost the naive "no RM to hold" reading omits.
+
+**In practice, per framework:**
+
+- No framework ships an "RLAIF trainer" (see Shipped by); the AI-labeling step is a data-preparation script run before whichever trl trainer is composed with it, so the per-framework cost is that of the composed trainer itself, read directly from trl's own docs.
+- trl `RewardTrainer` [7]: trains a single sequence-classification model - `num_labels` is fixed to 1 regardless of the base model's own config [7] - so its footprint is one trained model, no reference or value model.
+- trl `trl.experimental.ppo.PPOTrainer` [8]: its constructor requires four separate `PreTrainedModel` objects at once - `model`, `ref_model` (a copy of the policy is created if none is given), `reward_model`, and `value_model` [8] - so PPO-stage RLAIF holds four models in memory simultaneously, matching the value-network and reference-model costs already priced in Theory above. Its own docs list a memory tip for this: reduce `per_device_train_batch_size`, raise `gradient_accumulation_steps`, or run multi-GPU training under DeepSpeed ZeRO stage 3 [8].
+- trl `GRPOTrainer` [9]: no value model; its own worked example trains `Qwen/Qwen2.5-0.5B-Instruct` with a custom `reward_funcs` callable (no separate reward model) and reports that distributed across 8 GPUs, the run takes approximately 1 day [9] - a concrete anchor for a small-model, non-RM-based RLAIF-style run, though the example itself is not RLAIF-labeled preference data.
+
+## How to use it
+
+- Preference labeling: build a prompt of preamble + optional few-shot exemplars + the input and two candidates + an ending string, extract the LLM's log-probabilities on the "1"/"2" tokens, and softmax them into a soft preference label; run each pair twice with the response order swapped and average, to correct position bias [1].
+- Reward model: train on the soft AI label with cross-entropy loss over the RM's own softmaxed pairwise scores [1]; on the paper's holdout human-preference set, this AI-feedback RM scored 74.2% pairwise accuracy on summarization versus 79.3% for a human-feedback RM trained the same way (Table 5) [1].
+- Direct-RLAIF reward: prompt the LLM for a 1-10 rating, take the probability-weighted score $\sum_i i\,P(i|y,x)$, and rescale to $[-1,1]$ - no RM training step at all [1].
+- Key knobs, with the paper's own values as the only published anchor (no framework ships default RLAIF hyperparameters, since no framework ships an RLAIF trainer):
+
+| knob | paper's value [1] |
+| --- | --- |
+| AI labeler model | PaLM 2 Large (main experiments); PaLM 2 Small / Extra-Small in labeler-size ablation |
+| RM optimizer / LR | Adafactor, $10^{-5}$ |
+| RM batch size | 128 (summarization), 32 (helpful/harmless) |
+| RM epochs | 2-3, until loss/accuracy plateau |
+| RL optimizer / LR | Adafactor, $10^{-5}$ |
+| RL batch size | 128, for 8 epochs |
+| KL coefficient $\beta$ | 0.05 |
+| sampling temperature (RL rollouts) | 0.9 |
+
+- Trade-off surfaced by the paper's own ablation: detailed preambles and few-shot exemplars have mixed or even negative effects on AI-labeler alignment - alignment for summarization and helpfulness monotonically decreased as few-shot exemplar count increased, while chain-of-thought prompting reliably helped [1]; treat prompt design for the labeler as a variable to ablate on your own task, not a fixed recipe.
+- AI-labeler size trade-off: alignment with human preferences rose from 62.7% (PaLM 2 XS) to 73.8% (PaLM 2 S) to 78.0% (PaLM 2 L) on summarization (Table 3) [1]; canonical RLAIF only pays this labeler's inference cost once (at labeling time), so the paper argues a larger labeler is "not necessarily prohibitively expensive" for canonical RLAIF even though it would be for d-RLAIF, which calls the labeler every RL step [1].
+
+## While it runs
+
+- Signals and their healthy shapes: this paper's own primary signals are human-judged Win Rate (how often one policy's response is preferred over another's) and, for the harmless-dialogue task specifically, Harmless Rate (the percentage of responses independently rated harmless, used instead of Win Rate because many harmless responses are judged equally safe) [1]. AI Labeler Alignment - the accuracy of the AI's binarized preference against the human label - is the signal to track for the labeling step itself, and the paper reports it dropping as low as 62.7% for its smallest labeler, so a low-alignment labeler should be treated as a leading indicator of a weaker downstream RM before spending on the full RL run [1].
+- Published reference runs: the paper's own Table 1 is the reference table for canonical RLAIF, direct-RLAIF, and RLHF on three tasks (summarization, helpful dialogue, harmless dialogue), giving win rates and harmless rates to compare a new run against [1]; RM pairwise accuracies against a human holdout are in Table 5 [1].
+- Degeneracies and defaults: this paper found that combining human and AI feedback for RM training did not improve over human feedback alone in the setups it tried, though it notes other combination strategies might [1]; response-length inflation is a documented risk - RLAIF and RLHF policies both tend to produce longer responses than the SFT baseline, which can bias human win-rate judgments, though the paper reports both policies still beat SFT after controlling for length [1]. Self-consistency (averaging several sampled chain-of-thought rationales at $T>0$) strictly degraded AI labeler alignment in the paper's own tests, worsening as temperature rose (a drop of over 5 points at $T=1.0$), and manual inspection of the rationales did not reveal a common pattern to explain the drop [1].
+- Named successors: direct-RLAIF (d-RLAIF) is the paper's own successor to canonical RLAIF, introduced specifically to fix reward-model staleness - the RM drifting out of distribution as the policy moves away from the samples it was trained on - by scoring rollouts with the LLM directly instead of through a trained RM [1].
+- Known failure modes: the paper's own limitations note that RM accuracy against a human holdout does not reliably predict which RM variant produces the better RL policy - two RM variants that ranked in one order on accuracy ranked in the reverse order on downstream win rate after RL, a result the paper flags explicitly [1]. The paper's conclusion also leaves open, as unresolved future work rather than a demonstrated fix, how RLAIF would work in a fully model-based setting where both conversational parties are LLMs, and how AI feedback could be used for finer-grained (sub-response) credit assignment [1]. No search of a library's issue tracker was performed for this card, since no framework ships an RLAIF-specific trainer to file issues against (see Shipped by).
+- What the gain is - and is not: the paper's own contribution is showing that an AI-generated preference signal reaches parity with (and on harmlessness, exceeds) a human-generated one for the RLHF pipeline it tests, not that RLAIF adds any capability beyond what RLHF already provides - the underlying RL algorithm, objective, and models are unchanged from the paper's own RLHF baseline; only the source of the preference labels differs [1].
+
+## Sources
+
+[1] Lee et al., "RLAIF vs. RLHF: Scaling Reinforcement Learning from Human Feedback with AI Feedback", presented at ICML 2024, Proceedings of the 41st International Conference on Machine Learning, PMLR 235:26874-26901. https://arxiv.org/abs/2309.00267 - defines canonical RLAIF and direct-RLAIF, preference-labeling procedure, RL objective and REINFORCE-with-baseline update, results tables, ablations, appendices on RM accuracy, cost, and limitations. Fetched 2026-08-09 (HTML full text, v3).
+
+[2] Bai et al., "Constitutional AI: Harmlessness from AI Feedback", 2022. https://arxiv.org/abs/2212.08073 - introduces and names "RL from AI Feedback (RLAIF)", combining human and AI preference labels to train a preference model and then running RL against it; source of the RL-CAI training and crowdworker-preference claims. Fetched 2026-08-09 (full text via ar5iv.labs.arxiv.org mirror, since arxiv.org/html/2212.08073 has no native HTML for this pre-2023 paper).
+
+[3] Christiano et al., "Deep reinforcement learning from human preferences", 2017. https://arxiv.org/abs/1706.03741 - RLHF's origin: RL from pairwise human trajectory preferences instead of a hand-specified reward function. Fetched 2026-08-09 (abstract page).
+
+[4] Stiennon et al., "Learning to summarize from human feedback", 2020. https://arxiv.org/abs/2009.01325 - RLHF pipeline (RM trained on human comparisons, then RL fine-tuning) applied to summarization; source of the Reddit TL;DR and OpenAI human-preference datasets used in [1]. Fetched 2026-08-09 (abstract page).
+
+[5] Ouyang et al., "Training language models to follow instructions with human feedback", 2022. https://arxiv.org/abs/2203.02155 - RLHF pipeline for instruction-following (InstructGPT), the other half of the RLHF preliminaries [1] builds on. Fetched 2026-08-09 (abstract page).
+
+[6] Rafailov et al., "Direct Preference Optimization: Your Language Model is Secretly a Reward Model", 2023. https://arxiv.org/abs/2305.18290 - the nearest offline alternative: optimizes a classification loss on preference pairs directly, without a separate reward model or RL loop. Fetched 2026-08-09 (abstract page).
+
+[7] trl RewardTrainer documentation. https://huggingface.co/docs/trl/main/en/reward_trainer - top-level `RewardTrainer` export for training a reward model on a preference dataset. This is trl's `main`-branch documentation, an unpinned, moving build; the claims cited from it are a dated reading, fetched 2026-08-09.
+
+[8] trl PPOTrainer documentation. https://huggingface.co/docs/trl/main/en/ppo_trainer - `PPOTrainer` is exported under `trl.experimental.ppo`, not trl's top-level package. This is trl's `main`-branch documentation, an unpinned, moving build; the claims cited from it are a dated reading, fetched 2026-08-09.
+
+[9] trl GRPOTrainer documentation. https://huggingface.co/docs/trl/main/en/grpo_trainer - top-level `GRPOTrainer`, whose `reward_funcs` argument accepts an arbitrary callable reward function. This is trl's `main`-branch documentation, an unpinned, moving build; the claims cited from it are a dated reading, fetched 2026-08-09.
+
+[10] Schulman et al., "Proximal Policy Optimization Algorithms", 2017. https://arxiv.org/abs/1707.06347 - PPO's clipped surrogate objective, cited for contrast: this paper's RL phase uses REINFORCE with a baseline instead, with no clipping. Fetched 2026-08-09 (abstract page).

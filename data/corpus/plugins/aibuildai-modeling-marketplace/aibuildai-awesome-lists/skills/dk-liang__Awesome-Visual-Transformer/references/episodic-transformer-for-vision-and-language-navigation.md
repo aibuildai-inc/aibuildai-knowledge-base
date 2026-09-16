@@ -1,0 +1,14 @@
+---
+title: "Episodic Transformer for Vision-and-Language Navigation"
+entry_type: paper
+source: "https://openaccess.thecvf.com/content/ICCV2021/papers/Pashevich_Episodic_Transformer_for_Vision-and-Language_Navigation_ICCV_2021_paper.pdf"
+upstream_list: "dk-liang/Awesome-Visual-Transformer"
+category: "2021"
+venue: "ICCV"
+---
+
+# Episodic Transformer for Vision-and-Language Navigation
+
+**Source**: [https://openaccess.thecvf.com/content/ICCV2021/papers/Pashevich_Episodic_Transformer_for_Vision-and-Language_Navigation_ICCV_2021_paper.pdf](https://openaccess.thecvf.com/content/ICCV2021/papers/Pashevich_Episodic_Transformer_for_Vision-and-Language_Navigation_ICCV_2021_paper.pdf)
+
+**Venue**: ICCV | **Category**: 2021

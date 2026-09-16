@@ -1,0 +1,15 @@
+---
+title: "EvoSchema: Towards Text-to-SQL Robustness Against Schema Evolution"
+entry_type: paper
+source: "https://arxiv.org/abs/2603.10697"
+upstream_list: "codefuse-ai/Awesome-Code-LLM"
+category: "5. Methods/Models for Downstream Tasks"
+subcategory: "Text-To-SQL"
+year: 2026
+---
+
+# EvoSchema: Towards Text-to-SQL Robustness Against Schema Evolution
+
+**Source**: [https://arxiv.org/abs/2603.10697](https://arxiv.org/abs/2603.10697)
+
+**Year**: 2026 | **Category**: 5. Methods/Models for Downstream Tasks | **Subcategory**: Text-To-SQL

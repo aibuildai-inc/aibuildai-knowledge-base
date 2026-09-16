@@ -1,0 +1,14 @@
+---
+title: "Analyzing Chat Protocols of Novice Programmers Solving Introductory Programming Tasks with ChatGPT"
+entry_type: paper
+source: "https://arxiv.org/abs/2405.19132"
+upstream_list: "codefuse-ai/Awesome-Code-LLM"
+category: "7. Human-LLM Interaction"
+year: 2024
+---
+
+# Analyzing Chat Protocols of Novice Programmers Solving Introductory Programming Tasks with ChatGPT
+
+**Source**: [https://arxiv.org/abs/2405.19132](https://arxiv.org/abs/2405.19132)
+
+**Year**: 2024 | **Category**: 7. Human-LLM Interaction

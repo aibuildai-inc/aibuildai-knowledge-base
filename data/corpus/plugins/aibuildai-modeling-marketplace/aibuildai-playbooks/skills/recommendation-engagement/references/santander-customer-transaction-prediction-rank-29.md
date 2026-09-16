@@ -1,0 +1,23 @@
+# 30th solution
+
+Competition: santander-customer-transaction-prediction
+Rank: #29
+Source: https://www.kaggle.com/c/santander-customer-transaction-prediction/discussion/88956#latest-513996
+
+Congratulate all the winners. And appreciate the Santander to host this competition. 
+
+First of all, it was really nice experience to join this competition as a team with my teammates, @limerobot and @mohamedjedidi . Especially for @limerobot, I was really impressed by your passion and logical thinking toward the dataset. Without your help, we couldn’t make this result.
+
+I want to write down how our team approached the competition in chronological order. At the first stage, I thought de-normalization might help. However, all the value in the dataset have the 4 decimal points, which means it's somehow transformed by the organizer(by rouding? - just speculation). So, it was not possible to retrieve the original value. 
+
+Then, I look back on the previous similar competition, Porto Seguro’s Safe Driver Prediction in the point that all the columns are anonymous and the objective is binary classification. As I read most of the kernels and discussion, it seems like there’re two important concepts that I can apply to this competition. One is 'feature_selection', and the other one is ‘sandwich upsampling’(duplicate the positive rows). So, my next experiment was implementing four different feature-selection techniques (Boruta, feature selector, target permutation, recursive feature elimination). 
+
+As the result, I found out that removing these 9 features boosted any model, (xgb, lgbm, cat) 'var_185','var_103','var_117','var_158','var_7','var_98','var_185','var_96','var_7'. Since then, the meaningless 3 weeks passed. @mohamedjedidi and I did really lots of experiments, but none of them helped the model. By having done those experiment, what caught my eyes was two things. First, the number of unique value for every column is always bigger in Test-set than Training-set. Second, there’s no NaN value in the whole dataset. I’ve downloaded the past Santander competition’s dataset and discovered there’re really lots of missing values. Moreover, I’ve heard it’s nearly impossible not to have missing values in the total dataset, especially for the Bank industry. So, I’ve concluded that the organizer somehow imputed missing values( I think this was the key to arrive so-called ‘magic’), but didn’t know how to use this information.
+
+At that time, I teamed up with @limerobot. He has already implemented the similar idea and got 0.906. What he did was that making two different unique value lists for each column per Training/Test-set seperately, then creating first 200 features by replacing unique value in training-set’s list for each column with NaN and another 200 features by replacing unique value in test-set’s list for each column with NaN. I’ve simply modified the lists he made. I’ve made first column sets from making list by the “real_dataset”(Training-set + Non_Fake-Test-set), and the second column sets by the “fake_dataset”( Fake-Test-set). All of a sudden, lb score skyrocketed from 0.906 to 0.922. The next thing worked was making different lists by changing a threshold(for example, the original list was made by threshold ‘1’). We experimented more deeply about it, and concluded created features from fake_test was not helpful, so deleted it. Our best single used 601 features( 200 original features(a), 200 features by threshold 1 of “real_dataset”(b), 200 features by threshold 2 of “real_dataset”(c), and the null counts of middle 200 features(b)).
+
+And we used 5 Stractified Kfold as the validation strategy. For each fold, after duplicating all the positive training-set, implemented augmentation strategy (200000 new rows for each label). The final submission set(lb 0.924) is made by the simple average of xgboost and lightgbm. For each model, we’ve used 20 different seeds not to overfit and generalize well. 
+
+It’s such a shame that our team missed the gold. However, I don’t regret participating this competition except for the one thing and really enjoyed testing every new idea I wanted to delve into. I needed to be careful when teaming up with someone. On the last day of team-merge, we’ve got a request from the guy. We invited him because he got two silver medals from the past competition and said he would actively participate. Even though we found out so-called “magic” in the fake dataset, we couldn’t the catch the fake in what he said. Really surprised by the attitude he showed and realized the most easiest way to get medal is to be in top scoring team and not to do anything. 
+
+Thanks for the reading. After cleaning the code, I’m doing to upload the link for it. Happy Kaggling :D.

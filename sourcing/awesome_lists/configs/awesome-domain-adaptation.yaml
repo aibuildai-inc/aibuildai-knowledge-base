@@ -1,0 +1,16 @@
+# Domain Adaptation awesome list
+name: awesome-domain-adaptation
+source_type: awesome_list
+repo: zhaoxin94/awesome-domain-adaptation
+description: >-
+  Domain adaptation methods including unsupervised, semi-supervised, and
+  multi-source approaches for bridging distribution shift between training
+  and deployment data.
+include_types:
+  - paper
+  - repo
+exclude_sections:
+  - Contributing
+  - License
+  - Contents
+  - Table of Contents

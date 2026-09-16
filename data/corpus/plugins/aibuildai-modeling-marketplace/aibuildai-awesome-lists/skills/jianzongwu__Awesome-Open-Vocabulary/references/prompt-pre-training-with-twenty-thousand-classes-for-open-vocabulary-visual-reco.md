@@ -1,0 +1,18 @@
+---
+title: "Prompt Pre-Training with Twenty-Thousand Classes for Open-Vocabulary Visual Recognition"
+entry_type: paper
+source: "https://arxiv.org/abs/2304.04704"
+upstream_list: "jianzongwu/Awesome-Open-Vocabulary"
+category: "Semantic Segmentation"
+venue: "arXiv"
+year: "2023"
+code_url: "https://github.com/amazon-science/prompt-pretraining"
+---
+
+# Prompt Pre-Training with Twenty-Thousand Classes for Open-Vocabulary Visual Recognition
+
+**Source**: [https://arxiv.org/abs/2304.04704](https://arxiv.org/abs/2304.04704)
+
+**Code**: [https://github.com/amazon-science/prompt-pretraining](https://github.com/amazon-science/prompt-pretraining)
+
+**Year**: 2023 | **Venue**: arXiv | **Category**: Semantic Segmentation

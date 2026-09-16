@@ -1,0 +1,23 @@
+# Search queries driving stage1 GitHub search.
+# Each entry -> one search call, up to max_repos results.
+search_queries:
+  - query: "molecular property prediction"
+    max_repos: 30
+  - query: "protein structure prediction"
+    max_repos: 30
+  - query: "graph neural network"
+    max_repos: 30
+  - query: "diffusion model image generation"
+    max_repos: 30
+  - query: "large language model fine tuning"
+    max_repos: 30
+  - query: "reinforcement learning benchmark"
+    max_repos: 20
+  - query: "retrieval augmented generation"
+    max_repos: 20
+  - query: "time series forecasting"
+    max_repos: 20
+  - query: "multimodal vision language"
+    max_repos: 20
+  - query: "speech recognition toolkit"
+    max_repos: 20

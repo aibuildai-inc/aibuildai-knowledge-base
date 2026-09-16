@@ -1,0 +1,4 @@
+{
+  "name": "aibuildai-github",
+  "description": "GitHub repositories for molecular property prediction, ADMET modeling, and drug discovery ML: pretraining frameworks, descriptor toolkits, data access SDKs, and augmentation libraries."
+}

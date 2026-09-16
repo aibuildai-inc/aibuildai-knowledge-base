@@ -1,0 +1,3189 @@
+{
+ "read_at": "2026-08-11",
+ "count": 108,
+ "libraries": [
+  {
+   "name": "transformers",
+   "repo": "https://github.com/huggingface/transformers",
+   "file": "references/huggingface__transformers.md",
+   "commit": "3717b9cda226af7377da1944f395af0eac6e2b51",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "Trainer": "huggingface/transformers:src/transformers/trainer.py"
+   },
+   "hub_models_belongs_to": "huggingface/transformers",
+   "hub_models_at_least": 600000,
+   "hub_count_note": "The walk stopped at 600000 models after 600 pages, so this is a FLOOR and not a count; it is in hub_models_at_least and hub_models is null, so nothing downstream can treat a ceiling as a measurement. 'transformers' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=transformers): 40000. Loose substring match (search=transformers): 1080; of the 300 ids sampled from it, 268 match 'transformers' case-sensitively at a word boundary. Of the tag-matched models, 6442 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (6442) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 163210,
+   "found_by": [
+    "awesome-lists",
+    "path-mining",
+    "trace-audit",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 1 curated lists",
+    "repository name matches credited package transformers",
+    "the trace audit saw 1082 runs train with it"
+   ],
+   "when_to_pick": "as a post-training tool, pick `transformers.Trainer` directly when the job is a plain supervised loss on a Hub model and dataset and you don't need a preference, RLHF, or distillation trainer - it ships no such trainer classes itself. trl's trainers build on this library: its `SFTTrainer` subclasses trl's own `_BaseTrainer`, which itself subclasses this library's `Trainer` [25, commit `2396dfe`] (cross-reference to the trl card; the method-specific losses and generation handling are not restated here)",
+   "methods_it_ships": "none of the RLHF/preference/distillation family - `transformers` provides one generic trainer, `Trainer`, that runs whatever loss the model's `forward` returns (typically causal-LM cross-entropy for the fine-tuning tutorial's example); the shortlist's own repository scan likewise found only this one class, `src/transformers/trainer.py`, when looking for training methods in this repository, read at the v5.14.1 tag's commit `a08ace4` (see Install for why that commit, not the newer commit the screening row names, is the one this card reads). `Trainer` auto-detects a PEFT-wrapped model (`peft.PeftModel`) and special-cases its checkpoint loading and adapter directories accordingly [5, commit `a08ace4`]"
+  },
+  {
+   "name": "vllm",
+   "repo": "https://github.com/vllm-project/vllm",
+   "file": "references/vllm-project__vllm.md",
+   "commit": "e3be89673db6143c1f9c8689d853b9c7c7a5eb29",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "RLHF": "vllm-project/vllm:examples/rl/rlhf_async_new_apis.py"
+   },
+   "hub_models": 4272,
+   "hub_models_belongs_to": "vllm-project/vllm",
+   "stars_raw_not_for_ranking": 87812,
+   "found_by": [
+    "awesome-lists",
+    "trace-audit",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 1 curated lists",
+    "the trace audit saw 197 runs train with it"
+   ],
+   "when_to_pick": "not a competitor to TRL or verl - it is the generation backend both of them, and nine other named RL libraries (Cosmos-RL, ms-swift, NeMo-RL, Open Instruct, OpenRLHF, PipelineRL, Prime-RL, SkyRL, Unsloth), call out to for rollout generation during online RL. In this corpus's own trace audit it was seen training in 197 of 1198 sampled runs; the row that reports this figure attributes it to `methods_seen` pointing at `examples/rl/rlhf_async_new_apis.py`, but the row itself does not define what role vLLM played in those runs",
+   "methods_it_ships": "none - no SFT, DPO, or GRPO trainer lives in this repository"
+  },
+  {
+   "name": "LlamaFactory",
+   "repo": "https://github.com/hiyouga/LlamaFactory",
+   "file": "references/hiyouga__LlamaFactory.md",
+   "commit": "62ae362455801d4900a5132c7a30b23dc5fc3802",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DPO": "hiyouga/LlamaFactory:src/llamafactory/v1/trainers/dpo_trainer.py",
+    "SFT": "hiyouga/LlamaFactory:src/llamafactory/v1/trainers/sft_trainer.py",
+    "KTO": "hiyouga/LlamaFactory:data/kto_en_demo.json",
+    "PPO": "hiyouga/LlamaFactory:src/llamafactory/train/ppo/ppo_utils.py",
+    "Trainer": "hiyouga/LlamaFactory:src/llamafactory/train/dpo/trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "hiyouga/llamafactory",
+   "stars_raw_not_for_ranking": 73649,
+   "former_names": [
+    "hiyouga/LLaMA-Factory",
+    "hiyouga/LLaMA-Efficient-Tuning"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists",
+    "linked from 2 curated lists",
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "pick LlamaFactory when the priority is fine-tuning a very wide range of already-published LLM/VLM checkpoints (the paper's title claims support for over 100 language models) through a fixed, no-code YAML+CLI/WebUI workflow, with LoRA/QLoRA/OFT/full tuning across pt/sft/rm/ppo/dpo/kto",
+   "methods_it_ships": "training stages are `pt` (pretraining), `sft` (supervised fine-tuning), `rm` (reward modeling), `ppo`, `dpo`, and `kto`, each set via the `stage` field; ORPO and SimPO are not separate stages but `pref_loss` variants of the `dpo` stage (`pref_loss: Literal[\"sigmoid\",\"hinge\",\"ipo\",\"kto_pair\",\"orpo\",\"simpo\"]`, default `sigmoid`)"
+  },
+  {
+   "name": "unsloth",
+   "repo": "https://github.com/unslothai/unsloth",
+   "file": "references/unslothai__unsloth.md",
+   "commit": "37c64912d6238067dd6e2802acacb64177c3adea",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "KTO": "unslothai/unsloth:unsloth/__init__.py",
+    "ORPO": "unslothai/unsloth:unsloth/__init__.py"
+   },
+   "hub_models": 139196,
+   "hub_models_belongs_to": "unslothai/unsloth",
+   "stars_raw_not_for_ranking": 69291,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "single-consumer-GPU fine-tuning or RL where VRAM is the binding constraint - Unsloth's own GRPO memory benchmark (below) is the strongest published case for that framing, and its docs are explicit that multi-GPU is not yet an officially supported, first-class path (see Scale it handles)",
+   "methods_it_ships": "the shortlist row's own code-search evidence names KTO and ORPO as detected inside `unsloth/__init__.py`"
+  },
+  {
+   "name": "DeepSpeed",
+   "repo": "https://github.com/deepspeedai/DeepSpeed",
+   "file": "references/deepspeedai__DeepSpeed.md",
+   "commit": "617061d6b98a1199ec67291abba86dc81bf1c4a9",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "RLHF": "deepspeedai/DeepSpeed:blogs/zeropp/assets/images/rlhf-eval.png"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "deepspeedai/deepspeed",
+   "stars_raw_not_for_ranking": 42842,
+   "former_names": [
+    "microsoft/DeepSpeed"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists",
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "general-purpose PyTorch distributed training/inference when the deciding constraint is GPU memory rather than a specific post-training method - ZeRO lets a single GPU run models that plain data parallelism cannot fit at all, and DeepSpeed's own docs state the crossover plainly: \"For models of up to 13 billion parameters, you can use ZeRO-powered data parallelism conveniently without requiring model parallelism, while in contrast, standard data parallelism will run out of memory for models with more than 1.4 billion parameters\". DeepSpeed itself ships no RLHF/GRPO/DPO trainer classes; the shortlist row's \"RLHF\" evidence is a diagram inside a ZeRO++ blog post showing ZeRO++ speeding up the separate `DeepSpeedExamples` repo's `applications/DeepSpeed-Chat` RLHF pipeline (SFT, reward model, then PPO), not a method DeepSpeed trains on its own",
+   "methods_it_ships": "none of the post-training methods (SFT/DPO/PPO/GRPO) that the other cards in this deck cover - DeepSpeed is a training/inference systems library, not a method library"
+  },
+  {
+   "name": "ColossalAI",
+   "repo": "https://github.com/hpcaitech/ColossalAI",
+   "file": "references/hpcaitech__ColossalAI.md",
+   "commit": "4f9953be335ef371b3848719ddafe596c01ecd37",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-13",
+   "methods_seen": {
+    "KTO": "hpcaitech/ColossalAI:applications/ColossalChat/coati/trainer/kto.py",
+    "GRPO": "hpcaitech/ColossalAI:applications/ColossalChat/coati/trainer/grpo.py",
+    "ORPO": "hpcaitech/ColossalAI:applications/ColossalChat/coati/trainer/orpo.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "hpcaitech/colossalai",
+   "stars_raw_not_for_ranking": 41426,
+   "found_by": [
+    "code-search:bare-form",
+    "code-search:class-form",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "named by the lead from the prior investigation"
+   ],
+   "when_to_pick": "pick it when the parallelism strategy itself is the reason to choose a framework - Colossal-AI's own plugin-selection guidance runs from data-parallel-only up to a documented, GPU-count-scaled tensor+pipeline+ZeRO combination for 60B+ parameter models on thousand-card clusters"
+  },
+  {
+   "name": "sglang",
+   "repo": "https://github.com/sgl-project/sglang",
+   "file": "references/sgl-project__sglang.md",
+   "commit": "3c5f11574130ebc24492b0c77465696e358f79f2",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "REWARD": "sgl-project/sglang:examples/runtime/reward_model.py"
+   },
+   "hub_models": 270,
+   "hub_models_belongs_to": "sgl-project/sglang",
+   "stars_raw_not_for_ranking": 31018,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick sglang as the ROLLOUT/GENERATION backend behind an external RL framework (verl, slime, AReaL, Miles, Tunix, or a custom loop), when you need RadixAttention prefix caching, prefill-decode disaggregation, and an explicit sleep/wake + weight-refit API built for the train-generate loop; it ships no trainer class of its own, so for SFT/DPO/GRPO/PPO training code look at trl or verl instead (cross-reference cards; not covered here)",
+   "methods_it_ships": "none, as trainers - sglang has no SFT/DPO/GRPO/PPO trainer class; the shortlist's `methods_seen` field records exactly one hit, `REWARD`, pointing at `examples/runtime/reward_model.py`, and that script is a client that sends completions to an already-running sglang server's `/classify` endpoint and reads back scalar scores - it does not train a reward model, it serves one for inference-time scoring"
+  },
+  {
+   "name": "verl",
+   "repo": "https://github.com/verl-project/verl",
+   "file": "references/verl-project__verl.md",
+   "commit": "e9618406de5bad40041d7612554e465ec2003ec1",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DAPO": "X-PLUG/MobileAgent:UI-S1/verl/trainer/main_dapo.py",
+    "PPO": "DLYuanGod/MegaTrain:verl/verl/trainer/main_ppo_sync.py",
+    "SFT": "backprop07/VIMPO:verl/trainer/sft_trainer.py",
+    "DPO": "yjyddq/DARE:verl/trainer/dpo/llada_fsdp_dpo_trainer.py",
+    "REWARD": "Faissal-IZERMINE/SASR-DUMP:verl/trainer/ppo/ray_entropy_reward_trainer.py"
+   },
+   "hub_models": 191,
+   "hub_models_belongs_to": "verl-project/verl",
+   "stars_raw_not_for_ranking": 22746,
+   "former_names": [
+    "volcengine/verl",
+    "volcengine/veRL"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "path-mining",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 1 curated lists",
+    "linked from 4 curated lists",
+    "named by the lead from the prior investigation",
+    "path mining verified it owns package verl",
+    "repository name matches credited package verl"
+   ],
+   "when_to_pick": "RL post-training that needs to scale across multiple nodes with an explicit cluster scheduler - verl's own docs describe four built-in multi-node launch paths (manual Ray cluster, SkyPilot, Slurm-via-Ray, and the dstack container orchestrator) and support FSDP, FSDP2, and Megatron-LM as training backends, with vLLM or SGLang as separate rollout engines",
+   "methods_it_ships": "the main repo's own Algorithms section documents PPO and GRPO in full, with GRPO set as `algorithm.adv_estimator=grpo`"
+  },
+  {
+   "name": "peft",
+   "repo": "https://github.com/huggingface/peft",
+   "file": "references/huggingface__peft.md",
+   "commit": "ea8ebf36da98d93fdfca020ad17ab746e6994c01",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "SFT": "huggingface/peft:examples/sft/README.md"
+   },
+   "hub_models": 259817,
+   "hub_models_belongs_to": "huggingface/peft",
+   "stars_raw_not_for_ranking": 21472,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "trace-audit",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists",
+    "the trace audit saw 689 runs train with it"
+   ],
+   "when_to_pick": "peft is the adapter layer under most Hugging Face post-training stacks - it does not run training loops itself, so pick it alongside a trainer (Transformers `Trainer`, or trl's trainer classes, which accept a `peft_config` argument directly [see the trl card]) when the goal is training a small adapter (LoRA and its many relatives, prompt/prefix tuning, or other parameter-efficient methods) instead of the full model",
+   "methods_it_ships": "the docs' method-overview page groups them by mechanism into three families: Soft Prompting (Cartridges, CPT, Llama-Adapter, P-Tuning, Prefix Tuning, Prompt Tuning), Layer Tuning (BEFT, LayerNorm Tuning, Trainable Tokens), and Adapters (AdaLoRA, AdaMSS, BOFT, C3A, DEFT, DeLoRA, FourierFT, GraLoRA, HiRA, HRA, IA3, Lily, LoHa, LoKr, LoRA - with variants BD-LoRA, DoRA, KaSA, MonteCLoRA, VeLoRA - MiSS, OFT, OSF, PEANuT, Polytropon, PSOFT, PVeRA, RandLora, RoAd, SHiRA, TinyLoRA, UniLoRA, VB-LoRA, VeRA, WaveFT, X-LoRA)"
+  },
+  {
+   "name": "ml-agents",
+   "repo": "https://github.com/Unity-Technologies/ml-agents",
+   "file": "references/Unity-Technologies__ml-agents.md",
+   "commit": "ab179e18df7197d644f08637d8acf1fc4a1d5014",
+   "licence": "NOASSERTION",
+   "language": "C#",
+   "state": "live",
+   "last_push": "2026-07-29",
+   "methods_seen": {
+    "Trainer": "Unity-Technologies/ml-agents:ml-agents/mlagents/trainers/ghost/trainer.py",
+    "PPO": "Unity-Technologies/ml-agents:ml-agents/mlagents/trainers/ppo/__init__.py"
+   },
+   "hub_models": 12988,
+   "hub_models_belongs_to": "unity-technologies/ml-agents",
+   "stars_raw_not_for_ranking": 19597,
+   "found_by": [
+    "awesome-lists",
+    "path-mining",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "you have (or are building) a Unity scene and want to train agents that act inside that engine's physics and rendering, not a text/LLM post-training target - this is the one card in this deck built around a game engine rather than a language model, so it is not a substitute for a text-based RLHF library such as trl or verl"
+  },
+  {
+   "name": "trl",
+   "repo": "https://github.com/huggingface/trl",
+   "file": "references/huggingface__trl.md",
+   "commit": "aa592026c7267a52a60ce751a28e90bc303531fe",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DPO": "huggingface/trl:trl/trainer/callbacks.py",
+    "KTO": "huggingface/trl:trl/experimental/cpo/cpo_trainer.py",
+    "GRPO": "huggingface/trl:trl/trainer/grpo_trainer.py",
+    "ORPO": "huggingface/trl:trl/experimental/orpo/orpo_trainer.py",
+    "REWARD": "huggingface/trl:trl/trainer/reward_trainer.py",
+    "PPO": "deepglint/unicom:mlcd_vl/downstream/llava/trl/trainer/ppo_trainer.py",
+    "SFT": "PaddlePaddle/PaddleNLP:paddlenlp/trl/sft_trainer.py"
+   },
+   "hub_models": 156252,
+   "hub_models_belongs_to": "huggingface/trl",
+   "hub_count_note": "17 repositories in this index are named exactly 'trl'. The count is attributed to this one because PyPI publishes the package from here; the others carry null.",
+   "stars_raw_not_for_ranking": 18974,
+   "former_names": [
+    "lvwerra/trl"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form",
+    "path-mining",
+    "pyproject",
+    "readme-search",
+    "trace-audit"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "code-search hits >= 8 (15)",
+    "linked from 4 curated lists",
+    "path mining verified it owns package trl",
+    "repository name matches credited package trl",
+    "the trace audit saw 648 runs train with it"
+   ],
+   "when_to_pick": "post-training in the Hugging Face ecosystem, when your models and datasets live on the Hub and you want a trainer-class API that starts on one machine - a wide method menu (16 trainers) - and scales out through Accelerate, Hugging Face's launcher layer over torch distributed, when one machine stops being enough"
+  },
+  {
+   "name": "sentence-transformers",
+   "repo": "https://github.com/huggingface/sentence-transformers",
+   "file": "references/huggingface__sentence-transformers.md",
+   "commit": "5de24293729a8905c2b0baf7bda76a130b221e31",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "Trainer": "huggingface/sentence-transformers:sentence_transformers/base/trainer.py"
+   },
+   "hub_models": 25525,
+   "hub_models_belongs_to": "huggingface/sentence-transformers",
+   "stars_raw_not_for_ranking": 18957,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "fine-tuning or training embedding, reranker, or sparse-retrieval models specifically, as opposed to trl's generative-LM post-training methods (SFT, DPO, GRPO,...); both frameworks subclass `transformers.Trainer`",
+   "methods_it_ships": "not RL algorithms but loss families per model type, one `Trainer` and `TrainingArguments` class per family, all inheriting from shared `Base*` classes"
+  },
+  {
+   "name": "Awesome-Multimodal-Large-Language-Models",
+   "repo": "https://github.com/BradyFU/Awesome-Multimodal-Large-Language-Models",
+   "file": "references/BradyFU__Awesome-Multimodal-Large-Language-Models.md",
+   "commit": "5491326535854766073d87d2d40272b5a3c3b544",
+   "state": "live",
+   "last_push": "2026-08-03",
+   "methods_seen": {
+    "RLHF": "BradyFU/Awesome-Multimodal-Large-Language-Models:images/mm-rlhf.jpg"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "bradyfu/awesome-multimodal-large-language-models",
+   "stars_raw_not_for_ranking": 17968,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick this when you want a survey-maintained index of papers, benchmarks, and datasets for multimodal LLMs to read or cite - not when you want a library to run post-training with",
+   "methods_it_ships": "none - this repository ships no method implementations"
+  },
+  {
+   "name": "agent-lightning",
+   "repo": "https://github.com/microsoft/agent-lightning",
+   "file": "references/microsoft__agent-lightning.md",
+   "commit": "f0a77cfad71e6222a3edb7dfc7a0f611bd231364",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-16",
+   "methods_seen": {
+    "REWARD": "microsoft/agent-lightning:agentlightning/emitter/reward.py",
+    "GRPO": "microsoft/agent-lightning:contrib/recipes/envs/config_verl/alfworld/grpo.yaml",
+    "SFT": "microsoft/agent-lightning:examples/unsloth/sft_algorithm.py",
+    "Trainer": "microsoft/agent-lightning:agentlightning/trainer/trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "microsoft/agent-lightning",
+   "stars_raw_not_for_ranking": 17430,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "you have an agent already written in some framework and want to improve it - via prompt optimization or RL - without rewriting its control flow; the library's own selling point is \"ZERO CODE CHANGE (almost)\" and framework-agnostic wrapping",
+   "methods_it_ships": "the docs' own \"Algorithm Zoo\" table lists exactly two built-in `Algorithm` classes - APO (\"Automatic Prompt Optimization (APO) algorithm using textual gradients and beam search\") and VERL (\"Reinforcement Learning with VERL framework\"). `VERL` optimizes a resource named `main_llm`, forwards a Hydra-style `config` dict of overrides \"merged with VERL's packaged defaults\" into the third-party verl package's `RayPPOTrainer`, and supports GRPO through `config[\"algorithm\"][\"adv_estimator\"] = \"grpo\"` the same way the standalone verl framework does; the shortlist's GRPO example, `contrib/recipes/envs/config_verl/alfworld/grpo.yaml`, is exactly this override style"
+  },
+  {
+   "name": "Megatron-LM",
+   "repo": "https://github.com/NVIDIA/Megatron-LM",
+   "file": "references/NVIDIA__Megatron-LM.md",
+   "commit": "aa4624e4efebf969a5bb7e881c37dbc6da79318c",
+   "licence": "NOASSERTION",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-08-05",
+   "methods_seen": {
+    "SFT": "NVIDIA/Megatron-LM:examples/multimodal/nvlm/sft_blend.yaml",
+    "DAPO": "NVIDIA/Megatron-LM:examples/rl/environment_configs/dapo.yaml",
+    "REWARD": "NVIDIA/Megatron-LM:megatron/rl/agent/reward_only_agent.py"
+   },
+   "hub_models": 7,
+   "hub_models_belongs_to": "nvidia/megatron-lm",
+   "stars_raw_not_for_ranking": 17326,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "large-scale pretraining or continued pretraining where you need every parallelism axis (tensor, pipeline, context, expert, and sharded data parallelism) and are willing to drive training through CLI flags and a bespoke checkpoint format rather than a Hub-native trainer class; across its published 2B-462B-parameter sweep on H100 clusters the repository reports up to 47% Model FLOP Utilization overall, with MFU rising to 47-48% specifically at the largest model sizes, though no MFU figure is published for the largest individual run (462B parameters on 6,144 H100 GPUs) by itself",
+   "methods_it_ships": "the base repository ships pretraining and SFT-style fine-tuning through its example scripts (e.g. the multimodal NVLM SFT example, `examples/multimodal/nvlm/sft_blend.yaml`), and adds a native RL package under `megatron/rl/` with a GRPO training example (`examples/rl/`) built around a DAPO-style dataset and reward configuration (`examples/rl/environment_configs/dapo.yaml`) and a `RewardOnlyAgent` that returns rollouts scored by a fixed reward function (`megatron/rl/agent/reward_only_agent.py`)"
+  },
+  {
+   "name": "ms-swift",
+   "repo": "https://github.com/modelscope/ms-swift",
+   "file": "references/modelscope__ms-swift.md",
+   "commit": "a5229fda7ebcc141e7a0d6bd12030c043ce26486",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "RLHF": "modelscope/ms-swift:swift/rlhf_trainers/__init__.py",
+    "GRPO": "modelscope/ms-swift:swift/ray/megatron/grpo_trainer.py",
+    "KTO": "modelscope/ms-swift:swift/rlhf_trainers/kto_trainer.py",
+    "REWARD": "modelscope/ms-swift:swift/rlhf_trainers/reward_trainer.py"
+   },
+   "hub_models": 56,
+   "hub_models_belongs_to": "modelscope/ms-swift",
+   "hub_count_note": "7 repositories in this index are named exactly 'ms-swift'. The count is attributed to this one because PyPI publishes the package from here; the others carry null.",
+   "stars_raw_not_for_ranking": 15017,
+   "former_names": [
+    "modelscope/swift"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "code-search hits >= 8 (11)",
+    "linked from 1 curated lists",
+    "named by the lead from the prior investigation"
+   ],
+   "when_to_pick": "fine-tuning or RLHF on models pulled from the ModelScope hub (or Hugging Face, via `--use_hf true`), when you want one CLI to cover LoRA/full-parameter SFT, RLHF (DPO/KTO/GRPO/PPO/RM and more), and a separate Megatron-parallelism backend for dense and MoE models too large for DeepSpeed sharding on the same hardware",
+   "methods_it_ships": "pre-training and SFT (LoRA and full-parameter) via `swift sft`; RLHF methods via `swift rlhf --rlhf_type <type>` covering DPO, KTO, GRPO, PPO, RM (reward modeling), CPO, SimPO, ORPO, GKD; embedding, reranker, and sequence-classification training"
+  },
+  {
+   "name": "TensorRT-LLM",
+   "repo": "https://github.com/NVIDIA/TensorRT-LLM",
+   "file": "references/NVIDIA__TensorRT-LLM.md",
+   "commit": "0a0de1c3eddb0c93cff9d22ef3786cd68120af3f",
+   "licence": "NOASSERTION",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "RLHF": "NVIDIA/TensorRT-LLM:tensorrt_llm/llmapi/rlhf_utils.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "nvidia/tensorrt-llm",
+   "stars_raw_not_for_ranking": 14271,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "not as a post-training trainer - it has none - but as the generation/rollout engine an externally-orchestrated RLHF loop calls into for fast sampling on NVIDIA GPUs, when that loop already drives training elsewhere (e.g. an FSDP process) and only needs a fast decoder",
+   "methods_it_ships": "none"
+  },
+  {
+   "name": "PaddleNLP",
+   "repo": "https://github.com/PaddlePaddle/PaddleNLP",
+   "file": "references/PaddlePaddle__PaddleNLP.md",
+   "commit": "3f87dac9b719f75399f92f8bf634ae2ef0611832",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-23",
+   "methods_seen": {
+    "KTO": "PaddlePaddle/PaddleNLP:paddlenlp/trl/kto_trainer.py",
+    "REWARD": "PaddlePaddle/PaddleNLP:llm/alignment/rm/reward_trainer.py",
+    "SFT": "PaddlePaddle/PaddleNLP:paddlenlp/trl/sft_trainer.py",
+    "PPO": "PaddlePaddle/PaddleNLP:paddlenlp/rl/trainer/ppo_trainer.py"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "paddlepaddle/paddlenlp",
+   "stars_raw_not_for_ranking": 12965,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form",
+    "path-mining",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "code-search hits >= 8 (13)",
+    "credited package paddlenlp sits at this repo's root",
+    "linked from 2 curated lists",
+    "named by the lead from the prior investigation",
+    "path mining verified it owns package paddlenlp",
+    "repository name matches credited package paddlenlp"
+   ],
+   "when_to_pick": "PaddlePaddle-framework shops - PaddleNLP's trainers are built on `paddle.distributed`, not PyTorch, so the model zoo, checkpoints, and custom ops (FlashMask, fused_ln) are PaddlePaddle-specific and do not interoperate with a PyTorch-based stack"
+  },
+  {
+   "name": "axolotl",
+   "repo": "https://github.com/axolotl-ai-cloud/axolotl",
+   "file": "references/axolotl-ai-cloud__axolotl.md",
+   "commit": "c8440999d34f0b4a2c4f4383f4fd84067c9aba44",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DPO": "MaverickJune/axolotl_medusa_new:src/axolotl/core/trainers/__init__.py",
+    "GRPO": "winston1214/nonverbal-conversation:MARS/axolotl/src/axolotl/core/trainers/grpo/__init__.py",
+    "KTO": "MaverickJune/axolotl_medusa_new:src/axolotl/core/trainers/__init__.py",
+    "ORPO": "ShiniChien/axolotl:src/axolotl/core/trainers/trl.py",
+    "PPO": "JasonForJoy/BRIEF:BRIEF-Pro/train/Axolotl/src/axolotl/core/trainers/trl.py",
+    "REWARD": "MaverickJune/axolotl_medusa_new:src/axolotl/core/trainers/__init__.py",
+    "SFT": "axolotl-ai-cloud/axolotl:examples/streaming/sft.yaml",
+    "Trainer": "axolotl-ai-cloud/axolotl:src/axolotl/core/trainers/dpo/trainer.py"
+   },
+   "hub_models": 49865,
+   "hub_models_belongs_to": "axolotl-ai-cloud/axolotl",
+   "hub_count_note": "4 repositories in this index are named exactly 'axolotl'. The count is attributed to this one because PyPI publishes the package from here; the others carry null.",
+   "stars_raw_not_for_ranking": 12291,
+   "former_names": [
+    "OpenAccess-AI-Collective/axolotl"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "path-mining",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 1 curated lists",
+    "linked from 4 curated lists",
+    "path mining verified it owns package axolotl",
+    "repository name matches credited package axolotl"
+   ],
+   "when_to_pick": "you want one YAML file to drive the whole pipeline - model choice, method choice (SFT, DPO/IPO/KTO/SimPO/ORPO, GRPO, EBFT, or reward/PRM training), sharding strategy, and dataset format - without writing a Python training script, and you want a decision guide built into the docs to choose among those methods"
+  },
+  {
+   "name": "ludwig",
+   "repo": "https://github.com/ludwig-ai/ludwig",
+   "file": "references/ludwig-ai__ludwig.md",
+   "commit": "5d19f3e632124e2f92266faca773047aeeeb0da4",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-27",
+   "methods_seen": {
+    "GRPO": "ludwig-ai/ludwig:ludwig/trainers/trainer_dpo.py",
+    "KTO": "ludwig-ai/ludwig:ludwig/trainers/trainer_dpo.py",
+    "ORPO": "ludwig-ai/ludwig:ludwig/trainers/trainer_dpo.py"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "ludwig-ai/ludwig",
+   "hub_count_note": "'ludwig' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=ludwig): 1. Loose substring match (search=ludwig): 154; of the 154 ids sampled from it, 108 match 'ludwig' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 11745,
+   "found_by": [
+    "code-search:class-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "when_to_pick": "config-first training where the same YAML schema spans tabular/multimodal supervised models and LLM fine-tuning or alignment, and you want distributed scale-out (Ray, Accelerate-backed DDP/FSDP/DeepSpeed) without touching training-loop code",
+   "methods_it_ships": "supervised training (`trainer.type: finetune` for LLMs, as used in the getting-started fine-tuning example's config and registered at the pinned commit as `@register_llm_trainer_schema(\"finetune\")`, plus the ECD path for tabular/multimodal models, built from separate encoder/combiner/decoder components per Ludwig's own architecture description), and four LLM preference/alignment trainers reached the same way — DPO, KTO, ORPO, GRPO — selected by `trainer.type: dpo` (or `kto`, `orpo`, `grpo`)"
+  },
+  {
+   "name": "ART",
+   "repo": "https://github.com/OpenPipe/ART",
+   "file": "references/OpenPipe__ART.md",
+   "commit": "901a9e2615455c1ce952f1935fa3f56ea5c0aecf",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-30",
+   "methods_seen": {
+    "GRPO": "OpenPipe/ART:examples/hn_title_generator/reference_grpo_trainer.py"
+   },
+   "hub_models": 2,
+   "hub_models_belongs_to": "openpipe/art",
+   "hub_count_note": "'ART' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=ART): 2. Loose substring match (search=ART): 9738 [page cap reached]; of the 300 ids sampled from it, 2 match 'ART' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 10557,
+   "found_by": [
+    "awesome-lists",
+    "code-search:filename-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "pick ART when the task is a multi-step Python agent (tool calls, multi-turn conversation) and the priority is a small amount of glue code around GRPO, with the option to run everything on one local GPU or to hand training off to OpenPipe's managed W&B Training service without provisioning infrastructure",
+   "methods_it_ships": "GRPO is the documented, primary method - the quick-start, client, and backend pages all build their examples around `backend.train(model, trajectory_groups,...)` driving GRPO updates"
+  },
+  {
+   "name": "InternVL",
+   "repo": "https://github.com/OpenGVLab/InternVL",
+   "file": "references/OpenGVLab__InternVL.md",
+   "commit": "2410d1dbf208f0e799459aff9376e5747dbf41a2",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-09-22",
+   "methods_seen": {
+    "DPO": "OpenGVLab/InternVL:internvl_chat/internvl/train/trainer_dpo.py",
+    "SFT": "OpenGVLab/InternVL:internvl_chat_gpt_oss/shell/data/debug_sft.json"
+   },
+   "hub_models": 4,
+   "hub_models_belongs_to": "opengvlab/internvl",
+   "stars_raw_not_for_ranking": 10112,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick InternVL only when the goal is to post-train an InternVL-family checkpoint itself (SFT or the paper's own Mixed Preference Optimization recipe) - the repo ships no generic multi-model trainer, no PyPI package, and its main codebase pins `transformers==4.37.2`, an old floor that a chooser already running a newer transformers stack for another library will need a separate environment to satisfy",
+   "methods_it_ships": "SFT, called \"2nd fine-tuning\" in the docs, launched via `sh internvl_chat/shell/internvl3.0/2nd_finetune/internvl3_8b_dynamic_res_2nd_finetune_full.sh` and driven by `internvl_chat_finetune.py`"
+  },
+  {
+   "name": "OpenRLHF",
+   "repo": "https://github.com/OpenRLHF/OpenRLHF",
+   "file": "references/OpenRLHF__OpenRLHF.md",
+   "commit": "bc71bb19464aca306b33080b2d2bb45d154e2f49",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-14",
+   "methods_seen": {
+    "DPO": "yuleiqin/RAIF:build/lib/openrlhf/trainer/dpo_trainer.py",
+    "KTO": "eddycmu/demystify-long-cot:openrlhf/openrlhf/trainer/kto_trainer.py",
+    "PPO": "swtheing/PF-PPO-RLHF:openrlhf/trainer/ppo_trainer.py",
+    "SFT": "wantbook-book/SeRL:openrlhf/openrlhf/trainer/sft_trainer.py",
+    "GRPO": "LAMDA-RL/CoLA:postrain/openrlhf/trainer/grpo_trainer.py",
+    "REWARD": "OpenRLHF/OpenRLHF:examples/python/reward_func.py"
+   },
+   "hub_count_note": "2 repositories in this index are named exactly 'OpenRLHF' and none could be shown to own it, so none carries the count. The name's total is in hub_models_name_total.",
+   "stars_raw_not_for_ranking": 9867,
+   "former_names": [
+    "OpenLLMAI/OpenRLHF"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "path-mining",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists",
+    "path mining verified it owns package openrlhf",
+    "repository name matches credited package openrlhf"
+   ],
+   "when_to_pick": "online RLVR/agentic RL at cluster scale, when the workload needs Ray to place and time-slice Actor/Critic/Reward/Reference/vLLM across GPUs and you want algorithm choice (PPO, REINFORCE++, GRPO, RLOO,...) to be a one-flag switch rather than a different trainer class per method",
+   "methods_it_ships": "RL trainer (`train_ppo_ray`, single entry point) with the estimator switched by `--algo.advantage.estimator`: `gae` (PPO, full critic, default), `reinforce` (REINFORCE++, critic-free), `reinforce_baseline` (REINFORCE++-baseline, mean-reward baseline, no per-prompt std), `rloo` (leave-one-out baseline), `group_norm` (GRPO, per-group mean/std normalization plus KL loss), `dr_grpo` (Dr"
+  },
+  {
+   "name": "train-llm-from-scratch",
+   "repo": "https://github.com/FareedKhan-dev/train-llm-from-scratch",
+   "file": "references/FareedKhan-dev__train-llm-from-scratch.md",
+   "commit": "98f808c4ea9c4e83e16050358e80288642d0cd80",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-06-24",
+   "methods_seen": {
+    "DPO": "FareedKhan-dev/train-llm-from-scratch:configs/dpo.json",
+    "GRPO": "FareedKhan-dev/train-llm-from-scratch:configs/grpo.json",
+    "PPO": "FareedKhan-dev/train-llm-from-scratch:configs/ppo.json",
+    "REWARD": "FareedKhan-dev/train-llm-from-scratch:configs/reward.json",
+    "SFT": "FareedKhan-dev/train-llm-from-scratch:configs/sft.json"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "fareedkhan-dev/train-llm-from-scratch",
+   "stars_raw_not_for_ranking": 8919,
+   "found_by": [
+    "awesome-lists",
+    "pyproject",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick it to learn or audit the mechanics of SFT, a Bradley-Terry reward model, PPO, DPO/ORPO/KTO, and GRPO by reading and running from-scratch implementations on a small custom Transformer with no `trl`/`peft`/`transformers` dependency; do not pick it to post-train an existing pretrained checkpoint from the Hub, since every stage assumes the repo's own custom `Transformer` class and its own checkpoint format, not a `transformers`-compatible model - unlike the trl or verl decks, whose trainers take a Hub model id directly (cross-reference; not covered here)",
+   "methods_it_ships": "`SFT` (prompt-masked next-token cross-entropy with sequence packing), `Reward` (a Bradley-Terry pairwise loss on a scalar head over the SFT backbone; the README's own published run on 7,974 real preference pairs reached a held-out preference accuracy of 0.574, above the 0.5 chance line), `PPO` (actor-critic with a shared-backbone value head, GAE, clipped policy and value losses, and a per-token KL-to-reference penalty), `DPO`/`ORPO`/`KTO` (three objectives in one module, selected by a `--loss_type` flag, sharing a common preference-pair data path; the README's own published DPO run on 7,974 real preference pairs reached an implicit-reward accuracy of 0.574 on held-out pairs, the fraction where the trained policy prefers the chosen response more than the frozen reference does), and `GRPO`/RLVR (group-relative advantages with no critic, a token-level clipped surrogate, and a k3 KL penalty, with an arithmetic curriculum before full GSM8K)"
+  },
+  {
+   "name": "LMFlow",
+   "repo": "https://github.com/OptimalScale/LMFlow",
+   "file": "references/OptimalScale__LMFlow.md",
+   "commit": "767e04cf302537e7ae68a124530705eed6e8926d",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-22",
+   "methods_seen": {
+    "DPO": "OptimalScale/LMFlow:setup.py",
+    "REWARD": "OptimalScale/LMFlow:src/lmflow/pipeline/utils/rm_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "optimalscale/lmflow",
+   "stars_raw_not_for_ranking": 8487,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "code-search:class-form",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "a single, script-driven toolbox for LLM finetuning and alignment that bundles memory-saving finetuning (LISA, LoRA, QLoRA) with a curated set of alignment methods (RAFT, DPO, iterative DPO) behind one CLI, when you are comfortable installing from source and picking exact extras yourself; the method menu is narrower and more RLHF-specific than trl's 16 trainers — pick LMFlow when LISA or RAFT specifically is what you want, since neither ships in trl",
+   "methods_it_ships": "Full-parameter, LISA (Layerwise Importance Sampled AdamW, a memory-saving alternative to LoRA), LoRA, and QLoRA finetuning via the `Finetuner` pipeline; Reward Modeling via `RewardModelTuner`, a subclass that reuses `Finetuner`'s dataclass and Trainer plumbing with no additional fields (`class RewardModelTunerArguments(FinetunerArguments): pass`); RAFT (Reward rAnked FineTuning) via `raft_aligner.py`, conditionally registered only `if not is_package_version_at_least(\"transformers\", \"4.35.0\")` - on any modern transformers install `AutoPipeline.get_pipeline(\"raft_aligner\")` raises `NotImplementedError(f'Please install the necessary dependencies to use pipeline \"{pipeline_name}\"')`, naming the pipeline itself rather than the specific missing package, so RAFT is effectively unavailable outside an old-transformers environment; DPO via `dpo_aligner.py`, a thin wrapper around trl's own `DPOTrainer` (`from trl import DPOTrainer`); DPOv2 via `dpov2_aligner.py`, which instead drives a custom in-repo `DPOv2Trainer` (not trl's), taking `beta`, `loss_type`, `max_prompt_length`, `max_length`, `mask_prompt`, and `len_penalty`; and iterative DPO via `iterative_dpo_aligner.py`, registered only when trl is present together with vLLM or SGLang. vLLM- and SGLang-backed inference pipelines (`vllm_inferencer`, `sglang_inferencer`) are likewise gated behind `is_vllm_available` / `is_sglang_available`"
+  },
+  {
+   "name": "PaLM-rlhf-pytorch",
+   "repo": "https://github.com/lucidrains/PaLM-rlhf-pytorch",
+   "file": "references/lucidrains__PaLM-rlhf-pytorch.md",
+   "commit": "bd0d0f3893ec62f827fa35e759cb38d748829d51",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-27",
+   "methods_seen": {
+    "RLHF": "lucidrains/PaLM-rlhf-pytorch:palm_rlhf_pytorch/tpo.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "lucidrains/palm-rlhf-pytorch",
+   "stars_raw_not_for_ranking": 7863,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "code-search:class-form",
+    "pyproject",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "a from-scratch, readable reference for how PPO/GRPO/TPO/FlowRL-style RLHF loops are wired around a PaLM-style transformer, or as a small-scale sandbox to read and modify the RL loop directly - not a production or cluster-scale trainer",
+   "methods_it_ships": "`RLHFTrainer` (PPO) plus `ActorCritic` in `palm_rlhf_pytorch/ppo.py`, exported at the top level as `from palm_rlhf_pytorch import RLHFTrainer, ActorCritic`"
+  },
+  {
+   "name": "slime",
+   "repo": "https://github.com/THUDM/slime",
+   "file": "references/THUDM__slime.md",
+   "commit": "aaf5c2092b01219fa0d5c2d323741d409086ca32",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-24",
+   "methods_seen": {
+    "SFT": "THUDM/slime:examples/retool/sft_data_processing.py",
+    "PPO": "THUDM/slime:slime/utils/ppo_utils.py"
+   },
+   "hub_models": 6,
+   "hub_models_belongs_to": "thudm/slime",
+   "hub_count_note": "'slime' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=slime): 6. Loose substring match (search=slime): 243; of the 243 ids sampled from it, 25 match 'slime' case-sensitively at a word boundary. Of the tag-matched models, 6 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (6) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 7721,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 3 curated lists",
+    "named by the lead from the prior investigation"
+   ],
+   "when_to_pick": "RL post-training at Megatron-training / SGLang-rollout scale, when the target model already has a Megatron checkpoint path or you need Megatron's tensor/pipeline/context parallelism for a large dense or MoE model, and you want the rollout engine's own SGLang argument surface exposed via a `--sglang-` pass-through prefix rather than wrapped",
+   "methods_it_ships": "`--advantage-estimator` selects among `grpo`, `gspo`, `cispo`, `reinforce_plus_plus`, `reinforce_plus_plus_baseline`, and `ppo`, each documented with its defining arXiv id on the usage page (method math and training-signal semantics belong on each method's own card, not restated here)"
+  },
+  {
+   "name": "Liger-Kernel",
+   "repo": "https://github.com/linkedin/Liger-Kernel",
+   "file": "references/linkedin__Liger-Kernel.md",
+   "commit": "08e8ccdc6a1838e3da230c528fff808491817b58",
+   "licence": "BSD-2-Clause",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-08-03",
+   "methods_seen": {
+    "ORPO": "linkedin/Liger-Kernel:src/liger_kernel/transformers/trainer/orpo_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "linkedin/liger-kernel",
+   "stars_raw_not_for_ranking": 6553,
+   "found_by": [
+    "code-search:filename-form",
+    "readme-search",
+    "topic-search",
+    "trace-audit"
+   ],
+   "why_confirmed": [
+    "the trace audit saw 31 runs train with it"
+   ],
+   "when_to_pick": "not a competitor to trl or verl - it is a drop-in speed/memory layer those frameworks call into",
+   "methods_it_ships": "the README's \"Alignment Kernels\" table lists five fused losses - CPO, DPO, ORPO, SimPO, KTO - each importable as `liger_kernel.chunked_loss.LigerFusedLinear<Method>Loss`"
+  },
+  {
+   "name": "VLM-R1",
+   "repo": "https://github.com/om-ai-lab/VLM-R1",
+   "file": "references/om-ai-lab__VLM-R1.md",
+   "commit": "90052f478646e38bc67363862f699b7afca6b337",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-07",
+   "methods_seen": {
+    "GRPO": "om-ai-lab/VLM-R1:src/open-r1-multimodal/src/open_r1/trainer/grpo_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "om-ai-lab/vlm-r1",
+   "stars_raw_not_for_ranking": 6018,
+   "found_by": [
+    "awesome-lists",
+    "code-search:filename-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "pick VLM-R1 specifically to reproduce or extend its own REC/OVD/GUI-defect-detection GRPO recipes on Qwen2.5-VL or InternVL, or to use its `VLMBaseModule` pattern for adding a new VLM to a GRPO loop",
+   "methods_it_ships": "the README groups its supported training modes under \"Features\" as full-parameter GRPO, GRPO with frozen vision modules, LoRA GRPO, multi-node GRPO, and multi-image-input GRPO; separately it documents an SFT path that is not implemented in this repo but delegated to the external LLaMA-Factory project"
+  },
+  {
+   "name": "torchtune",
+   "repo": "https://github.com/meta-pytorch/torchtune",
+   "file": "references/meta-pytorch__torchtune.md",
+   "commit": "bd2a0fc7c31430972728494fa01aaeeb0ebf1ba1",
+   "licence": "BSD-3-Clause",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "GRPO": "meta-pytorch/torchtune:recipes/dev/grpo_full_finetune_distributed.py",
+    "PPO": "meta-pytorch/torchtune:recipes/ppo_full_finetune_single_device.py",
+    "DPO": "meta-pytorch/torchtune:torchtune/rlhf/loss/dpo.py",
+    "RLHF": "meta-pytorch/torchtune:torchtune/rlhf/loss/dpo.py"
+   },
+   "hub_models": 38,
+   "hub_models_belongs_to": "meta-pytorch/torchtune",
+   "stars_raw_not_for_ranking": 5795,
+   "former_names": [
+    "pytorch/torchtune"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "pyproject",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists",
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "pick torchtune only for a PyTorch-native, single-file-recipe way to fine-tune Llama/Qwen/Gemma-family checkpoints on a fixed, working method set (SFT, DPO, PPO, GRPO, distillation, QAT) when you accept that the project has stopped receiving new features and is bound for a successor repo; do not pick it if you need active development, a wide model/method roadmap, or first-class vLLM-backed generation for online RL - trl and verl are both under active development (cross-reference; not covered here) and trl's GRPO trainer optionally offloads generation to vLLM, a capability torchtune's GRPO recipe config does not expose (no vLLM keys appear in the sampled GRPO config; not exhaustively verified across all GRPO configs)"
+  },
+  {
+   "name": "rllm",
+   "repo": "https://github.com/rllm-org/rllm",
+   "file": "references/rllm-org__rllm.md",
+   "commit": "75926c15e58fa29e4183d01292d10462d2047be9",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "PPO": "agentica-project/rllm:rllm/trainer/verl/agent_ppo_trainer.py",
+    "SFT": "Osilly/Vision-DeepResearch:rllm/rllm/trainer/agent_sft_trainer.py",
+    "REWARD": "rllm-org/rllm:rllm/rewards/reward_fn.py"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "rllm-org/rllm",
+   "hub_count_note": "2 repositories in this index are named exactly 'rllm'. The count is attributed to this one; the others carry null. Inferred from size, NOT proven: this repository is the only claimant large enough to be the one 1 model authors meant. It beat agentica-project/rllm. Stars were used to compare these same-name repositories and appear in no ranking.",
+   "stars_raw_not_for_ranking": 5751,
+   "found_by": [
+    "path-mining",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "path mining verified it owns package rllm",
+    "repository name matches credited package rllm"
+   ],
+   "when_to_pick": "pick rLLM when the unit of RL is an existing CLI coding/terminal-agent harness (Claude Code, Codex, Terminus-2, mini-swe-agent, opencode, or a Harbor-compatible task directory) or a custom agent wrapped with `@rllm.rollout`, and you want one training script that can run on a single machine via the tinker backend or scale out to multi-GPU/multi-node via the verl backend without rewriting the agent",
+   "methods_it_ships": "the README lists GRPO, REINFORCE, RLOO, SFT, and on-policy distillation as supported training methods"
+  },
+  {
+   "name": "MedicalGPT",
+   "repo": "https://github.com/shibing624/MedicalGPT",
+   "file": "references/shibing624__MedicalGPT.md",
+   "commit": "ccc05f4b46442ecdefcc95d53aeedc9834d09dd6",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-06-03",
+   "methods_seen": {
+    "REWARD": "shibing624/MedicalGPT:training/reward_modeling.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "shibing624/medicalgpt",
+   "stars_raw_not_for_ranking": 5675,
+   "found_by": [
+    "code-search:class-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "when_to_pick": "pick MedicalGPT when you want a runnable, opinionated reference pipeline that chains PT to SFT to preference-optimization to distillation as one directory of scripts, with medical-domain example data and five released Chinese-medical checkpoints already on the Hub, rather than a general-purpose trainer library you import into your own code"
+  },
+  {
+   "name": "alignment-handbook",
+   "repo": "https://github.com/huggingface/alignment-handbook",
+   "file": "references/huggingface__alignment-handbook.md",
+   "commit": "1de1fc996972aa76b7d40c64c07b66dec8b6976a",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-26",
+   "methods_seen": {
+    "DPO": "huggingface/alignment-handbook:scripts/dpo.py"
+   },
+   "hub_models": 4998,
+   "hub_models_belongs_to": "huggingface/alignment-handbook",
+   "stars_raw_not_for_ranking": 5653,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "you want the exact, published, reproducible recipe (YAML config plus launch command) behind a specific released model — Zephyr-7B-β, StarChat2, SmolLM/SmolLM2/SmolLM3 — and are willing to read and adapt someone else's SFT→DPO/ORPO pipeline rather than write your own trainer call; it is a config-and-script layer on top of trl, not a substitute for trl itself, and at this commit it ships only SFT, DPO, and ORPO as runnable scripts, not a general RLHF/RL framework",
+   "methods_it_ships": "three runnable trainer scripts at this commit — SFT (`scripts/sft.py`, wraps `trl.SFTTrainer`), DPO (`scripts/dpo.py`, wraps `trl.DPOTrainer`), ORPO (`scripts/orpo.py`, wraps `trl.ORPOTrainer`)"
+  },
+  {
+   "name": "AReaL",
+   "repo": "https://github.com/areal-project/AReaL",
+   "file": "references/areal-project__AReaL.md",
+   "commit": "6c0f9521e1f01d66864665644f83f9e2015ce327",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "PPO": "areal-project/AReaL:areal/trainer/rl_trainer.py",
+    "DPO": "areal-project/AReaL:areal/trainer/dpo_trainer.py",
+    "SFT": "areal-project/AReaL:areal/trainer/sft_trainer.py"
+   },
+   "hub_models": 3,
+   "hub_models_belongs_to": "areal-project/areal",
+   "stars_raw_not_for_ranking": 5621,
+   "former_names": [
+    "inclusionAI/AReaL"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "code-search:class-form",
+    "path-mining",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "credited package areal sits at this repo's root",
+    "linked from 4 curated lists",
+    "path mining verified it owns package areal",
+    "repository name matches credited package areal"
+   ],
+   "when_to_pick": "pick AReaL when the run needs the generation and training steps decoupled and independently scaled through named services, with off-policy rollout data explicitly controlled through a lag parameter rather than always synchronized to the latest policy - the README states that setting `max_head_offpolicyness=0` reduces any of its RL algorithms to a synchronous version, meaning the same trainers cover both regimes",
+   "methods_it_ships": "the README's Support Matrix table lists GRPO, GSPO, PPO, DAPO, LitePPO, Dr.GRPO, REINFORCE++, RLOO, SAPO, IcePop, KPop, M2PO, SFT, and Distillation with a GSM8K-scale example YAML/script each; the table's remaining two rows, DPO and RLHF Reward Modeling, instead link an Anthropic HH-RLHF-based example"
+  },
+  {
+   "name": "OpenClaw-RL",
+   "repo": "https://github.com/Gen-Verse/OpenClaw-RL",
+   "file": "references/Gen-Verse__OpenClaw-RL.md",
+   "commit": "f48ac358adf9873b5cb2210f1cb234a52ed8a8a3",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-23",
+   "methods_seen": {
+    "SFT": "Gen-Verse/OpenClaw-RL:Megatron-LM/examples/multimodal/nvlm/sft_blend.yaml",
+    "DAPO": "Gen-Verse/OpenClaw-RL:Megatron-LM/examples/rl/environment_configs/dapo.yaml",
+    "REWARD": "Gen-Verse/OpenClaw-RL:Megatron-LM/megatron/rl/agent/reward_only_agent.py",
+    "PPO": "Gen-Verse/OpenClaw-RL:slime/slime/utils/ppo_utils.py",
+    "Trainer": "Gen-Verse/OpenClaw-RL:openclaw-tinker/trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "gen-verse/openclaw-rl",
+   "stars_raw_not_for_ranking": 5617,
+   "found_by": [
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "topic/readme hit whose description names a method and a tool"
+   ],
+   "when_to_pick": "pick this repo specifically to reproduce or extend the OpenClaw-RL paper's three methods (Binary RL/GRPO with PRM scoring, On-Policy Distillation, and their Hybrid combination) on top of slime, or to reuse its Track-2 scripts for terminal/GUI/SWE/tool-call agentic RL. The paper's own reference run shows why the Hybrid method is the one this repo defaults to: measuring the minimum number of conversation sessions needed to reach the target personalization effect, averaged over 5 trials with Qwen3-4B-Thinking-2507, Hybrid RL needs about 10.3 sessions under joint multi-user optimization versus 14.1 for GRPO alone and 29.7 for OPD alone (15.0 vs 21.1 and 29.4 respectively under separate-user optimization)",
+   "methods_it_ships": "three method families, each its own top-level folder with its own README (method math and the defining paper are on the methodology cards, not restated here):"
+  },
+  {
+   "name": "mlx-vlm",
+   "repo": "https://github.com/Blaizzy/mlx-vlm",
+   "file": "references/Blaizzy__mlx-vlm.md",
+   "commit": "07bd830e7b46cd88ef90b859d5d4c145abff3dd5",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "ORPO": "Blaizzy/mlx-vlm:mlx_vlm/trainer/orpo_trainer.py"
+   },
+   "hub_models": 425,
+   "hub_models_belongs_to": "blaizzy/mlx-vlm",
+   "stars_raw_not_for_ranking": 5280,
+   "found_by": [
+    "awesome-lists",
+    "code-search:filename-form"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "you are fine-tuning or running inference on a VLM on a Mac and want a single package that covers both, with a wide day-one model list (Qwen2/3/3.5-VL, LLaVA, Deepseek-VL(-V2), Mllama, and more, per the LoRA doc's supported-models note) and built-in LoRA/QLoRA/full-finetune plus one preference method (ORPO); this card does not compare it against another card in this deck, since none of the sourced pages state such a comparison. `pyproject.toml` also lists an optional `mlx-vlm[cuda]` extra pulling in `mlx-cuda` as an alternate MLX backend, but the only documented CUDA-specific feature is inference-side activation quantization for `mxfp8`/`nvfp4` models; none of the sources read here document or walk through fine-tuning on CUDA, so treat training as an Apple-Silicon-only, undemonstrated-elsewhere workflow",
+   "methods_it_ships": "`mlx_vlm/lora.py --train-mode {sft,orpo}` (default `sft`) selects between two trainer modules: `mlx_vlm/trainer/sft_trainer.py` (supervised fine-tuning, cross-entropy loss with optional completion-only masking via `--train-on-completions`) and `mlx_vlm/trainer/orpo_trainer.py` (Odds Ratio Preference Optimization, a preference method combining an SFT term with a log-odds-ratio preference term weighted by `--beta`, default 0.1). `--train-mode orpo` and its `--beta`/`--eps` flags are read directly from the CLI source; the shipped fine-tuning doc, `LORA.MD`, documents only the SFT/LoRA path and does not mention ORPO, `--train-mode`, `--beta`, or `--eps` anywhere in its Arguments or Examples sections - so ORPO is wired into the code but currently undocumented in the library's own guide"
+  },
+  {
+   "name": "Search-R1",
+   "repo": "https://github.com/PeterGriffinJin/Search-R1",
+   "file": "references/PeterGriffinJin__Search-R1.md",
+   "commit": "598e61bd1d36895726d28a8d06b3a15bed19f5d3",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-11-13",
+   "methods_seen": {
+    "SFT": "PeterGriffinJin/Search-R1:verl/trainer/fsdp_sft_trainer.py",
+    "PPO": "PeterGriffinJin/Search-R1:verl/trainer/config/ppo_megatron_trainer.yaml",
+    "REWARD": "PeterGriffinJin/Search-R1:verl/workers/reward_model/megatron/reward_model.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "petergriffinjin/search-r1",
+   "stars_raw_not_for_ranking": 5202,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "reproducing or extending the specific Search-R1 recipe - RL (PPO or GRPO) on a base LLM with a rule-based exact-match reward and an interleaved retriever call, on datasets like NQ/HotpotQA - when you want the paper's own scripts and wandb logs as a reference point",
+   "methods_it_ships": "the README states support for \"different RL methods (e.g., PPO, GRPO, reinforce)\", and the repo ships runnable launcher scripts only for PPO (`train_ppo.sh`) and GRPO (`train_grpo.sh`), both invoking the same `verl.trainer.main_ppo` entry point with `algorithm.adv_estimator` set to `gae` or `grpo` respectively"
+  },
+  {
+   "name": "xtuner",
+   "repo": "https://github.com/InternLM/xtuner",
+   "file": "references/InternLM__xtuner.md",
+   "commit": "4d7e23d61e6b27467be7366e97d1e3540da73cd9",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "SFT": "InternLM/xtuner:ci/scripts/test_sft_dense_trainer.py",
+    "REWARD": "InternLM/xtuner:xtuner/evaluation/metrics/reward_metric.py",
+    "DPO": "InternLM/xtuner:xtuner/model/dpo.py",
+    "ORPO": "InternLM/xtuner:xtuner/model/orpo.py",
+    "GRPO": "InternLM/xtuner:xtuner/v1/rl/advantage/grpo.py",
+    "DAPO": "InternLM/xtuner:xtuner/v1/rl/judger/dapo_math.py",
+    "Trainer": "InternLM/xtuner:xtuner/v1/train/trainer.py"
+   },
+   "hub_models": 37,
+   "hub_models_belongs_to": "internlm/xtuner",
+   "stars_raw_not_for_ranking": 5171,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists",
+    "named by the lead from the prior investigation"
+   ],
+   "when_to_pick": "dense or MoE post-training when the model is large enough that FSDP sharding plus optional tensor/expert/sequence parallelism is the concern - the README's stated selling point is training MoE models \"above 200B scale\" on FSDP without full 3D parallelism, and up to roughly 1T parameters with expert parallelism",
+   "methods_it_ships": "the README's own Algorithm section lists, as implemented: multimodal pre-training, multimodal supervised fine-tuning, and GRPO (citing arXiv:2402.03300); as \"Coming Soon\": MPO (arXiv:2411.10442), DAPO (arXiv:2503.14476), and multi-turn agentic RL. RL is explicitly marked Beta: the GRPO quick-start page opens with \"XTuner's RL (Reinforcement Learning) functionality is currently in Beta version\". Method-level math and training-signal semantics are not restated here; they belong on each method's own card"
+  },
+  {
+   "name": "EasyR1",
+   "repo": "https://github.com/hiyouga/EasyR1",
+   "file": "references/hiyouga__EasyR1.md",
+   "commit": "b44b311b669bf1fd1aa2fc36f2251482ba33cb16",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-30",
+   "methods_seen": {
+    "REWARD": "hiyouga/EasyR1:examples/reward_function/dapo.py",
+    "DAPO": "hiyouga/EasyR1:examples/reward_function/dapo.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "hiyouga/easyr1",
+   "stars_raw_not_for_ranking": 5095,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "a vision-language-capable GRPO/DAPO-family RL trainer, when your workload is one Ray cluster training a single model with vLLM colocated on the same GPUs (the README calls this its HybirdEngine design), and you do not also need SFT or plain-inference scripts - the README explicitly declines to ship those and redirects such needs to LlamaFactory",
+   "methods_it_ships": "the README's own \"Supported algorithms\" list is GRPO, DAPO, Reinforce++, ReMax, RLOO, GSPO, and CISPO; a SAPO example script also ships under `examples/` though it is not named in the README algorithm list"
+  },
+  {
+   "name": "argilla",
+   "repo": "https://github.com/argilla-io/argilla",
+   "file": "references/argilla-io__argilla.md",
+   "commit": "5338519accb13ae422f8bf9c0642651c249c49af",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-27",
+   "methods_seen": {
+    "DPO": "argilla-io/argilla:argilla-v1/tests/integration/conftest.py"
+   },
+   "hub_models": 15,
+   "hub_models_belongs_to": "argilla-io/argilla",
+   "stars_raw_not_for_ranking": 5064,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "linked from 3 curated lists"
+   ],
+   "when_to_pick": "pick Argilla when the bottleneck is collecting or curating human (or AI) feedback into a labeled dataset - preference pairs, SFT demonstrations, classification labels - before any post-training run starts; it is not an alternative to trl, verl, or similar trainer libraries, because the current 2.x package contains no trainer class and no training loop of any kind, confirmed by listing `argilla/src/argilla` at commit `5338519`, which holds API/client/dataset/records/workspace modules and no trainer module",
+   "methods_it_ships": "none in the current (2.x) package - no method taxonomy, no method-specific config classes, no training entry point exist to list here"
+  },
+  {
+   "name": "h2o-llmstudio",
+   "repo": "https://github.com/h2oai/h2o-llmstudio",
+   "file": "references/h2oai__h2o-llmstudio.md",
+   "commit": "281982b93328ede4bd582b6a10f004aadc85af56",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-29",
+   "methods_seen": {
+    "DPO": "h2oai/h2o-llmstudio:llm_studio/python_configs/text_dpo_modeling_config.py"
+   },
+   "hub_models": 375,
+   "hub_models_belongs_to": "h2oai/h2o-llmstudio",
+   "stars_raw_not_for_ranking": 5044,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "choose it when the priority is a no-code GUI for fine-tuning and preference-tuning (DPO family) with built-in experiment tracking, chat-testing, and one-click Hugging Face export, over a scriptable trainer-class library like trl or a cluster-native RL library like verl (cross-references; not covered here)",
+   "methods_it_ships": "the GUI groups training into five \"problem types\" - causal language modeling, causal classification modeling, causal regression modeling, sequence-to-sequence modeling, and DPO modeling"
+  },
+  {
+   "name": "LLaVA-NeXT",
+   "repo": "https://github.com/LLaVA-VL/LLaVA-NeXT",
+   "file": "references/LLaVA-VL__LLaVA-NeXT.md",
+   "commit": "bce12e479bc4dfee2b9c50c88137b01ff51bd483",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-06-15",
+   "methods_seen": {
+    "DDPO": "LLaVA-VL/LLaVA-NeXT:trl/trainer/ddpo_trainer.py",
+    "DPO": "LLaVA-VL/LLaVA-NeXT:trl/trainer/dpo_trainer.py",
+    "SFT": "LLaVA-VL/LLaVA-NeXT:trl/trainer/iterative_sft_trainer.py",
+    "PPO": "LLaVA-VL/LLaVA-NeXT:trl/trainer/ppo_trainer.py",
+    "REWARD": "LLaVA-VL/LLaVA-NeXT:trl/trainer/reward_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "llava-vl/llava-next",
+   "stars_raw_not_for_ranking": 4711,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "only if you specifically want to reproduce or extend a LLaVA-family multimodal model's own legacy DPO recipe on this exact codebase; the maintainers' own README redirects general OneVision/OneVision-2 training work to lmms-engine instead",
+   "methods_it_ships": "DPO is the one method with an end-to-end path: `llava/train/train_dpo.py` defines `LLaVADPOTrainer(DPOTrainer)`, importing `DPOTrainer` from the vendored `trl.trainer` package, and `scripts/train/dpo.sh` / `scripts/train/dpo_ov7b.sh` launch it with `torchrun` (commit bce12e479bc4dfee2b9c50c88137b01ff51bd483)"
+  },
+  {
+   "name": "align-anything",
+   "repo": "https://github.com/PKU-Alignment/align-anything",
+   "file": "references/PKU-Alignment__align-anything.md",
+   "commit": "3f9decc221be74b2052e712e3a32e155686ec6ec",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-11-27",
+   "methods_seen": {
+    "DPO": "PKU-Alignment/align-anything:align_anything/trainers/text_audio_to_text/dpo.py",
+    "ORPO": "PKU-Alignment/align-anything:align_anything/trainers/text_to_text/orpo.py",
+    "GRPO": "PKU-Alignment/align-anything:align_anything/trainers/text_to_text/grpo.py",
+    "KTO": "PKU-Alignment/align-anything:align_anything/trainers/text_to_text/kto.py",
+    "PPO": "Qwen-Applications/GD2PO:safe-alignment/verl/workers/align_anything/trainers/text_audio_to_text/ppo.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "pku-alignment/align-anything",
+   "stars_raw_not_for_ranking": 4663,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "code-search:class-form",
+    "path-mining",
+    "pyproject",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists",
+    "path mining verified it owns package align_anything",
+    "repository name matches credited package align_anything"
+   ],
+   "when_to_pick": "alignment training that has to span modalities beyond text"
+  },
+  {
+   "name": "autotrain-advanced",
+   "repo": "https://github.com/huggingface/autotrain-advanced",
+   "file": "references/huggingface__autotrain-advanced.md",
+   "commit": "1873aca349c88684e83c8fd3d79a1c638cfbe636",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-21",
+   "methods_seen": {
+    "DPO": "huggingface/autotrain-advanced:src/autotrain/trainers/clm/train_clm_dpo.py",
+    "ORPO": "huggingface/autotrain-advanced:src/autotrain/trainers/clm/train_clm_orpo.py",
+    "REWARD": "huggingface/autotrain-advanced:src/autotrain/trainers/clm/train_clm_reward.py",
+    "SFT": "huggingface/autotrain-advanced:src/autotrain/trainers/clm/train_clm_sft.py"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "huggingface/autotrain-advanced",
+   "stars_raw_not_for_ranking": 4597,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "pick it only if you already have a YAML config or UI workflow built on it, because both the repository README and the live docs index carry the same maintainer warning: \"This project is no longer maintained",
+   "methods_it_ships": "four LLM post-training trainers, selected via the config's `trainer` field: `sft` (`SFTTrainer`), `dpo` (`DPOTrainer`), `orpo` (`ORPOTrainer`), and `reward` (`RewardTrainer`), plus a `default` causal-LM trainer that is not a post-training method"
+  },
+  {
+   "name": "DeepAnalyze",
+   "repo": "https://github.com/ruc-datalab/DeepAnalyze",
+   "file": "references/ruc-datalab__DeepAnalyze.md",
+   "commit": "0b54741848df5c157303eb82f80a8dca1afb438f",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-01",
+   "methods_seen": {
+    "DPO": "ruc-datalab/DeepAnalyze:deepanalyze/ms-swift/swift/trainers/trainer_factory.py",
+    "KTO": "ruc-datalab/DeepAnalyze:deepanalyze/ms-swift/swift/trainers/trainer_factory.py",
+    "ORPO": "ruc-datalab/DeepAnalyze:deepanalyze/ms-swift/swift/trainers/trainer_factory.py",
+    "RLHF": "ruc-datalab/DeepAnalyze:deepanalyze/ms-swift/swift/trainers/rlhf_trainer/kto_trainer.py",
+    "DAPO": "ruc-datalab/DeepAnalyze:deepanalyze/SkyRL/skyrl-train/examples/algorithms/dapo/main_dapo.py",
+    "GRPO": "ruc-datalab/DeepAnalyze:deepanalyze/ms-swift/swift/trainers/rlhf_trainer/grpo_trainer.py",
+    "REWARD": "ruc-datalab/DeepAnalyze:deepanalyze/ms-swift/swift/trainers/rlhf_trainer/reward_trainer.py"
+   },
+   "hub_count_note": "4 repositories in this index are named exactly 'DeepAnalyze' and none could be shown to own it, so none carries the count. The name's total is in hub_models_name_total.",
+   "stars_raw_not_for_ranking": 4424,
+   "found_by": [
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form",
+    "pyproject"
+   ],
+   "why_confirmed": [
+    "code-search hits >= 8 (19)"
+   ],
+   "when_to_pick": "pick DeepAnalyze if the goal is the DeepAnalyze-8B data-science agent itself (its model, inference stack, or its exact three-stage curriculum) - not as a library choice for training your own arbitrary model",
+   "methods_it_ships": "DeepAnalyze's own three documented training stages use exactly two methods: full-parameter SFT for two curriculum stages (single-ability, then multi-ability \"cold start\"), run through ms-swift's `swift sft` CLI, and one RL stage using GRPO (`trainer.algorithm.advantage_estimator=\"grpo\"`), run through a vendored SkyRL via `python -m examples.deepanalyze.main_deepanalyze` inside `deepanalyze/SkyRL/skyrl-train/`"
+  },
+  {
+   "name": "RLinf",
+   "repo": "https://github.com/RLinf/RLinf",
+   "file": "references/RLinf__RLinf.md",
+   "commit": "c69eecbaa7eb6db06aa3318f103305703f3266c5",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "REWARD": "RLinf/RLinf:examples/reward/config/reward_training.yaml",
+    "SFT": "RLinf/RLinf:rlinf/models/embodiment/lingbotvla/sft_builder.py"
+   },
+   "hub_models": 19,
+   "hub_models_belongs_to": "rlinf/rlinf",
+   "stars_raw_not_for_ranking": 4363,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "embodied RL (robot/simulator-in-the-loop VLA training) or agentic RL where you need Ray-scheduled multi-node scaling and a choice between an FSDP backend (\"rapid adaptation to new models and algorithms, ideal for beginners and fast prototyping\") and a Megatron backend (\"optimized for large-scale training, delivering maximum efficiency for expert users with demanding workloads\"), each paired with SGLang or vLLM for generation",
+   "methods_it_ships": "the docs' own Reference > Algorithms index groups nine algorithms, each with a one-line summary and its own page: PPO, GRPO, DAPO (\"Decoupled-clip and dynamic-sampling policy optimization\"), Reinforce++ (\"An enhanced REINFORCE baseline\"), SAC, CrossQ (\"Sample-efficient off-policy RL without target networks\"), RLPD (\"RL with prior data\"), IQL (offline RL), and Async PPO (\"Asynchronous, pipelined PPO\")"
+  },
+  {
+   "name": "OpenManus-RL",
+   "repo": "https://github.com/OpenManus/OpenManus-RL",
+   "file": "references/OpenManus__OpenManus-RL.md",
+   "commit": "c66d493022bc4c58e875ba73e8f6a07dd5d499a2",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-05",
+   "methods_seen": {
+    "REWARD": "OpenManus/OpenManus-RL:openmanus_rl/environments/env_package/alfworld/alfworld/env/reward.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "openmanus/openmanus-rl",
+   "stars_raw_not_for_ranking": 4141,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick this only if you specifically want the agent-environment reward glue (ALFWorld subgoal/distance reward shaping, an LLM-judge reward for a tool-use environment) already wired to a verl PPO trainer - not as a general-purpose post-training library",
+   "methods_it_ships": "only PPO is shipped as a runnable script, for ALFWorld and WebShop, via verl's `main_ppo` entry point with per-environment config overrides"
+  },
+  {
+   "name": "OmniGen2",
+   "repo": "https://github.com/VectorSpaceLab/OmniGen2",
+   "file": "references/VectorSpaceLab__OmniGen2.md",
+   "commit": "18e6f9d5271b517fcb32e999f10df943ae9b8f20",
+   "licence": "Apache-2.0",
+   "language": "Jupyter Notebook",
+   "state": "live",
+   "last_push": "2026-03-20",
+   "methods_seen": {
+    "GRPO": "VectorSpaceLab/OmniGen2:OmniGen2-RL/omnigen2/grpo/reward_client_edit.py",
+    "REWARD": "VectorSpaceLab/OmniGen2:OmniGen2-RL/omnigen2/grpo/reward_client_edit.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "vectorspacelab/omnigen2",
+   "stars_raw_not_for_ranking": 4110,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick this repo only if the object you want to train IS OmniGen2 (or a fine-tune of it) - it is not a library you point at an arbitrary model, unlike trl or verl (cross-reference; not covered here)",
+   "methods_it_ships": "two, both scoped to the OmniGen2 architecture only, with no formal taxonomy page - this list is this card's own grouping of the repo's training entry points. (1) Supervised full-parameter or LoRA fine-tuning via the root `train.py`, configured from `options/ft.yml` or `options/ft_lora.yml`, documented in `docs/FINETUNE.md`. (2) Online RL fine-tuning via `OmniGen2-RL/train.py`, configured from `OmniGen2-RL/options/*.yml`; its loss function `compute_single_step_ppo_loss` in `OmniGen2-RL/omnigen2/grpo/utils.py` implements a clipped surrogate (\"Calculate two types of loss: original and clipped\" / \"Take maximum value (more conservative loss)\") over per-step flow-matching log-probabilities, with advantages computed by `process_grpo_rewards` as within-prompt-group, reward-standardized values"
+  },
+  {
+   "name": "FastVideo",
+   "repo": "https://github.com/hao-ai-lab/FastVideo",
+   "file": "references/hao-ai-lab__FastVideo.md",
+   "commit": "1b2b2a0161bc6b3b80158d1fa6380a051c6530c7",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "Trainer": "hao-ai-lab/FastVideo:fastvideo/train/trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "hao-ai-lab/fastvideo",
+   "stars_raw_not_for_ranking": 3901,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "post-training and serving diffusion-based video generators (Wan, Hunyuan, Cosmos, LTX and similar DiT-based video models) when you want one framework to cover full finetuning, LoRA, knowledge distillation, and distribution-matching distillation (DMD2/Self-Forcing) for video-specific attention sparsity (VSA) and sequence-parallel long-video training, all launched from the same YAML config surface",
+   "methods_it_ships": "at the v0.2.0 release tag, the `fastvideo/train/methods/` package holds five working, importable methods, confirmed by reading the release tree at commit `c62a8514b08871bdead5441f4d4d7df09b0848ee`: `FineTuneMethod` and `DiffusionForcingSFTMethod` (DFSFT, per-chunk timesteps for causal/streaming models) under `fine_tuning/`; `DMD2Method` and `SelfForcingMethod` (causal DMD for streaming generation) under `distribution_matching/`; `KDMethod` under `knowledge_distillation/`"
+  },
+  {
+   "name": "simpleRL-reason",
+   "repo": "https://github.com/hkust-nlp/simpleRL-reason",
+   "file": "references/hkust-nlp__simpleRL-reason.md",
+   "commit": "cf1c7858bfc145a27aa733e75d930d34f0d318a6",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-12-23",
+   "methods_seen": {
+    "SFT": "hkust-nlp/simpleRL-reason:verl/trainer/fsdp_sft_trainer.py",
+    "PPO": "hkust-nlp/simpleRL-reason:verl/trainer/config/ppo_megatron_trainer.yaml",
+    "REWARD": "hkust-nlp/simpleRL-reason:verl/workers/reward_model/megatron/reward_model.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "hkust-nlp/simplerl-reason",
+   "stars_raw_not_for_ranking": 3873,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "pick this repo only to reproduce the SimpleRL-Zoo paper's exact GRPO-on-math recipe (rule-based reward, GSM8K/MATH-derived data, one of ten named base models) - not as a general post-training library",
+   "methods_it_ships": "one entrypoint, `verl/trainer/main_ppo.py`, dispatched by the Hydra key `algorithm.adv_estimator` - the paper's GRPO recipe sets `adv_estimator=grpo` and is what the launch script and README quick start use; the same entrypoint's config file defaults to `adv_estimator=gae` (i.e"
+  },
+  {
+   "name": "LazyLLM",
+   "repo": "https://github.com/LazyAGI/LazyLLM",
+   "file": "references/LazyAGI__LazyLLM.md",
+   "commit": "28b6df1376f40f81974facdb9f206aad09c00fbc",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "REWARD": "LazyAGI/LazyLLM:lazyllm/components/finetune/easy_r1/reward_function/dapo.py",
+    "DAPO": "LazyAGI/LazyLLM:lazyllm/components/finetune/easy_r1/reward_function/dapo.py",
+    "SFT": "LazyAGI/LazyLLM:lazyllm/components/finetune/llama_factory/sft.yaml"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "lazyagi/lazyllm",
+   "stars_raw_not_for_ranking": 3858,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "you are already building a multi-agent or RAG application in LazyLLM and want to fine-tune the model that sits inside it without leaving the framework - `TrainableModule` chains fine-tune, deploy, and inference in one call and you never write a training script directly",
+   "methods_it_ships": "`lazyllm.finetune.*` exposes five functor classes confirmed in `lazyllm/components/finetune/__init__.py` at the screening commit: `AlpacaloraFinetune` (wraps the tloen/alpaca-lora method, LoRA SFT), `CollieFinetune` (wraps the Collie framework), `LlamafactoryFinetune` (wraps LLaMA-Factory, default LoRA SFT), `FlagembeddingFinetune` (embedding-model fine-tuning), and `EasyR1Finetune`"
+  },
+  {
+   "name": "open-instruct",
+   "repo": "https://github.com/allenai/open-instruct",
+   "file": "references/allenai__open-instruct.md",
+   "commit": "b18cfc57c07c37f6a90d8b86e4c2b24934944b50",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DPO": "allenai/open-instruct:open_instruct/dpo.py",
+    "GRPO": "allenai/open-instruct:open_instruct/grpo.py",
+    "REWARD": "allenai/open-instruct:open_instruct/reward_modeling.py",
+    "SFT": "allenai/open-instruct:scripts/data/rlvr_code/sft_to_rlvr_azure.py"
+   },
+   "hub_models": 11,
+   "hub_models_belongs_to": "allenai/open-instruct",
+   "stars_raw_not_for_ranking": 3815,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 3 curated lists"
+   ],
+   "when_to_pick": "reproducing or extending AI2's own Tulu/OLMo post-training recipes (SFT, DPO, reward modeling, GRPO with verifiable rewards), when you want the exact scripts and hyperparameters behind published Tulu 3 and Olmo 3 checkpoints",
+   "methods_it_ships": "SFT (`open_instruct/olmo_core_finetune.py`, recommended for OLMo/OLMoE/Qwen3, vs. legacy `open_instruct/finetune.py`); DPO (`open_instruct/dpo.py`, recommended, vs. legacy `open_instruct/dpo_tune_cache.py`), which the docs page also lists as supporting `dpo_norm`, `simpo`, and `wpo` loss-type variants via `--loss_type`; Reward Modeling (`open_instruct/reward_modeling.py`, the only variant); and GRPO for RLVR (`open_instruct/grpo.py`, OLMo-core + Ray + vLLM, vs. the DeepSpeed-based, packing-optimized `open_instruct/grpo_fast.py`). `open_instruct/finetune.py` carries a `DeprecationWarning` at its own entry point pointing readers to the OLMo-core SFT script instead"
+  },
+  {
+   "name": "DI-engine",
+   "repo": "https://github.com/opendilab/DI-engine",
+   "file": "references/opendilab__DI-engine.md",
+   "commit": "d0b21d065b2d80317cc16b28a95301be8871d950",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-12-07",
+   "methods_seen": {
+    "PPO": "opendilab/DI-engine:ding/bonus/ppo_offpolicy.py",
+    "GRPO": "opendilab/DI-engine:ding/rl_utils/grpo.py",
+    "RLHF": "opendilab/DI-engine:ding/utils/data/rlhf_offline_dataset.py",
+    "Trainer": "opendilab/DI-engine:ding/framework/middleware/functional/trainer.py"
+   },
+   "hub_models": 67,
+   "hub_models_belongs_to": "opendilab/di-engine",
+   "stars_raw_not_for_ranking": 3636,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "a classic/general deep-RL engine first - the README's own algorithm list runs to single/multi-agent DRL, imitation learning, offline RL, model-based RL and exploration algorithms, with \"LLM + RL Algorithms: PPO-max, DPO, PromptPG, PromptAWR\" as one category among many, not the library's focus",
+   "methods_it_ships": "DI-engine groups its methods in the README's \"Algorithm Versatility\" table, which lists a doc link and source path per algorithm (57 rows read) - among them PPO/MAPPO at `ding/policy/ppo.py` and PromptPG at `ding/policy/prompt_pg.py`, both with doc pages"
+  },
+  {
+   "name": "rl",
+   "repo": "https://github.com/pytorch/rl",
+   "file": "references/pytorch__rl.md",
+   "commit": "fa08a50974d69f22891bb54b06dca22cdfc79d5f",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-08-05",
+   "methods_seen": {
+    "REWARD": "pytorch/rl:examples/rlhf/models/reward.py",
+    "RLHF": "pytorch/rl:examples/rlhf/models/reward.py",
+    "PPO": "pytorch/rl:sota-implementations/gail/ppo_utils.py",
+    "GRPO": "pytorch/rl:sota-implementations/grpo/config/grpo_countdown.yaml",
+    "SFT": "pytorch/rl:torchrl/objectives/llm/sft.py"
+   },
+   "hub_models": 522,
+   "hub_models_belongs_to": "pytorch/rl",
+   "stars_raw_not_for_ranking": 3511,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick it when you are already building on TorchRL's environment/collector/replay-buffer primitives, or specifically want GRPO/DAPO/CISPO or SFT losses assembled from those primitives with Ray-orchestrated sync or async generation; the README itself frames LLM post-training as an \"additional specialized workflow\" layered on a general RL toolkit, not the library's primary purpose",
+   "methods_it_ships": "for LLM post-training, `torchrl.objectives.llm` exposes `GRPOLoss` (\"GRPO loss.\"), `CISPOLoss` (\"CISPO (Clipped Importance Sampling Policy Optimization).\"), `DAPO` (\"DAPO (Clip-Higher over GRPO).\"), and `SFTLoss` (\"Supervised fine-tuning loss.\"), plus their paired `*LossOutput` classes and an `MCAdvantage` (\"Monte-Carlo advantage computation engine.\") advantage estimator"
+  },
+  {
+   "name": "distilabel",
+   "repo": "https://github.com/argilla-io/distilabel",
+   "file": "references/argilla-io__distilabel.md",
+   "commit": "313fac85b1a2472dd88db1a31c2b754599f46476",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-27",
+   "methods_seen": {
+    "DPO": "argilla-io/distilabel:src/distilabel/steps/formatting/dpo.py",
+    "SFT": "argilla-io/distilabel:src/distilabel/steps/formatting/sft.py"
+   },
+   "hub_models": 51,
+   "hub_models_belongs_to": "argilla-io/distilabel",
+   "stars_raw_not_for_ranking": 3347,
+   "found_by": [
+    "readme-search",
+    "topic-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "topic/readme hit whose description names a method and a tool"
+   ],
+   "when_to_pick": "pick distilabel when the task is to generate or reshape a dataset with LLM calls - instruction generation, model-judging/AI-feedback, evaluation, or converting raw generations into SFT- or DPO-shaped rows - not when the task is to run a training loop; distilabel ships no optimizer, loss, or gradient-update code anywhere in the two formatting-step files or the pipeline API read for this card",
+   "methods_it_ships": "not training methods but two dataset-formatting `Step` pairs under `distilabel.steps.formatting`: `FormatTextGenerationDPO`/`FormatChatGenerationDPO`, which pick the highest- and lowest-rated of a list of `generations` as `chosen`/`rejected` and emit `prompt`, `prompt_id`, `chosen`, `chosen_rating`, `rejected`, `rejected_rating`; and `FormatTextGenerationSFT`/`FormatChatGenerationSFT`, which convert an `instruction`/`messages` plus a single `generation` into a chat-format `messages` column plus `prompt`/`prompt_id`"
+  },
+  {
+   "name": "ROLL",
+   "repo": "https://github.com/alibaba/ROLL",
+   "file": "references/alibaba__ROLL.md",
+   "commit": "370cb24c1036ea9145365478fcc40612b2186fc8",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DPO": "alibaba/ROLL:mcore_adapter/src/mcore_adapter/trainer/dpo_trainer.py",
+    "SFT": "alibaba/ROLL:examples/qwen2.5-7B-sft_megatron/sft_config.yaml",
+    "REWARD": "alibaba/ROLL:roll/distributed/scheduler/reward_scheduler.py",
+    "Trainer": "alibaba/ROLL:mcore_adapter/src/mcore_adapter/trainer/trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "alibaba/roll",
+   "hub_count_note": "'ROLL' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=ROLL): 0. Loose substring match (search=ROLL): 884; of the 300 ids sampled from it, 0 match 'ROLL' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 3339,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "credited package mcore_adapter sits at this repo's root",
+    "linked from 3 curated lists",
+    "named by the lead from the prior investigation"
+   ],
+   "when_to_pick": "cluster-scale, Ray-orchestrated RL post-training where training and generation roles need independent, heterogeneous device placement (colocated or fully disaggregated) - a different shape from trl's Accelerate-launched, one-model-per-process pattern (cross-reference; not covered here) and closer to verl's Ray-based design (cross-reference; not covered here), among Ray-based options weigh how each project's own docs and examples cover your target scale and hardware",
+   "methods_it_ships": "methods are organized as five pipeline types under `roll/pipeline/` - `agentic`, `rlvr`, `dpo`, `distill`, `sft` - not as one trainer class per method"
+  },
+  {
+   "name": "agents",
+   "repo": "https://github.com/tensorflow/agents",
+   "file": "references/tensorflow__agents.md",
+   "commit": "eb24cf5f93f99ed78261975cc61a7fc648febcd5",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-01-16",
+   "methods_seen": {
+    "PPO": "tensorflow/agents:tf_agents/agents/ppo/ppo_actor_network.py",
+    "REWARD": "tensorflow/agents:tf_agents/bandits/policies/reward_prediction_base_policy.py",
+    "Trainer": "tensorflow/agents:tf_agents/bandits/agents/examples/v2/trainer.py"
+   },
+   "hub_models": 240,
+   "hub_models_belongs_to": "tensorflow/agents",
+   "hub_count_note": "2 repositories in this index are named exactly 'agents'. The count is attributed to this one because PyPI publishes the package from here; the others carry null. 'agents' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=agents): 240. Loose substring match (search=agents): 1213; of the 300 ids sampled from it, 16 match 'agents' case-sensitively at a word boundary. Of the tag-matched models, 46 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (46) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 3021,
+   "found_by": [
+    "awesome-lists",
+    "path-mining",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick it for classic RL or contextual-bandits research on Gym/PyEnvironment-style simulated environments inside the TensorFlow ecosystem - it is not built for fine-tuning transformer language models, which is what sibling cards like trl and verl target",
+   "methods_it_ships": "the README's headline algorithm list is DQN, DDQN, DDPG, TD3, REINFORCE, PPO, and SAC, each with its defining paper (method math and training-signal semantics live on each method's own card, not here)"
+  },
+  {
+   "name": "direct-preference-optimization",
+   "repo": "https://github.com/eric-mitchell/direct-preference-optimization",
+   "file": "references/eric-mitchell__direct-preference-optimization.md",
+   "commit": "f8b8c0f49dc92a430bae41585f9d467d3618fe2f",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2024-08-11",
+   "methods_seen": {
+    "DPO": "eric-mitchell/direct-preference-optimization:config/loss/dpo.yaml",
+    "SFT": "eric-mitchell/direct-preference-optimization:config/loss/sft.yaml"
+   },
+   "hub_models": 19,
+   "hub_models_belongs_to": "eric-mitchell/direct-preference-optimization",
+   "stars_raw_not_for_ranking": 2898,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "the historical reference to check a DPO re-implementation against, or to run the exact two-stage SFT-then-DPO recipe from the original paper on a Pythia/GPT-2/Llama model with minimal machinery - not a library to build a production or multi-method pipeline on",
+   "methods_it_ships": "DPO (`loss=dpo`, config at `config/loss/dpo.yaml`, with `loss.beta` required and `loss.label_smoothing` giving \"conservative\" DPO - a noisy-preference variant - at nonzero values) and SFT (`loss=sft`, config at `config/loss/sft.yaml`, which holds only a `name: sft` key)"
+  },
+  {
+   "name": "RAGEN",
+   "repo": "https://github.com/mll-lab-nu/RAGEN",
+   "file": "references/mll-lab-nu__RAGEN.md",
+   "commit": "20daedc47558e000f7de912b060646bf2e8026bd",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-24",
+   "methods_seen": {
+    "REWARD": "mll-lab-nu/RAGEN:ragen/env/search/reward.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "mll-lab-nu/ragen",
+   "stars_raw_not_for_ranking": 2759,
+   "former_names": [
+    "RAGEN-AI/RAGEN"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "pick RAGEN when the goal is reproducing or extending its own StarPO multi-turn-agent research - its ten built-in interactive environments (Sokoban, FrozenLake, WebShop, DeepCoder, SearchQA, Lean, Bandit, Countdown, MetaMathQA, Sudoku) and its reasoning-collapse diagnostics (mutual-information and conditional-entropy proxy metrics, SNR-Adaptive rollout filtering) are not offered by general post-training libraries",
+   "methods_it_ships": "RAGEN's own algorithmic layer is **StarPO** (State-Thinking-Actions-Reward Policy Optimization), described in the README as \"a unified RL framework for training multi-turn, trajectory-level agents\", which supports two update rules: PPO with token-level advantage estimation via a value function, and GRPO with a trajectory-level normalized reward. `config/base.yaml` sets `algorithm.adv_estimator: gae` for PPO or `grpo` for GRPO, and separately sets `algorithm.gamma: 1.0` and `algorithm.lam: 1.0` (the GAE discount and lambda)"
+  },
+  {
+   "name": "xTuring",
+   "repo": "https://github.com/stochasticai/xTuring",
+   "file": "references/stochasticai__xTuring.md",
+   "commit": "fb16cc2b3bd5dde09167a4079580f05f91b5dcda",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-03-04",
+   "methods_seen": {
+    "DPO": "stochasticai/xTuring:src/xturing/trainers/dpo_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "stochasticai/xturing",
+   "stars_raw_not_for_ranking": 2672,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick xTuring only if you can build from the GitHub HEAD, not from PyPI. **The row's pinned commit (`fb16cc2b3`, 2026-03-04) is roughly two and a half years ahead of the newest actual release, `v0.1.8`, tagged at commit `fbeea1a8` and published 2023-09-07** - and PyPI still serves that same `0.1.8` build today. `pip install xturing` therefore installs code that predates Qwen3, GPT-OSS, MiniMax M2, Mamba, and DPO entirely (a keyword grep of the v0.1.8 README for `qwen`, `gpt_oss`, `mamba`, and `minimax` returns zero hits); every model and method named on this card past that point exists only if you `pip install git+https://github.com/stochasticai/xTuring@fb16cc2b3bd5dde09167a4079580f05f91b5dcda` or clone and `pip install -e.` at that commit",
+   "methods_it_ships": "supervised fine-tuning via `.finetune`, run through an in-repo PyTorch Lightning trainer (`lightning_trainer.py`, `config_name = \"lightning_trainer\"`) that logs a single `\"loss\"` scalar; and DPO (Direct Preference Optimization) via `.dpo_finetune`, run through a separate in-house trainer (`dpo_trainer.py`, `config_name = \"dpo_trainer\"`) that deep-copies a frozen reference model and logs `\"loss\"` and `\"reward_margin\"`"
+  },
+  {
+   "name": "dllm",
+   "repo": "https://github.com/ZHZisZZ/dllm",
+   "file": "references/ZHZisZZ__dllm.md",
+   "commit": "ca176752fbceec49c6b4777a2c18ae88e4eb10ed",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-17",
+   "methods_seen": {
+    "SFT": "ZHZisZZ/dllm:examples/a2d/bd3lm/sft.py",
+    "Trainer": "ZHZisZZ/dllm:dllm/pipelines/dream/trainer.py",
+    "GRPO": "ZHZisZZ/dllm:dllm/pipelines/rl/grpo/trainer.py"
+   },
+   "hub_models": 78,
+   "hub_models_belongs_to": "zhziszz/dllm",
+   "stars_raw_not_for_ranking": 2658,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "training or evaluating diffusion language models specifically - masked diffusion (MDLM), block diffusion (BD3LM), and GRPO reinforcement learning for them - including reference recipes for converting an existing autoregressive model (e.g",
+   "methods_it_ships": "two reusable \"core\" trainer classes under `dllm.core.trainers` - `MDLMTrainer`/`MDLMConfig` implementing the masked diffusion LM loss, and `BD3LMTrainer`/`BD3LMConfig` (subclasses `MDLMConfig`, adds `block_size`) implementing block-diffusion loss with a specialized block-causal attention mask. `DreamTrainer(MDLMTrainer)` is a pipeline-level specialization for the Dream model that overrides the loss-weighting scheme (`loss_weight_type=\"cart[geo_p:0.3]\"`) rather than a separate top-level method"
+  },
+  {
+   "name": "OpenEnv",
+   "repo": "https://github.com/huggingface/OpenEnv",
+   "file": "references/huggingface__OpenEnv.md",
+   "commit": "024eedc90305cc8bd7a5b44f44d1b987102e957b",
+   "licence": "BSD-3-Clause",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "GRPO": "huggingface/OpenEnv:examples/grpo_blackjack/grpo_utils.py"
+   },
+   "hub_models": 2,
+   "hub_models_belongs_to": "huggingface/openenv",
+   "stars_raw_not_for_ranking": 2463,
+   "former_names": [
+    "meta-pytorch/OpenEnv"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick OpenEnv when you need a standardized, containerized environment server to plug into an RL trainer's rollout loop — its own docs list TRL's `GRPOTrainer(environment_factory=...)` as \"the native path\" for this, with OpenReward and Harbor named as interchangeable alternatives at the same `environment_factory` contract",
+   "methods_it_ships": "none"
+  },
+  {
+   "name": "flow_grpo",
+   "repo": "https://github.com/yifan123/flow_grpo",
+   "file": "references/yifan123__flow_grpo.md",
+   "commit": "879042cf5707f8b90daa98d147d7deac2317c5da",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-07",
+   "methods_seen": {
+    "DPO": "yifan123/flow_grpo:config/dpo.py",
+    "GRPO": "yifan123/flow_grpo:config/grpo.py",
+    "SFT": "yifan123/flow_grpo:config/sft.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "yifan123/flow_grpo",
+   "stars_raw_not_for_ranking": 2449,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "pick it if you specifically need to reproduce or extend Flow-GRPO, Flow-DPO, or GRPO-Guard on flow-matching image/video backbones (SD3.5-medium, FLUX.1-dev, FLUX.1-Kontext-dev, Qwen-Image, Qwen-Image-Edit, Wan2.1, Bagel-7B) with the paper's own reward-model zoo (GenEval, OCR, PickScore, DeQA, ImageReward, UnifiedReward, aesthetic, JPEG compressibility)"
+  },
+  {
+   "name": "tunix",
+   "repo": "https://github.com/google/tunix",
+   "file": "references/google__tunix.md",
+   "commit": "f1922757f84909bd1b931ec879e5248d4e9400c4",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "ORPO": "google/tunix:tests/sft/dpo/orpo_trainer_test.py"
+   },
+   "hub_models": 9,
+   "hub_models_belongs_to": "google/tunix",
+   "stars_raw_not_for_ranking": 2391,
+   "found_by": [
+    "code-search:class-form",
+    "pyproject",
+    "readme-search"
+   ],
+   "when_to_pick": "post-training on TPUs (or GPU/CPU) inside a JAX/Flax stack, when you want native `vLLM`/`SGLang-JAX` rollout for online RL and Pathways-based multi-host scale-out, rather than a PyTorch-ecosystem trainer like trl or a Ray-orchestrated cluster like verl (cross-reference; not covered here)"
+  },
+  {
+   "name": "maxtext",
+   "repo": "https://github.com/AI-Hypercomputer/maxtext",
+   "file": "references/AI-Hypercomputer__maxtext.md",
+   "commit": "f26b2547956db2055f1517eddd35ea13d78caed4",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-08-05",
+   "methods_seen": {
+    "GRPO": "AI-Hypercomputer/maxtext:tests/post_training/integration/grpo_trainer_correctness_test.py"
+   },
+   "hub_models": 14,
+   "hub_models_belongs_to": "ai-hypercomputer/maxtext",
+   "stars_raw_not_for_ranking": 2380,
+   "former_names": [
+    "google/maxtext"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "code-search:class-form",
+    "code-search:filename-form",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick MaxText specifically for TPU-first pre-training and post-training in pure JAX/Flax, where checkpoints and sharding stay in the Orbax/JAX world throughout; the README states pre-training scales \"up to tens of thousands of chips\" and post-training covers \"Supervised Fine-Tuning (SFT) and Group Relative Policy Optimization (GRPO,...) and Group Sequence Policy Optimization (GSPO,...)\". This is a narrower method menu than a PyTorch-first, Hub-native library like trl — pick trl instead if you need broader method coverage or a Hub-native, PyTorch-first workflow (cross-reference; not covered here, and no cross-framework method count is asserted here since that comparison belongs on the card deck)",
+   "methods_it_ships": "SFT (`maxtext.trainers.post_train.sft.train_sft`), DPO (`maxtext.trainers.post_train.dpo.train_dpo`, which also supports ORPO per the docs tutorial's title \"Preference Optimization (DPO & ORPO) on Single-Host TPUs\"), RL via GRPO and GSPO (`maxtext.trainers.post_train.rl.train_rl`, selected with the config key `loss_algo: 'grpo'` or `'gspo-token'`), and knowledge distillation (`maxtext.trainers.post_train.distillation`, present as a directory with a `train_distill.py` script and its own README, not read in detail for this card)"
+  },
+  {
+   "name": "GLM-V",
+   "repo": "https://github.com/zai-org/GLM-V",
+   "file": "references/zai-org__GLM-V.md",
+   "commit": "726dac56ddde6d33f72bd62967322e15f61a8471",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-21",
+   "methods_seen": {
+    "REWARD": "zai-org/GLM-V:glmv_reward/examples/reward_system_demo.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "zai-org/glm-v",
+   "stars_raw_not_for_ranking": 2363,
+   "former_names": [
+    "THUDM/GLM-4.1V-Thinking"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "not a general post-training framework choice at all — pick `glmv_reward` specifically when you need the same rule-based-plus-LLM-judge verifiers (math, chart, OCR, VQA, GUI-agent,...) that Zai used to reward-score rollouts for GLM-4.1V-Thinking, and you already have your own RL trainer (e.g. verl, trl, or a custom loop) to consume the scores it returns; it ships no trainer, no distributed launcher, and no GPU code, so it cannot replace verl/trl for running the actual policy update",
+   "methods_it_ships": "one, REWARD — the `glmv_reward` verifier system"
+  },
+  {
+   "name": "Visual-RFT",
+   "repo": "https://github.com/Liuziyu77/Visual-RFT",
+   "file": "references/Liuziyu77__Visual-RFT.md",
+   "commit": "2ffad63b25ddd79bfe25d3e046645401201c89d6",
+   "licence": "Apache-2.0",
+   "language": "Jupyter Notebook",
+   "state": "live",
+   "last_push": "2025-10-29",
+   "methods_seen": {
+    "GRPO": "Liuziyu77/Visual-RFT:src/virft/src/open_r1/trainer/grpo_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "liuziyu77/visual-rft",
+   "stars_raw_not_for_ranking": 2263,
+   "found_by": [
+    "awesome-lists",
+    "code-search:filename-form",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "reproducing the Visual-RFT/Visual-ARFT papers' GRPO recipe on Qwen2-VL or Qwen2.5-VL, or as a worked example of rule-based (IoU, confidence, format) reward functions for visual perception GRPO. It is not a general-purpose trainer: the package installs as `open-r1` version `0.1.0.dev0`, its `setup.py` is copyrighted \"The HuggingFace Team\" and its `url` field still points at `github.com/huggingface/open-r1`, and its main-loop `reward_funcs` are hardcoded in code rather than left as a CLI choice (`grpo.py` overwrites `script_args.reward_funcs` to `['accuracy_iou','accuracy_confidence','format']` right before building the reward list, ignoring whatever the CLI passed)",
+   "methods_it_ships": "GRPO only, in two task-specialized codepaths that do not share a class hierarchy with each other beyond both subclassing `transformers.Trainer`: `Qwen2VLGRPOTrainer` / `Qwen2VLGRPOVLLMTrainer` in `src/virft/src/open_r1/trainer/grpo_trainer.py` and `vllm_grpo_trainer.py` for Visual-RFT's perception tasks, and a separate copy of the same trainer files under `Visual-ARFT/src/visual_arft/src/open_r1/trainer/` for the agentic tasks, confirmed present in the repository's git tree at the pinned commit. `vllm_grpo_trainer.py` is selected automatically when the `--use_vllm` training flag is set, giving accelerated rollout generation on the same or separate GPUs"
+  },
+  {
+   "name": "verl-agent",
+   "repo": "https://github.com/langfengQ/verl-agent",
+   "file": "references/langfengQ__verl-agent.md",
+   "commit": "20bd331bdbc9026a5668e11362178e10ab7400c8",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-06-09",
+   "methods_seen": {
+    "DAPO": "langfengQ/verl-agent:recipe/dapo/dapo_ray_trainer.py",
+    "SPPO": "langfengQ/verl-agent:recipe/sppo/sppo_ray_trainer.py",
+    "SFT": "langfengQ/verl-agent:verl/trainer/fsdp_sft_trainer.py",
+    "REWARD": "langfengQ/verl-agent:agent_system/environments/env_package/alfworld/alfworld/env/reward.py",
+    "PPO": "langfengQ/verl-agent:examples/split_placement/config/ppo_trainer_split.yaml"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "langfengq/verl-agent",
+   "stars_raw_not_for_ranking": 2166,
+   "found_by": [
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "topic/readme hit whose description names a method and a tool"
+   ],
+   "when_to_pick": "you need an agent training loop - multi-turn, environment-in-the-loop rollouts with group-based credit assignment - rather than the single-turn RLHF/RLVR loop base verl and trl both assume; the README's own contrast is \"unlike prior approaches that simply concatenate full interaction histories\" it decouples per-step inputs from history"
+  },
+  {
+   "name": "SkyRL",
+   "repo": "https://github.com/NovaSky-AI/SkyRL",
+   "file": "references/NovaSky-AI__SkyRL.md",
+   "commit": "7bc2524025e22c3feb2399745b6859f2b81490c0",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DAPO": "NovaSky-AI/SkyRL:examples/train/algorithms/dapo/main_dapo.py",
+    "SFT": "NovaSky-AI/SkyRL:skyrl/train/sft_trainer.py"
+   },
+   "hub_count_note": "2 repositories in this index are named exactly 'SkyRL' and none could be shown to own it, so none carries the count. The name's total is in hub_models_name_total.",
+   "stars_raw_not_for_ranking": 2107,
+   "found_by": [
+    "awesome-lists",
+    "code-search:class-form",
+    "path-mining",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "credited package skyrl sits at this repo's root",
+    "linked from 2 curated lists",
+    "path mining verified it owns package skyrl",
+    "repository name matches credited package skyrl"
+   ],
+   "when_to_pick": "an RL post-training stack built specifically around Ray placement groups and a strict separation of the training backend (FSDP or Megatron) from the vLLM generation engine, useful when you want fine control over GPU placement/colocation and parallelism dimensions (including Megatron's 5-way tensor/pipeline/context/expert/data split)",
+   "methods_it_ships": "the repository tree confirms two concrete trainer entry points, `examples/train/algorithms/dapo/main_dapo.py` for DAPO and `skyrl/train/sft_trainer.py` for SFT. The docs' Algorithms section documents DAPO as GRPO plus four components - Clip-Higher (`trainer.algorithm.eps_clip_high` set separately from `eps_clip_low`), Dynamic Sampling (`trainer.algorithm.dynamic_sampling.type=\"filter\"` with `max_sample_batches`), Token-Level Policy Gradient Loss (`trainer.algorithm.loss_reduction=\"token_mean\"`, and the docs state this is SkyRL's default setting), and Overlong Reward Shaping (`generator.apply_overlong_filtering=true`, or a custom `DAPOTrainer` subclass)"
+  },
+  {
+   "name": "RL",
+   "repo": "https://github.com/NVIDIA-NeMo/RL",
+   "file": "references/NVIDIA-NeMo__RL.md",
+   "commit": "e08fc276e41b9f4fef69a0b91f6f384ad1964f3d",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DPO": "NVIDIA-NeMo/RL:examples/configs/dpo.yaml",
+    "GRPO": "NVIDIA-NeMo/RL:examples/configs/grpo_math_1B.yaml",
+    "PPO": "NVIDIA-NeMo/RL:examples/configs/ppo_math_1B.yaml",
+    "SFT": "NVIDIA-NeMo/RL:examples/configs/sft.yaml"
+   },
+   "hub_models": 241,
+   "hub_models_belongs_to": "nvidia-nemo/rl",
+   "stars_raw_not_for_ranking": 1863,
+   "found_by": [
+    "awesome-lists",
+    "pyproject",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists",
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "post-training when you want NVIDIA's own Megatron Core parallelisms (TP/PP/CP/SP/EP/FSDP) for large or long-context models, or a PyTorch-native DTensor path for smaller experiments, with generation offloaded to vLLM, SGLang, or a weight-conversion-free Megatron-native inference path"
+  },
+  {
+   "name": "augmentoolkit",
+   "repo": "https://github.com/e-p-armstrong/augmentoolkit",
+   "file": "references/e-p-armstrong__augmentoolkit.md",
+   "commit": "ec18b905f8a2fc1d64d345c04856cf2f036d9fc6",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-06-27",
+   "methods_seen": {
+    "GRPO": "e-p-armstrong/augmentoolkit:generation/core_pipelines/do_grpo_rl_with_a_prompt/grpo_trainer_subclass.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "e-p-armstrong/augmentoolkit",
+   "stars_raw_not_for_ranking": 1858,
+   "found_by": [
+    "awesome-lists",
+    "code-search:class-form",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick augmentoolkit when the task is turning your own documents into a continued-pretraining-plus-SFT dataset for teaching an LLM a new factual domain, and you want the pipeline to also hand you ready-to-run Axolotl configs for that data; it is not a general RL or SFT trainer in the shape of trl or verl (cross-reference; not covered here) - its only bundled training loop is one experimental GRPO pipeline for prompt-defined reward alignment, and even that pipeline delegates the actual `GRPOTrainer` step to Hugging Face's trl",
+   "methods_it_ships": "one training pipeline, GRPO, at `generation/core_pipelines/do_grpo_rl_with_a_prompt/`"
+  },
+  {
+   "name": "miles",
+   "repo": "https://github.com/radixark/miles",
+   "file": "references/radixark__miles.md",
+   "commit": "d9e3c3b394c9c50746bb0c9174b7e1afcbb03d96",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "REWARD": "radixark/miles:examples/experimental/formal_math/single_round/reward_fn.py",
+    "DAPO": "radixark/miles:examples/multi_lora/adapters/dapo_math.yaml",
+    "SFT": "radixark/miles:miles/rollout/sft_rollout.py"
+   },
+   "hub_models": 10,
+   "hub_models_belongs_to": "radixark/miles",
+   "hub_count_note": "'miles' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=miles): 10. Loose substring match (search=miles): 135; of the 135 ids sampled from it, 12 match 'miles' case-sensitively at a word boundary. Of the tag-matched models, 10 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (10) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 1830,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "production-shaped RL post-training at MoE / trillion-parameter scale on NVIDIA Hopper or Blackwell (with AMD MI300X-class ROCm support), when you want a Megatron-LM training backend with unified low-precision (FP8/MXFP8) rollout-training and rank-level fault tolerance built in, rather than trl's single-machine-first Accelerate/DeepSpeed story or a research-first framework without those production features",
+   "methods_it_ships": "the RL objective is selected with `--advantage-estimator`, whose documented enum is `grpo` (default), `gspo`, `ppo`, `reinforce_plus_plus`, `reinforce_plus_plus_baseline`, and `on_policy_distillation`"
+  },
+  {
+   "name": "sonar",
+   "repo": "https://github.com/dphnAI/sonar",
+   "file": "references/dphnAI__sonar.md",
+   "commit": "94349283951fd16e7003b38d8505f31276543a9d",
+   "licence": "AGPL-3.0",
+   "language": "C++",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "RLHF": "dphnAI/sonar:aphrodite/entrypoints/serve/dev/rlhf/__init__.py"
+   },
+   "hub_models": 23,
+   "hub_models_belongs_to": "dphnai/sonar",
+   "hub_count_note": "'sonar' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=sonar): 23. Loose substring match (search=sonar): 77; of the 77 ids sampled from it, 39 match 'sonar' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 1817,
+   "found_by": [
+    "awesome-lists",
+    "topic-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick Sonar when you need to serve a Hugging Face-compatible model - for production traffic, or as the generation/rollout backend behind an online RL training loop run by a separate library - and you want one process per replica with continuous batching, paged KV-cache, quantization, and speculative decoding",
+   "methods_it_ships": "none"
+  },
+  {
+   "name": "SimpleVLA-RL",
+   "repo": "https://github.com/PRIME-RL/SimpleVLA-RL",
+   "file": "references/PRIME-RL__SimpleVLA-RL.md",
+   "commit": "7c51662df27b586f9e8a1ab35fcf849f2b8852f9",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-01-06",
+   "methods_seen": {
+    "SFT": "PRIME-RL/SimpleVLA-RL:verl/trainer/fsdp_sft_trainer.py",
+    "PPO": "PRIME-RL/SimpleVLA-RL:verl/trainer/config/ppo_megatron_trainer.yaml",
+    "REWARD": "PRIME-RL/SimpleVLA-RL:verl/workers/reward_model/megatron/reward_model.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "prime-rl/simplevla-rl",
+   "stars_raw_not_for_ranking": 1800,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "pick this over a general-purpose LLM post-training library (trl, verl) when the policy is a VLA model (OpenVLA or OpenVLA-OFT) being trained against a simulated manipulation benchmark, because the environment rollout, action-chunk handling, and binary success-reward wiring are already built for that loop; the README documents support for two VLA backbones (OpenVLA, OpenVLA-OFT) and three benchmarks (LIBERO, RoboTwin 1.0/2.0), and states that other models \"may need to fine-tune them yourself\" first",
+   "methods_it_ships": "the only trainer loop this repository documents running end-to-end is an online policy-gradient RL loop launched via `main_ppo.py` / `RayTrainer.fit`; despite the \"ppo\" naming, both bundled quickstart scripts set `algorithm.adv_estimator=grpo`, while the shipped Hydra default is `algorithm.adv_estimator: gae` (i.e"
+  },
+  {
+   "name": "prime-rl",
+   "repo": "https://github.com/PrimeIntellect-ai/prime-rl",
+   "file": "references/PrimeIntellect-ai__prime-rl.md",
+   "commit": "bbb90a1b4132c351cbe8b0ed1fa808dde99f0318",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "SFT": "PrimeIntellect-ai/prime-rl:examples/basic/reverse-text/sft.toml",
+    "GRPO": "PrimeIntellect-ai/prime-rl:src/prime_rl/orchestrator/algo/grpo.py",
+    "Trainer": "PrimeIntellect-ai/prime-rl:src/prime_rl/entrypoints/trainer.py"
+   },
+   "hub_models": 74,
+   "hub_models_belongs_to": "primeintellect-ai/prime-rl",
+   "stars_raw_not_for_ranking": 1788,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists",
+    "repository name matches credited package prime_rl"
+   ],
+   "when_to_pick": "agentic and multi-turn online RL against Prime Intellect's `verifiers` environments (tool use, sandboxes, long-horizon rollouts), when you need MoE-scale trainer parallelism (expert parallelism with DeepEP kernels, context parallelism for long sequences) and SLURM-native multi-node deployment out of the box; weigh trl or verl instead if you want a Hub-native trainer-class API or you are not building on the `verifiers`/Environments Hub ecosystem (cross-reference; not covered here)",
+   "methods_it_ships": "algorithms are configured, not imported — set `[orchestrator.algo].type` per run or per environment"
+  },
+  {
+   "name": "RL-Factory",
+   "repo": "https://github.com/Simple-Efficient/RL-Factory",
+   "file": "references/Simple-Efficient__RL-Factory.md",
+   "commit": "d0abc1dbac31cf936af4d4a50009e337a9406f94",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-12-05",
+   "methods_seen": {
+    "DAPO": "Simple-Efficient/RL-Factory:recipe/dapo/dapo_ray_trainer.py",
+    "SPPO": "Simple-Efficient/RL-Factory:recipe/sppo/sppo_ray_trainer.py",
+    "SFT": "Simple-Efficient/RL-Factory:verl/trainer/fsdp_sft_trainer.py",
+    "REWARD": "Simple-Efficient/RL-Factory:environments/env_package/android/reward_evaluator.py",
+    "PPO": "Simple-Efficient/RL-Factory:examples/split_placement/config/ppo_trainer_split.yaml"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "simple-efficient/rl-factory",
+   "stars_raw_not_for_ranking": 1775,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "you want multi-turn agentic tool-use training (MCP tool servers, async parallel tool execution, loss-masked tool-call tokens, and an optional model-judge reward worker) layered onto a familiar verl-style Hydra config and launch-script workflow, and you are willing to install and pin a vendored verl 0.5.0 stack yourself",
+   "methods_it_ships": "the repository's own recipe and worker code demonstrates GRPO as its primary trained algorithm (`algorithm.adv_estimator=grpo` in the shipped `main_grpo.sh` launch script) and standard PPO with GAE and a critic (`algorithm.adv_estimator=gae` in `main_ppo.sh`), both invoking `verl.trainer.main_ppo` with a `rl_factory_ppo_trainer` Hydra config that overlays RL-Factory's `env:` and `reward_rollout:` blocks on top of verl's own `ppo_trainer.yaml`. `recipe/dapo/` and `recipe/sppo/` are present in the tree, but their own READMEs identify them as verl's upstream DAPO and SPPO implementations verbatim: the DAPO README instructs cloning `volcengine/verl` and checking out a specific verl branch/commit for its reported 52%-AIME-2024 reproduction, crediting Yuxuan Tong and Guangming Sheng; the SPPO README instructs `git clone git@github.com:volcengine/verl.git` and credits Yuhao Yang and Chenyang Zhao as \"verl Implementation Authors\" for its reported MATH-dataset run. `verl/trainer/fsdp_sft_trainer.py` supplies SFT and is verl's own unmodified file"
+  },
+  {
+   "name": "simple_GRPO",
+   "repo": "https://github.com/lsdefine/simple_GRPO",
+   "file": "references/lsdefine__simple_GRPO.md",
+   "commit": "30f252ce368c03556662eeaf0023809c38cff6f9",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-11-21",
+   "methods_seen": {
+    "GRPO": "lsdefine/simple_GRPO:grpo_vllm_one.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "lsdefine/simple_grpo",
+   "stars_raw_not_for_ranking": 1700,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "pick this when you want to read or modify a complete, working GRPO training loop in one sitting - loss, KL penalty, clipping, and the generation/training split are all in two files with no framework abstraction layer between you and the code",
+   "methods_it_ships": "GRPO is the documented, primary method, in the top-level `grpo_vllm_one.py`"
+  },
+  {
+   "name": "rl-swarm",
+   "repo": "https://github.com/gensyn-ai/rl-swarm",
+   "file": "references/gensyn-ai__rl-swarm.md",
+   "commit": "9c95410b1ac0d0a6005513c276b6b84f6db13bcd",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-01-05",
+   "methods_seen": {
+    "GRPO": "gensyn-ai/rl-swarm:code_gen_exp/src/trainer.py"
+   },
+   "hub_models": 10864,
+   "hub_models_belongs_to": "gensyn-ai/rl-swarm",
+   "hub_count_note": "2 repositories in this index are named exactly 'rl-swarm'. The count is attributed to this one; the others carry null. Inferred from size, NOT proven: this repository is the only claimant large enough to be the one 10864 model authors meant. It beat justwelly-0/rl-swarm. Stars were used to compare these same-name repositories and appear in no ranking.",
+   "stars_raw_not_for_ranking": 1682,
+   "found_by": [
+    "code-search:class-form",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "named by the lead from the prior investigation"
+   ],
+   "when_to_pick": "pick this only to run a node in Gensyn's own decentralized CodeZero swarm - training a fixed, maintainer-defined code-generation task under GRPO (Solver role) coordinated over a peer-to-peer network and an on-chain smart contract - not as a general post-training library for your own model/dataset/method, which is the trl or verl use case instead (cross-reference; not covered here)",
+   "methods_it_ships": "two methods run inside one CodeZero round, one per role, neither exposed as a general-purpose trainer class"
+  },
+  {
+   "name": "BLIP3o",
+   "repo": "https://github.com/JiuhaiChen/BLIP3o",
+   "file": "references/JiuhaiChen__BLIP3o.md",
+   "commit": "d0b0a1c46e15db22f2b460cee930a81f16afeef7",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-11-29",
+   "methods_seen": {
+    "DDPO": "JiuhaiChen/BLIP3o:trl/trl/trainer/ddpo_trainer.py",
+    "DPO": "JiuhaiChen/BLIP3o:trl/trl/trainer/dpo_trainer.py",
+    "KTO": "JiuhaiChen/BLIP3o:trl/trl/trainer/kto_trainer.py",
+    "ORPO": "JiuhaiChen/BLIP3o:trl/trl/trainer/orpo_trainer.py",
+    "REWARD": "JiuhaiChen/BLIP3o:trl/trl/trainer/reward_trainer.py",
+    "GRPO": "JiuhaiChen/BLIP3o:trl/trl/trainer/grpo_trainer.py",
+    "PPO": "JiuhaiChen/BLIP3o:trl/trl/trainer/ppo_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "jiuhaichen/blip3o",
+   "stars_raw_not_for_ranking": 1663,
+   "found_by": [
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "code-search hits >= 8 (25)"
+   ],
+   "when_to_pick": "pick this repo only to reproduce or build directly on BLIP3o-NEXT's own pretraining, instruction-tuning, or GRPO text-rendering runs, using its exact scripts and reward",
+   "methods_it_ships": "the vendored `trl/trl/trainer/` directory carries a full copy of trl 0.21.0.dev0's trainer files - DDPO, DPO, KTO, ORPO, Reward, GRPO, and PPO among them, each importable the same way as in upstream trl - but the README and the only training entry point that BLIP3o-NEXT documents and wires to a script (`train_grpo.py`, launched by `run.sh`) exercise GRPO alone, for the text-rendering RL stage"
+  },
+  {
+   "name": "DanceGRPO",
+   "repo": "https://github.com/XueZeyue/DanceGRPO",
+   "file": "references/XueZeyue__DanceGRPO.md",
+   "commit": "15cc71d53cc2e6e18a68ee607d5fb6ba9a99e344",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-10-16",
+   "methods_seen": {
+    "Trainer": "XueZeyue/DanceGRPO:fastvideo/models/videoalign/trainer.py",
+    "RLHF": "XueZeyue/DanceGRPO:assets/flux_visualization/rlhf_160/A 3D render portrait of Pepe Frog as concept art..jpg"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "xuezeyue/dancegrpo",
+   "stars_raw_not_for_ranking": 1643,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "to reproduce or extend the DanceGRPO paper's own reported results, or as a working reference for wiring GRPO into a diffusion or rectified-flow image/video generator - not for general-purpose post-training, since it ships exactly one method family (GRPO for visual generation) with no LLM trainers, no DPO/SFT/PPO, and no comparative benchmark against other RL post-training libraries in its own docs",
+   "methods_it_ships": "GRPO adapted for visual generation is the only training method; the paper positions it against DDPO and DPOK as the RL baselines it improves on, and reports outperforming them \"by up to 181%\" across the HPS-v2.1, CLIP Score, VideoAlign, and GenEval benchmarks, which is the paper's own headline result and the number that shows the method works at all"
+  },
+  {
+   "name": "safe-rlhf",
+   "repo": "https://github.com/PKU-Alignment/safe-rlhf",
+   "file": "references/PKU-Alignment__safe-rlhf.md",
+   "commit": "e8cca16665ef2340ac92c6514f05519310251581",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-11-24",
+   "methods_seen": {
+    "REWARD": "PKU-Alignment/safe-rlhf:safe_rlhf/values/reward/trainer.py"
+   },
+   "hub_models": 18,
+   "hub_models_belongs_to": "pku-alignment/safe-rlhf",
+   "stars_raw_not_for_ranking": 1611,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "code-search:class-form",
+    "pyproject",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "pick it specifically to reproduce or extend Safe RLHF's constrained PPO-Lagrangian method - training a reward-maximizing policy under a learned cost constraint via a dual (Lagrange-multiplier) update - since that mechanism, implemented in `safe_rlhf/algorithms/ppo_lag/trainer.py`, is this codebase's reason to exist",
+   "methods_it_ships": "four RL/preference algorithms under `safe_rlhf/algorithms/` - `dpo`, `ppo` (plain PPO, no cost), `ppo_lag` (Safe RLHF's constrained PPO-Lagrangian, the flagship method), and `ppo_reward_shaping` (an alternate variant that folds the cost into the reward instead of a dual update); plus reward-model and cost-model training under `safe_rlhf/values/reward/` and `safe_rlhf/values/cost/`, and SFT under `safe_rlhf/finetune/` with two interchangeable backends, `deepspeed.py` and `huggingface.py`"
+  },
+  {
+   "name": "Agent-R1",
+   "repo": "https://github.com/AgentR1/Agent-R1",
+   "file": "references/AgentR1__Agent-R1.md",
+   "commit": "b124aa46534cbf2fb8bc8af11405774984c42ac7",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-27",
+   "methods_seen": {
+    "REWARD": "AgentR1/Agent-R1:agent_r1/reward_loop/reward_loop.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "agentr1/agent-r1",
+   "stars_raw_not_for_ranking": 1586,
+   "former_names": [
+    "0russwest0/Agent-R1"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick Agent-R1 when the task is genuinely multi-step (tool calls, environment feedback, multiple turns) and you want the environment/tool logic factored out from the RL trainer into reusable `AgentEnv`/`BaseTool` layers, and when you are already prepared to pin a specific `verl` version - the current version requires `verl==0.7.0` exactly, not a range",
+   "methods_it_ships": "Agent-R1 does not add new trainer classes; it adds an agent/environment layer on top of verl's existing PPO-family trainer, and each RL algorithm is selected through Hydra config overrides in a per-task launch script, not through a distinct Python trainer class"
+  },
+  {
+   "name": "pyreft",
+   "repo": "https://github.com/stanfordnlp/pyreft",
+   "file": "references/stanfordnlp__pyreft.md",
+   "commit": "dafd0995a366d7b47160a337dcc388eda7431821",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-03-05",
+   "methods_seen": {
+    "DPO": "stanfordnlp/pyreft:examples/dpo/dpo_trainer.py",
+    "Trainer": "stanfordnlp/pyreft:examples/loreft/original_code/trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "stanfordnlp/pyreft",
+   "stars_raw_not_for_ranking": 1576,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "you want to reproduce or extend the ReFT/LoReFT line of parameter-efficient fine-tuning - editing hidden representations at chosen layers/token positions instead of adding weight deltas like LoRA - on a Hugging Face causal-LM or sequence-classification model, and you are fine training on a single GPU as the primary supported path",
+   "methods_it_ships": "`pyreft/__init__.py` exports six intervention classes - `LoreftIntervention`, `NoreftIntervention`, `ConsreftIntervention`, `LobireftIntervention`, `DireftIntervention`, `NodireftIntervention` - all imported directly from the top-level `pyreft` package, with no experimental/stable split documented"
+  },
+  {
+   "name": "DAMO-ConvAI",
+   "repo": "https://github.com/AlibabaResearch/DAMO-ConvAI",
+   "file": "references/AlibabaResearch__DAMO-ConvAI.md",
+   "commit": "483554eae102996f5ec1f4feab4e78ef29c2a394",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-06-10",
+   "methods_seen": {
+    "DDPO": "AlibabaResearch/DAMO-ConvAI:MMLatentAction/trl/trainer/ddpo_trainer.py",
+    "DPO": "AlibabaResearch/DAMO-ConvAI:EvoTrainer/mcore_adapter/src/mcore_adapter/trainer/dpo_trainer.py",
+    "KTO": "AlibabaResearch/DAMO-ConvAI:EPO/LLaMA-Factory/src/llamafactory/train/kto/trainer.py",
+    "ORPO": "AlibabaResearch/DAMO-ConvAI:MMLatentAction/trl/trainer/orpo_trainer.py",
+    "GRPO": "AlibabaResearch/DAMO-ConvAI:MMLatentAction/grpo_trainer.py",
+    "REWARD": "AlibabaResearch/DAMO-ConvAI:MMLatentAction/trl/trainer/reward_trainer.py",
+    "PPO": "AlibabaResearch/DAMO-ConvAI:MMLatentAction/trl/trainer/ppo_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "alibabaresearch/damo-convai",
+   "stars_raw_not_for_ranking": 1570,
+   "found_by": [
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form"
+   ],
+   "why_confirmed": [
+    "code-search hits >= 8 (28)"
+   ],
+   "when_to_pick": "do not pick DAMO-ConvAI itself for a training run - there is no top-level install command, Config surface, or launcher that spans the repo",
+   "methods_it_ships": "none as a repo-level API. The methods the shortlist row found trace to three unrelated subprojects, each vendoring a different upstream trainer file, all as of commit `483554e`:"
+  },
+  {
+   "name": "Ovis",
+   "repo": "https://github.com/ATH-MaaS/Ovis",
+   "file": "references/ATH-MaaS__Ovis.md",
+   "commit": "e1916bf3cb0ca123e71ab173ff4463df5c3a71b5",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-15",
+   "methods_seen": {
+    "SFT": "ATH-MaaS/Ovis:ovis/train/dataset/ovis2_5_sft_datainfo.json"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "ath-maas/ovis",
+   "stars_raw_not_for_ranking": 1487,
+   "former_names": [
+    "AIDC-AI/Ovis"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "fine-tuning an existing Ovis checkpoint (Ovis2.5, Ovis2, Ovis1.6,...) with supervised fine-tuning on your own conversation or caption data, using the model's own training loop - a custom multimodal data collator and module-selective learning rates - rather than a general multi-model trainer",
+   "methods_it_ships": "SFT only, through `ovis/train/train.py`, built directly on `transformers.Trainer` rather than a distinct trainer class per method"
+  },
+  {
+   "name": "reasoning-gym",
+   "repo": "https://github.com/open-thought/reasoning-gym",
+   "file": "references/open-thought__reasoning-gym.md",
+   "commit": "49b07130b3fcd12f2d064bba7c43869543a0e7e7",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-04-17",
+   "methods_seen": {
+    "GRPO": "open-thought/reasoning-gym:training/trainers/ray_grpo_trainer.py"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "open-thought/reasoning-gym",
+   "stars_raw_not_for_ranking": 1471,
+   "found_by": [
+    "awesome-lists",
+    "code-search:filename-form",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick it as a data source for RLVR post-training - over 100 procedural task generators across algebra, arithmetic, computation, cognition, geometry, graph theory, logic, and games, each with adjustable difficulty and its own verifier, so training data does not need to be pre-collected or human-labeled",
+   "methods_it_ships": "reasoning-gym ships no trainer classes of its own"
+  },
+  {
+   "name": "mlx-tune",
+   "repo": "https://github.com/ARahim3/mlx-tune",
+   "file": "references/ARahim3__mlx-tune.md",
+   "commit": "9690fe1fed19c72f0810902b9c188d9a2625eb5b",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-06-23",
+   "methods_seen": {
+    "KTO": "ARahim3/mlx-tune:mlx_tune/rl_trainers.py",
+    "ORPO": "ARahim3/mlx-tune:mlx_tune/rl_trainers.py",
+    "GRPO": "ARahim3/mlx-tune:mlx_tune/rl_trainers.py",
+    "SFT": "ARahim3/mlx-tune:mlx_tune/sft_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "arahim3/mlx-tune",
+   "stars_raw_not_for_ranking": 1373,
+   "found_by": [
+    "code-search:bare-form",
+    "code-search:class-form",
+    "path-mining",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "credited package mlx_tune sits at this repo's root",
+    "path mining verified it owns package mlx_tune",
+    "repository name matches credited package mlx_tune"
+   ],
+   "when_to_pick": "fine-tuning on a Mac with Apple Silicon (the docs list M1 through M5) when you want to prototype with an Unsloth-shaped script before moving to CUDA. The README frames the project explicitly as not a replacement for or competitor to Unsloth, but a bridge for Mac users to prototype locally with fast iteration and then move to cloud NVIDIA GPUs with the original Unsloth for production training",
+   "methods_it_ships": "the project status table marks every one of the following \"Stable\" as of the v0.6.0 release: SFT, DPO, ORPO, GRPO, KTO, SimPO, Continued Pre-Training (CPT), embedding fine-tuning, MoE fine-tuning, vision (VLM) fine-tuning, OCR fine-tuning, JEPA-family fine-tuning, and audio fine-tuning covering TTS/STT/ASR models (Orpheus, Whisper, Parakeet, Voxtral, Qwen3-ASR, Canary, and others)"
+  },
+  {
+   "name": "finetrainers",
+   "repo": "https://github.com/huggingface/finetrainers",
+   "file": "references/huggingface__finetrainers.md",
+   "commit": "7e9257aae285c2fd665b39faf5c4109762762438",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-26",
+   "methods_seen": {
+    "SFT": "huggingface/finetrainers:train.py"
+   },
+   "hub_models": 6,
+   "hub_models_belongs_to": "huggingface/finetrainers",
+   "hub_count_note": "3 repositories in this index are named exactly 'finetrainers'. The count is attributed to this one; the others carry null. Inferred from size, NOT proven: this repository is the only claimant large enough to be the one 6 model authors meant. It beat oiiiwjh/finetrainers. Stars were used to compare these same-name repositories and appear in no ranking.",
+   "stars_raw_not_for_ranking": 1355,
+   "former_names": [
+    "a-r-r-o-w/finetrainers"
+   ],
+   "found_by": [
+    "code-search:bare-form",
+    "path-mining"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "credited package finetrainers sits at this repo's root",
+    "path mining verified it owns package finetrainers",
+    "repository name matches credited package finetrainers"
+   ],
+   "when_to_pick": "training or LoRA-finetuning a diffusion image/video model (LTX-Video, HunyuanVideo, CogVideoX, CogView4, Flux, Wan) with SFT or channel-concatenated conditional control, when you want a single-flag CLI over model-specific training scripts"
+  },
+  {
+   "name": "RL2",
+   "repo": "https://github.com/ChenmienTan/RL2",
+   "file": "references/ChenmienTan__RL2.md",
+   "commit": "9161ede5dcd2700bc166a17b1041bd206a75b5d4",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-20",
+   "methods_seen": {
+    "PPO": "ChenmienTan/RL2:RL2/trainer/ppo.py",
+    "DPO": "jsbyun121/exploring-paths-llm:RL2/trainer/dpo.py",
+    "SFT": "ChenmienTan/RL2:RL2/trainer/sft.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "chenmientan/rl2",
+   "stars_raw_not_for_ranking": 1299,
+   "found_by": [
+    "awesome-lists",
+    "code-search:class-form",
+    "path-mining",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "credited package RL2 sits at this repo's root",
+    "linked from 1 curated lists",
+    "path mining verified it owns package RL2",
+    "repository name matches credited package RL2"
+   ],
+   "when_to_pick": "pick it when you want the training and generation for online RL to run as one `torchrun` job per node - FSDP or Megatron for training, an in-process SGLang engine sharing the same GPUs for rollout - with no separate cluster scheduler, in contrast to Ray-orchestrated frameworks; the library names itself \"Ray Less Reinforcement Learning\" and describes itself as concise and without complicated abstractions, positioning itself against heavier, Ray-based training stacks"
+  },
+  {
+   "name": "DeepEyes",
+   "repo": "https://github.com/Visual-Agent/DeepEyes",
+   "file": "references/Visual-Agent__DeepEyes.md",
+   "commit": "11d20c6be32b2cf62c914e0c73a06db2f9a7e3a1",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-11-20",
+   "methods_seen": {
+    "DAPO": "Visual-Agent/DeepEyes:recipe/dapo/src/dapo_ray_trainer.py",
+    "SFT": "Visual-Agent/DeepEyes:verl/trainer/fsdp_sft_trainer.py",
+    "PPO": "Visual-Agent/DeepEyes:examples/split_placement/config/ppo_trainer_split.yaml",
+    "REWARD": "Visual-Agent/DeepEyes:recipe/r1/reward_score.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "visual-agent/deepeyes",
+   "stars_raw_not_for_ranking": 1255,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 3 curated lists"
+   ],
+   "when_to_pick": "pick DeepEyes specifically to reproduce or extend its paper's image-grounding agentic-RL recipe (Qwen2.5-VL policy, LLM-as-judge reward, per-sample tool routing) on top of an already-familiar verl workflow; its own README frames it as reproduction code for that one paper, not a general-purpose framework",
+   "methods_it_ships": "DeepEyes' own contribution is the `agent:` block in `verl/trainer/config/ppo_trainer.yaml` - `activate_agent` (default `False`, which the README states makes the run \"identical to the original version of verl\"), `max_turns`, `concurrent_workers`, `tool_name_key: env_name`, and `vl_model_path` - plus a registry of `ToolBase` tool/environment plugins imported in `verl/workers/agent/__init__.py`: five versioned `visual_toolbox` image-zoom tools, two RAG-engine variants, three `vl_agent` visual-agent variants, an MM search engine, and a FrozenLake tool"
+  },
+  {
+   "name": "pyre-code",
+   "repo": "https://github.com/whwangovo/pyre-code",
+   "file": "references/whwangovo__pyre-code.md",
+   "commit": "7ede95b47437798c74023a0ffae8fb33bbeebc2e",
+   "licence": "NOASSERTION",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-12",
+   "methods_seen": {
+    "DPO": "whwangovo/pyre-code:torch_judge/tasks/dpo_loss.py",
+    "GRPO": "whwangovo/pyre-code:torch_judge/tasks/grpo_loss.py",
+    "PPO": "whwangovo/pyre-code:torch_judge/tasks/ppo_loss.py",
+    "REWARD": "whwangovo/pyre-code:torch_judge/tasks/reward_model.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "whwangovo/pyre-code",
+   "stars_raw_not_for_ranking": 1216,
+   "found_by": [
+    "pyproject",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "topic/readme hit whose description names a method and a tool"
+   ],
+   "when_to_pick": "never for running an actual training job - it ships no trainer class, no optimizer loop, no checkpoint, and no distributed launcher",
+   "methods_it_ships": "not trainers - four of the 76 problems are named after alignment/RLHF methods, and each is a single pure function graded against unit tests, with no surrounding training loop"
+  },
+  {
+   "name": "MixGRPO",
+   "repo": "https://github.com/Tencent-Hunyuan/MixGRPO",
+   "file": "references/Tencent-Hunyuan__MixGRPO.md",
+   "commit": "19946facaefa33eca1b565ec87c6fc7cca14e339",
+   "licence": "NOASSERTION",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-01",
+   "methods_seen": {
+    "GRPO": "Tencent-Hunyuan/MixGRPO:fastvideo/utils/grpo_states.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "tencent-hunyuan/mixgrpo",
+   "stars_raw_not_for_ranking": 1160,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "only to reproduce or build directly on the MixGRPO / MixGRPO-Flash paper's FLUX.1-dev GRPO recipe (sliding-window mixed ODE-SDE sampling, optional multi-reward mixing of HPS-v2.1, PickScore, ImageReward, CLIP score, and a \"unified reward\" model); the paper's own abstract states MixGRPO cuts training time by \"nearly 50%\" against the DanceGRPO baseline it forked its RL loop from, with the MixGRPO-Flash variant (DPM-Solver++ outside the sliding window) cutting it by 71% - these are the abstract's headline figures, not a specific ablation table, since only the abstract page was read for this card",
+   "methods_it_ships": "GRPO is the base algorithm the training loop implements (`fastvideo/utils/grpo_states.py` and the reward/advantage code in `fastvideo/train_grpo_flux.py`) - GRPO's own definition and math live on its methodology card, not here"
+  },
+  {
+   "name": "Dromedary",
+   "repo": "https://github.com/IBM/Dromedary",
+   "file": "references/IBM__Dromedary.md",
+   "commit": "0b86740e48ea1371752b185002b1c322118d4f23",
+   "licence": "GPL-3.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2025-09-18",
+   "methods_seen": {
+    "SFT": "IBM/Dromedary:training/data_utils_sft.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "ibm/dromedary",
+   "hub_count_note": "'Dromedary' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=Dromedary): 0. Loose substring match (search=Dromedary): 8; of the 8 ids sampled from it, 0 match 'Dromedary' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 1138,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe-wide"
+   ],
+   "why_confirmed": [
+    "linked from 4 curated lists"
+   ],
+   "when_to_pick": "only to reproduce or study the SELF-ALIGN / Dromedary-2 pipeline itself - it is a paper artifact, not a library meant for other training runs",
+   "methods_it_ships": "one method, SFT, via QLoRA (4-bit-quantized LoRA fine-tuning)"
+  },
+  {
+   "name": "TTRL",
+   "repo": "https://github.com/PRIME-RL/TTRL",
+   "file": "references/PRIME-RL__TTRL.md",
+   "commit": "5806e119789132fcb43552beaf2532d7d0447213",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-04-15",
+   "methods_seen": {
+    "DAPO": "PRIME-RL/TTRL:verl/recipe/dapo/dapo_ray_trainer.py",
+    "SPPO": "PRIME-RL/TTRL:verl/recipe/sppo/sppo_ray_trainer.py",
+    "SFT": "PRIME-RL/TTRL:verl/verl/trainer/fsdp_sft_trainer.py",
+    "PPO": "PRIME-RL/TTRL:verl/examples/split_placement/config/ppo_trainer_split.yaml",
+    "REWARD": "PRIME-RL/TTRL:verl/recipe/char_count/reward_function.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "prime-rl/ttrl",
+   "stars_raw_not_for_ranking": 1107,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists",
+    "repository name matches credited package ttrl"
+   ],
+   "when_to_pick": "pick it only to reproduce the TTRL paper's headline result - a 211% pass@1 gain for Qwen-2.5-Math-7B on AIME 2024 from unlabeled test data alone - or to build directly on its majority-vote self-reward mechanism on math reasoning tasks; it is not a competing choice against trl or verl on method breadth, because it adds exactly one technique and otherwise IS a verl checkout - frozen at verl 0.4.1.dev, from a news entry dated 2025-08-17 that says the authors \"bump into\" that verl release",
+   "methods_it_ships": "TTRL's own method is the majority-vote reward: at each step it samples `ttrl.n_votes_per_prompt` completions per prompt, extracts and clusters boxed answers, takes the most common answer as a pseudo ground-truth label, computes rewards against that label instead of the real one, and separately computes `label_accuracy`, `reward_accuracy`, `majority_voting_reward`, `ground_truth_reward`, `pass@N`, and `majority_ratio` diagnostics against the withheld real label"
+  },
+  {
+   "name": "GraphGen",
+   "repo": "https://github.com/InternScience/GraphGen",
+   "file": "references/InternScience__GraphGen.md",
+   "commit": "d9b8bedb5152499718e816d803668d40676f9781",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-19",
+   "methods_seen": {
+    "REWARD": "InternScience/GraphGen:graphgen/models/evaluator/qa/reward_evaluator.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "internscience/graphgen",
+   "stars_raw_not_for_ranking": 1088,
+   "former_names": [
+    "open-sciencelab/GraphGen"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists",
+    "topic/readme hit whose description names a method and a tool"
+   ],
+   "when_to_pick": "pick GraphGen when you need to turn raw text (files, PDFs, search engines, or bio/chem databases such as UniProt, NCBI, RNAcentral) into knowledge-graph-derived QA data for SFT, pretraining rephrase, or RLVR, using its knowledge-gap-targeting and multi-hop sampling as the differentiator over generic prompted data generation",
+   "methods_it_ships": "none in the trainer sense - GraphGen implements no PPO/GRPO/DPO/SFT training loop"
+  },
+  {
+   "name": "Gym",
+   "repo": "https://github.com/NVIDIA-NeMo/Gym",
+   "file": "references/NVIDIA-NeMo__Gym.md",
+   "commit": "3cf87568c08f30eab2445438838ab8698ed25cb3",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "REWARD": "NVIDIA-NeMo/Gym:nemo_gym/reward_profile.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "nvidia-nemo/gym",
+   "hub_count_note": "'Gym' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=Gym): 0. Loose substring match (search=Gym): 475; of the 300 ids sampled from it, 71 match 'Gym' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 1076,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "you need reproducible, stateful evaluation of agents (tool calling, code execution, sandboxes) across a shared library of environments and verifiers, or you want to generate scored rollouts to feed into training, and you are willing to run that training through a separate framework - NeMo Gym explicitly is not a trainer: its own docs say \"If you're scoring model outputs with a stateless check and don't need scale or training, a script is probably sufficient\", and it defers all weight updates to NeMo RL, verl, or Unsloth",
+   "methods_it_ships": "NeMo Gym does not ship RL or SFT algorithm implementations; its own docs describe GRPO, DAPO, and GSPO only as background concepts for readers deciding when to train, explicitly deferring implementation to an external \"Training Library\". What it ships is the reward/verification layer: every resources server implements a `verify` method returning a scalar `reward` field (the shortlist row's own `methods_seen` pointer, `nemo_gym/reward_profile.py`, is not that verifier but the `gym eval profile` implementation - a `RewardProfiler` class that computes per-task pass/majority statistics from collected rollouts, at the v0.5.0 tag)"
+  },
+  {
+   "name": "PRISM-VL",
+   "repo": "https://github.com/kepengxu/PRISM-VL",
+   "file": "references/kepengxu__PRISM-VL.md",
+   "commit": "c73957b05fdc41cdfc3eb97c91a5e68251ef0681",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-05-27",
+   "methods_seen": {
+    "KTO": "kepengxu/PRISM-VL:swift/trainers/rlhf_trainer/__init__.py",
+    "RLHF": "kepengxu/PRISM-VL:swift/trainers/rlhf_trainer/__init__.py",
+    "GRPO": "kepengxu/PRISM-VL:swift/trainers/rlhf_trainer/grpo_trainer.py",
+    "REWARD": "kepengxu/PRISM-VL:swift/trainers/rlhf_trainer/reward_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "kepengxu/prism-vl",
+   "stars_raw_not_for_ranking": 1024,
+   "found_by": [
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form"
+   ],
+   "why_confirmed": [
+    "code-search hits >= 8 (13)"
+   ],
+   "when_to_pick": "pick PRISM-VL only to reproduce this paper's specific result - RAW-derived \"Meas.-XYZ\" input plus camera metadata used to fine-tune Qwen3-VL 2B/4B/8B with LoRA - using its packaged benchmark (MeasL-Bench-V1), training corpus (MeasL-150K-V1), and released adapters",
+   "methods_it_ships": "the training configs and launch scripts PRISM-VL actually publishes run one method - SFT with LoRA (`train_type: lora`) - for all three released model sizes"
+  },
+  {
+   "name": "Skills",
+   "repo": "https://github.com/NVIDIA-NeMo/Skills",
+   "file": "references/NVIDIA-NeMo__Skills.md",
+   "commit": "e06c9b900177be3f60d6a3f99135bb5de9af9bed",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "GRPO": "NVIDIA-NeMo/Skills:nemo_skills/pipeline/nemo_rl/grpo.py",
+    "SFT": "NVIDIA-NeMo/Skills:nemo_skills/pipeline/nemo_rl/sft.py",
+    "PPO": "NVIDIA-NeMo/Skills:nemo_skills/pipeline/verl/ppo.py"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "nvidia-nemo/skills",
+   "hub_count_note": "'Skills' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=Skills): 1. Loose substring match (search=Skills): 210; of the 210 ids sampled from it, 10 match 'Skills' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 1015,
+   "former_names": [
+    "NVIDIA/NeMo-Skills"
+   ],
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "pick Nemo-Skills only if you already want its surrounding pipeline - synthetic data generation, a wide multi-benchmark evaluation suite, and Slurm-scale job orchestration - and are willing to train through NeMo-RL, verl, or a raw Megatron-LM entrypoint underneath; do not pick it as a standalone trainer, because the training pipeline package itself ships four commands (`ns nemo_rl sft`, `ns nemo_rl grpo`, `ns verl ppo`, `ns megatron_lm train`), each just formats a config string and shells out to the wrapped framework's own training script inside its container - the method's real knob surface, logged metrics and checkpoint format are NeMo-RL's, verl's, or Megatron-LM's, not Nemo-Skills'. If you want a self-contained trainer library, compare against the trl or verl cards directly (cross-reference; not covered here)",
+   "methods_it_ships": "four pipeline commands, each a thin CLI wrapper with no method logic of its own: SFT and GRPO run through NeMo-RL (`nemo_skills/pipeline/nemo_rl/sft.py`, `nemo_skills/pipeline/nemo_rl/grpo.py`), PPO runs through verl (`nemo_skills/pipeline/verl/ppo.py`), and a generic pretraining/SFT entrypoint runs through Megatron-LM (`nemo_skills/pipeline/megatron_lm/train.py`); the verl wrapper's own name is `ppo.py` but its committed default config sets `algorithm.adv_estimator=grpo` unless overridden, so the out-of-the-box run under that command is GRPO, not vanilla PPO. The Megatron-LM command takes an arbitrary `--entrypoint` script name (e.g. `pretrain_gpt.py`) rather than shipping a fixed method of its own - it is a generic launcher, not a method wrapper"
+  },
+  {
+   "name": "UniRL",
+   "repo": "https://github.com/Tencent-Hunyuan/UniRL",
+   "file": "references/Tencent-Hunyuan__UniRL.md",
+   "commit": "683a59b3cb1f04bea3d93cc79a79cd2552769902",
+   "licence": "NOASSERTION",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "SFT": "Tencent-Hunyuan/UniRL:unirl/trainer/sft.py",
+    "GRPO": "G-U-N/UniRL:unirl/trainer/edit_grpo_trainer.py",
+    "REWARD": "Tencent-Hunyuan/UniRL:experimental/refl/reward/videoalign/model/reward_model.py",
+    "GSPO": "Tencent-Hunyuan/UniRL:unirl/algorithms/gspo.py",
+    "Trainer": "Tencent-Hunyuan/UniRL:experimental/refl/trainer.py"
+   },
+   "hub_count_note": "3 repositories in this index are named exactly 'UniRL' and none could be shown to own it, so none carries the count. The name's total is in hub_models_name_total.",
+   "stars_raw_not_for_ranking": 868,
+   "found_by": [
+    "path-mining",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "credited package unirl sits at this repo's root",
+    "path mining verified it owns package unirl",
+    "repository name matches credited package unirl"
+   ],
+   "when_to_pick": "multimodal RL post-training — diffusion/video, vision-language and text-only AR, a prompt-enhancer pipeline, and unified AR+diffusion models (HunyuanImage3, Bagel) — under one Hydra-recipe and Ray-worker runtime, and specifically when you want the team's own trust-region algorithms (Flow-DPPO, DRPO, CPPO) with their own tutorials",
+   "methods_it_ships": "three team-proposed algorithms, each with its own tutorial folder and runnable recipe — Flow-DPPO (`FlowDPPO/`), DRPO (`DRPO/`), and CPPO (`CPPO/`) — plus \"standard reference algorithms\": (LLM's)GRPO, DiffusionNFT, DanceGRPO, and MixGRPO, the latter two documented as FlowGRPO recipe variants (a different SDE strategy or index scheduler) rather than separate classes"
+  },
+  {
+   "name": "oat",
+   "repo": "https://github.com/sail-sg/oat",
+   "file": "references/sail-sg__oat.md",
+   "commit": "869706620a35ec5304fa80a0c74f0c566cc2bc57",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-01-29",
+   "methods_seen": {
+    "REWARD": "sail-sg/oat:oat/actors/reward.py",
+    "PPO": "sail-sg/oat:oat/algorithms/ppo.py",
+    "SFT": "sail-sg/oat:oat/learners/sft.py"
+   },
+   "hub_models": 11,
+   "hub_models_belongs_to": "sail-sg/oat",
+   "hub_count_note": "'oat' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=oat): 11. Loose substring match (search=oat): 94; of the 94 ids sampled from it, 18 match 'oat' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 666,
+   "found_by": [
+    "pyproject",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "topic/readme hit whose description names a method and a tool"
+   ],
+   "when_to_pick": "research runs that need oat's distributed *Actor-Learner-Oracle* architecture - vLLM-served Actors for generation, DeepSpeed ZeRO Learners for training, and a Mosec-served or in-process Oracle for preference/reward/verification feedback - especially online exploration algorithms (SEA, APL, XPO) and RLVR-for-math recipes that ship as ready scripts",
+   "methods_it_ships": "method selection in oat is split across three separate dataclass fields on `OATArgs`, not one flat list, read from `oat/args.py` at the screening commit:"
+  },
+  {
+   "name": "MARTI",
+   "repo": "https://github.com/TsinghuaC3I/MARTI",
+   "file": "references/TsinghuaC3I__MARTI.md",
+   "commit": "a2fe2c7b9ec46cf24769c90575c51d847f41d04e",
+   "licence": "MIT",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-04-14",
+   "methods_seen": {
+    "KTO": "TsinghuaC3I/MARTI:marti/trainer/kto_trainer.py",
+    "PPO": "TsinghuaC3I/MARTI:marti/trainer/ppo_trainer.py",
+    "DPO": "TsinghuaC3I/MARTI:marti/trainer/dpo_trainer.py",
+    "SFT": "TsinghuaC3I/MARTI:marti/trainer/sft_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "tsinghuac3i/marti",
+   "hub_count_note": "'MARTI' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=MARTI): 0. Loose substring match (search=MARTI): 3074; of the 300 ids sampled from it, 0 match 'MARTI' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 540,
+   "found_by": [
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form",
+    "path-mining",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "credited package marti sits at this repo's root",
+    "path mining verified it owns package marti",
+    "repository name matches credited package marti"
+   ],
+   "when_to_pick": "pick MARTI when the object being trained is a graph of two or more interacting agent policies with a shared, centrally-computed reward (debate, chain-of-agents, mixture-of-agents, review) and you want that multi-agent loop built on a Ray/vLLM/DeepSpeed PPO-style trainer rather than assembled from a single-agent trainer plus custom orchestration code; the README states it is \"developed primarily based on\" OpenRLHF, so single-agent post-training on the same stack is OpenRLHF's job, not this repo's differentiator",
+   "methods_it_ships": "single-agent trainer classes for SFT, DPO, KTO, PRM, RM, and KD (`marti/trainer/{sft,dpo,kto,prm,rm,kd}_trainer.py`), plus a single-agent PPO-family Ray trainer (`marti/trainer/ppo_trainer.py`, with an async variant `ppo_trainer_async.py`) and a multi-agent PPO-family Ray trainer (`marti/trainer/multi_agent_ppotrainer.py`), all present in the tree at the pinned commit"
+  },
+  {
+   "name": "dLLM-RL",
+   "repo": "https://github.com/Gen-Verse/dLLM-RL",
+   "file": "references/Gen-Verse__dLLM-RL.md",
+   "commit": "10b4fd1cba83e4496c20585dc2fd01dc02f20255",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-01-28",
+   "methods_seen": {
+    "SFT": "Gen-Verse/dLLM-RL:configs/sft_dream.yaml",
+    "REWARD": "Gen-Verse/dLLM-RL:reward/reward.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "gen-verse/dllm-rl",
+   "stars_raw_not_for_ranking": 512,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 2 curated lists"
+   ],
+   "when_to_pick": "pick this repo specifically to reproduce the TraceRL paper or to post-train one of the seven diffusion-LLM families it names support for (TraDo, SDAR, Dream, LLaDA, MMaDA, LLaDA-V, Diffu-Coder), not as a general post-training library - it has no trainer-class API, no PyPI package, and its multi-step RL loop is a set of Python scripts glued together with `subprocess.run` rather than a framework surface like trl's or verl's (cross-reference; not covered here)"
+  },
+  {
+   "name": "mlx-lm-lora",
+   "repo": "https://github.com/Goekdeniz-Guelmez/mlx-lm-lora",
+   "file": "references/Goekdeniz-Guelmez__mlx-lm-lora.md",
+   "commit": "fb4f39db66fadec3b71a41441e863d9f1bf87844",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-21",
+   "methods_seen": {
+    "GRPO": "Goekdeniz-Guelmez/mlx-lm-lora:tests/test_training_algorithms.py",
+    "ORPO": "Goekdeniz-Guelmez/mlx-lm-lora:tests/test_training_algorithms.py",
+    "PPO": "Goekdeniz-Guelmez/mlx-lm-lora:mlx_lm_lora/trainer/ppo_trainer.py",
+    "DPO": "Goekdeniz-Guelmez/mlx-lm-lora:mlx_lm_lora/trainer/dpo_trainer.py",
+    "SFT": "Goekdeniz-Guelmez/mlx-lm-lora:mlx_lm_lora/trainer/sft_trainer.py"
+   },
+   "hub_models": 3,
+   "hub_models_belongs_to": "goekdeniz-guelmez/mlx-lm-lora",
+   "stars_raw_not_for_ranking": 403,
+   "found_by": [
+    "code-search:class-form",
+    "code-search:filename-form",
+    "path-mining",
+    "readme-search",
+    "topic-search"
+   ],
+   "why_confirmed": [
+    "credited package mlx_lm_lora sits at this repo's root",
+    "path mining verified it owns package mlx_lm_lora",
+    "repository name matches credited package mlx_lm_lora"
+   ],
+   "when_to_pick": "training on a Mac (M1-M4, unified memory) when your model and data are on the Hub or local disk and you want one CLI covering SFT plus eleven preference/RL methods without leaving Apple Silicon; there is no CUDA path, so on NVIDIA hardware this is not a candidate at all - the README's own comparison table reports it running only on Apple Silicon, contrasted with Unsloth on NVIDIA GPUs"
+  },
+  {
+   "name": "EasyDeL",
+   "repo": "https://github.com/erfanzar/EasyDeL",
+   "file": "references/erfanzar__EasyDeL.md",
+   "commit": "090a03b2e0b3606bd38e0e3fcfdc640cd7e6e246",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-29",
+   "methods_seen": {
+    "DPO": "erfanzar/EasyDeL:tests/trainers/direct_preference_optimization_trainer.py",
+    "GSPO": "erfanzar/EasyDeL:easydel/trainers/group_sequence_policy_optimization/gspo_trainer.py",
+    "SFT": "erfanzar/EasyDeL:easydel/trainers/supervised_fine_tuning_trainer/__init__.py",
+    "GRPO": "erfanzar/EasyDeL:easydel/trainers/group_relative_policy_optimization/grpo_trainer.py",
+    "KTO": "erfanzar/EasyDeL:easydel/trainers/kto_trainer/kto_trainer.py",
+    "ORPO": "erfanzar/EasyDeL:easydel/trainers/odds_ratio_preference_optimization_trainer/orpo_trainer.py",
+    "REWARD": "erfanzar/EasyDeL:easydel/trainers/reward_trainer/reward_trainer.py",
+    "DAPO": "archit-spec/easydel:easydel/trainers/group_relative_policy_optimization/dapo_trainer.py"
+   },
+   "hub_models": 1,
+   "hub_models_belongs_to": "erfanzar/easydel",
+   "stars_raw_not_for_ranking": 370,
+   "found_by": [
+    "awesome-lists",
+    "code-search:bare-form",
+    "code-search:class-form",
+    "code-search:filename-form",
+    "path-mining",
+    "readme-search"
+   ],
+   "why_confirmed": [
+    "a Hub tag resolved to this repo through PyPI",
+    "code-search hits >= 8 (25)",
+    "credited package easydel sits at this repo's root",
+    "linked from 1 curated lists",
+    "path mining verified it owns package easydel",
+    "repository name matches credited package easydel"
+   ],
+   "when_to_pick": "JAX/Flax-native post-training when the target hardware is a TPU pod or an NVIDIA GPU and Pallas/Triton kernels matter, with a trl-like trainer-per-method API rather than trl's own PyTorch/Accelerate stack or verl's Ray-orchestrated actor model - weigh against trl when your models, datasets, and team tooling are already PyTorch/Hub-centric, since EasyDeL has no Hub-push mechanism (below) and its PyPI package classifiers list \"Development Status:: 3 - Alpha\"",
+   "methods_it_ships": "the README's own count is \"16 Specialized Trainers\", grouped as supervised (`SFTTrainer`, general-purpose `Trainer`), preference optimization (`DPOTrainer`, `CPOTrainer` with 5 loss variants, `ORPOTrainer`, `KTOTrainer`, `BCOTrainer`, `XPOTrainer`), reinforcement learning (`GRPOTrainer`, `GSPOTrainer`, `GFPOTrainer`, `NashMDTrainer`), distillation (`DistillationTrainer`, `GKDTrainer`), reward modeling (`RewardTrainer`), and distributed (`RayDistributedTrainer`)"
+  },
+  {
+   "name": "twinkle",
+   "repo": "https://github.com/modelscope/twinkle",
+   "file": "references/modelscope__twinkle.md",
+   "commit": "e2dd560abc4ff514dc052782b09518479a692d56",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-31",
+   "methods_seen": {
+    "DPO": "modelscope/twinkle:cookbook/client/tinker/dpo.py",
+    "GRPO": "modelscope/twinkle:cookbook/exp/legacy/grpo_baseline.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "modelscope/twinkle",
+   "hub_count_note": "'twinkle' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=twinkle): 0. Loose substring match (search=twinkle): 35; of the 35 ids sampled from it, 13 match 'twinkle' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 249,
+   "found_by": [
+    "awesome-lists",
+    "readme-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "linked from 1 curated lists"
+   ],
+   "when_to_pick": "post-training on ModelScope-hosted (`ms://`) or Hugging Face (`hf://`) models when you want to write your own training loop against a small, explicit method-call API rather than a config-driven trainer class, and want the same script to scale from one GPU (`torchrun`) to a Ray cluster to a standing HTTP training service without rewriting it",
+   "methods_it_ships": "grouped by the `twinkle.loss` module, which is what a training script imports from"
+  },
+  {
+   "name": "west",
+   "repo": "https://github.com/wenet-e2e/west",
+   "file": "references/wenet-e2e__west.md",
+   "commit": "b9a629d68bf012c9b92a901ba1ed22fbbdc3b3eb",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-17",
+   "methods_seen": {
+    "GRPO": "wenet-e2e/west:west/trainer/grpo_trainer.py"
+   },
+   "hub_count_note": "2 repositories in this index are named exactly 'west' and none could be shown to own it, so none carries the count. The name's total is in hub_models_name_total. 'west' is an ordinary English word, so one number is not enough. Exact Hub tag match (filter=west): 0. Loose substring match (search=west): 749; of the 300 ids sampled from it, 7 match 'west' case-sensitively at a word boundary. Of the tag-matched models, 0 also carry a post-training method tag. I believe the tag count, because filter= is an exact tag match while search= matches any id containing those letters; the method-tag overlap (0) is the tighter floor if you want one number you can defend.",
+   "stars_raw_not_for_ranking": 206,
+   "found_by": [
+    "code-search:class-form",
+    "code-search:filename-form",
+    "path-mining"
+   ],
+   "why_confirmed": [
+    "credited package west sits at this repo's root",
+    "path mining verified it owns package west"
+   ],
+   "when_to_pick": "audio/speech LLM post-training (ASR, TTS, speech QA, speech interaction) where you want ready-made recipes over Qwen2-Audio / Qwen2.5-Omni and WeNet/WeSpeaker encoders, built directly on the `transformers.Trainer` API rather than a dedicated RL library such as trl or verl (cross-reference; not covered here) - its GRPO trainer is a from-scratch ~300-line `Trainer` subclass credited as based on R1-V, not an import of trl's `GRPOTrainer`",
+   "methods_it_ships": "three, none imported from an external RL/post-training library - all are in-repo `Trainer` subclasses (method math and defining papers belong on each method's own card, not here):"
+  },
+  {
+   "name": "rapidfireai",
+   "repo": "https://github.com/RapidFireAI/rapidfireai",
+   "file": "references/RapidFireAI__rapidfireai.md",
+   "commit": "ca5ef587a3a53412dc7fd6c76f4f0083811a4d9c",
+   "licence": "Apache-2.0",
+   "language": "JavaScript",
+   "state": "live",
+   "last_push": "2026-07-29",
+   "methods_seen": {
+    "Trainer": "RapidFireAI/rapidfireai:rapidfireai/fit/ml/trainer.py",
+    "SFT": "RapidFireAI/rapidfireai:community_notebooks/sft-child-facing-chatbot.ipynb"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "rapidfireai/rapidfireai",
+   "stars_raw_not_for_ranking": 167,
+   "found_by": [
+    "pyproject",
+    "topic-search",
+    "tree-probe"
+   ],
+   "why_confirmed": [
+    "topic/readme hit whose description names a method and a tool"
+   ],
+   "when_to_pick": "you are already fine-tuning or post-training with Hugging Face TRL (SFT/DPO/GRPO) on one machine (single GPU up to several GPUs) and want to compare many hyperparameter configs side by side, with the ability to stop, resume, or clone-and-modify individual runs while they train, rather than launching them sequentially or as separate jobs",
+   "methods_it_ships": "`RFSFTConfig`, `RFDPOConfig`, and `RFGRPOConfig` — each documented as \"a wrapper around\" TRL's `SFTConfig`, `DPOConfig`, and `GRPOConfig` respectively, adding only the ability to give any individual knob a `List(...)` or `Range(...)` of values so one dictionary expands into a config group, and otherwise preserving that TRL trainer's semantics. `RFGridSearch(configs, trainer_type)` and `RFRandomSearch(configs, trainer_type, num_runs, seed=42)` turn a knob dictionary into a config group — grid search rejects any `Range`-valued knob, random search IID-samples `List`/`Range`/fixed values. `RFLoraConfig` is documented the same way, as a wrapper around PEFT's `LoraConfig` with the same List/Range extension"
+  },
+  {
+   "name": "XPolicyLab",
+   "repo": "https://github.com/XPolicyLab/XPolicyLab",
+   "file": "references/XPolicyLab__XPolicyLab.md",
+   "commit": "72b3a52f2b069220088ef824ade5890885858379",
+   "licence": "Apache-2.0",
+   "language": "Python",
+   "state": "live",
+   "last_push": "2026-07-29",
+   "methods_seen": {
+    "GRPO": "XPolicyLab/XPolicyLab:policy/Dexbotic_DM0/dexbotic/dexbotic/exp/rl/rl_base.py",
+    "DPO": "nvidia-cosmos/cosmos-rl:cosmos_rl/policy/trainer/llm_trainer/dpo_trainer.py",
+    "SFT": "nvidia-cosmos/cosmos-rl:cosmos_rl/policy/trainer/diffusers_trainer/sft_trainer.py"
+   },
+   "hub_models": 0,
+   "hub_models_belongs_to": "xpolicylab/xpolicylab",
+   "stars_raw_not_for_ranking": 126,
+   "found_by": [
+    "code-search:class-form",
+    "path-mining"
+   ],
+   "why_confirmed": [
+    "credited package policy sits at this repo's root",
+    "path mining verified it owns package policy"
+   ],
+   "when_to_pick": "pick XPolicyLab when you need one standardized serving/evaluation harness across many pre-existing robot manipulation policies (VLA, world-action, imitation-learning, memory-augmented) feeding the RoboDojo or RoboTwin benchmarks - not when you need a general post-training trainer",
+   "methods_it_ships": "none, as a library-level API - `pyproject.toml` packages only `client_server` and `utils` and explicitly excludes `policy*` from the installable package"
+  }
+ ]
+}

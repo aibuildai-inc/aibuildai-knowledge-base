@@ -1,0 +1,16 @@
+---
+title: "Traffic Flow Prediction via Spatial Temporal Graph Neural Network"
+entry_type: paper
+source: "https://dl.acm.org/doi/abs/10.1145/3366423.3380186"
+upstream_list: "KimMeen/Awesome-GNN4TS"
+category: "GNN4TSF"
+subcategory: "GNNs for Time Series Forecasting (GNN4TSF)"
+venue: "WWW"
+year: "2020"
+---
+
+# Traffic Flow Prediction via Spatial Temporal Graph Neural Network
+
+**Source**: [https://dl.acm.org/doi/abs/10.1145/3366423.3380186](https://dl.acm.org/doi/abs/10.1145/3366423.3380186)
+
+**Year**: 2020 | **Venue**: WWW | **Category**: GNN4TSF | **Subcategory**: GNNs for Time Series Forecasting (GNN4TSF)

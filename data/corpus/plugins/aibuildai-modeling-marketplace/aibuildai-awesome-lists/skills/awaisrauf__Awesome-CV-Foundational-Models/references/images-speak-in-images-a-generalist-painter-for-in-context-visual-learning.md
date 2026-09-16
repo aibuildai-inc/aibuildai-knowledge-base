@@ -1,0 +1,21 @@
+---
+title: "Images Speak in Images: A Generalist Painter for In-Context Visual Learning"
+entry_type: paper
+source: "http://arxiv.org/pdf/2212.02499v2"
+upstream_list: "awaisrauf/Awesome-CV-Foundational-Models"
+year: 2022
+authors: "Wang, Xinlong,  Wang, Wen,  Cao, Yue,  Shen, Chunhua,  Huang, Tiejun"
+description: "In-context learning, as a new paradigm in NLP, allows the model to rapidly adapt to various tasks with only a handful of prompts and examples. But in computer vision, the difficulties for in-context learning lie in that tasks vary significantly in the output representations, thus it is unclear how to define the general-purpose task prompts that the vision model can understand and transfer to out-of-domain tasks. In this work, we present Painter, a generalist model which addresses these obstacles with an \"image\"-centric solution, that is, to redefine the output of core vision tasks as images, and specify task prompts as also images. With this idea, our training process is extremely simple, which performs standard masked image modeling on the stitch of input and output image pairs. This makes the model capable of performing tasks conditioned on visible image patches. Thus, during inference, we can adopt a pair of input and output images from the same task as the input condition, to indicate which task to perform. Without bells and whistles, our generalist Painter can achieve competitive performance compared to well-established task-specific models, on seven representative vision tasks ranging from high-level visual understanding to low-level image processing. In addition, Painter significantly outperforms recent generalist models on several challenging tasks."
+---
+
+# Images Speak in Images: A Generalist Painter for In-Context Visual Learning
+
+**Source**: [http://arxiv.org/pdf/2212.02499v2](http://arxiv.org/pdf/2212.02499v2)
+
+**Year**: 2022
+
+**Authors**: Wang, Xinlong,  Wang, Wen,  Cao, Yue,  Shen, Chunhua,  Huang, Tiejun
+
+## Description
+
+In-context learning, as a new paradigm in NLP, allows the model to rapidly adapt to various tasks with only a handful of prompts and examples. But in computer vision, the difficulties for in-context learning lie in that tasks vary significantly in the output representations, thus it is unclear how to define the general-purpose task prompts that the vision model can understand and transfer to out-of-domain tasks. In this work, we present Painter, a generalist model which addresses these obstacles with an "image"-centric solution, that is, to redefine the output of core vision tasks as images, and specify task prompts as also images. With this idea, our training process is extremely simple, which performs standard masked image modeling on the stitch of input and output image pairs. This makes the model capable of performing tasks conditioned on visible image patches. Thus, during inference, we can adopt a pair of input and output images from the same task as the input condition, to indicate which task to perform. Without bells and whistles, our generalist Painter can achieve competitive performance compared to well-established task-specific models, on seven representative vision tasks ranging from high-level visual understanding to low-level image processing. In addition, Painter significantly outperforms recent generalist models on several challenging tasks.

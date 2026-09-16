@@ -1,0 +1,17 @@
+---
+title: "Efficient Streaming Language Models with Attention Sinks"
+entry_type: paper
+source: "https://arxiv.org/abs/2309.17453"
+upstream_list: "HuangOwen/Awesome-LLM-Compression"
+category: "Other"
+venue: "Arxiv 2023"
+code_url: "https://github.com/mit-han-lab/streaming-llm"
+---
+
+# Efficient Streaming Language Models with Attention Sinks
+
+**Source**: [https://arxiv.org/abs/2309.17453](https://arxiv.org/abs/2309.17453)
+
+**Code**: [https://github.com/mit-han-lab/streaming-llm](https://github.com/mit-han-lab/streaming-llm)
+
+**Venue**: Arxiv 2023 | **Category**: Other

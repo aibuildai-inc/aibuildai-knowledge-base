@@ -1,0 +1,15 @@
+---
+title: "HumanDiffusion: a Coarse-to-Fine Alignment Diffusion Framework for Controllable Text-Driven Person Image Generation"
+entry_type: paper
+source: "https://arxiv.org/abs/2211.06235"
+upstream_list: "Yutong-Zhou-cv/Awesome-Text-to-Image"
+category: "2022"
+venue: "arXiv preprint"
+year: "2022"
+---
+
+# HumanDiffusion: a Coarse-to-Fine Alignment Diffusion Framework for Controllable Text-Driven Person Image Generation
+
+**Source**: [https://arxiv.org/abs/2211.06235](https://arxiv.org/abs/2211.06235)
+
+**Year**: 2022 | **Venue**: arXiv preprint | **Category**: 2022

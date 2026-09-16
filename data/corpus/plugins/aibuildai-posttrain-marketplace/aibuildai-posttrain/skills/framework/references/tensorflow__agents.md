@@ -1,0 +1,116 @@
+# agents (TF-Agents)
+
+Google's TensorFlow library for classic reinforcement learning and contextual bandits - not an LLM post-training library - built around per-algorithm `Agent` classes trained through an explicit collect-driver/replay-buffer loop rather than a single `.train()` call.
+
+TF-Agents describes itself as "a reliable, scalable and easy to use TensorFlow library for Contextual Bandits and Reinforcement Learning" that "makes implementing, deploying, and testing new Bandits and RL algorithms easier" by providing "well tested and modular components that can be modified and extended" [1]. It is built and maintained by Google (the PyPI package's author is listed as Google LLC [2]), though the repository's own README states "this is not an official Google product" [1]. It lives at https://github.com/tensorflow/agents [1]. Its API shape is lower-level than a single-call trainer: a user builds a `TFPyEnvironment`, a network, and an `Agent` (e.g. `DqnAgent`, `PPOAgent`), wires a `replay_buffer` and a `driver` (e.g. `DynamicStepDriver`) that collects experience into that buffer, then repeatedly calls `agent.train(experience)` inside a hand-written Python loop - there is no single `Trainer.train()` entry point [3].
+
+**When to pick it**: pick it for classic RL or contextual-bandits research on Gym/PyEnvironment-style simulated environments inside the TensorFlow ecosystem - it is not built for fine-tuning transformer language models, which is what sibling cards like trl and verl target. Weigh its release cadence before committing: the PyPI package has had no new version since 0.19.0 shipped 2023-12-14 [2], even though GitHub commits continue through the shortlist's own newest push on 2026-01-16 [4] - the repository has no formal GitHub Releases at all, only git tags [5].
+
+**Methods it ships**: the README's headline algorithm list is DQN, DDQN, DDPG, TD3, REINFORCE, PPO, and SAC, each with its defining paper (method math and training-signal semantics live on each method's own card, not here) [1]. The `tf_agents/agents/` directory at the shortlist commit holds more than that list names: `behavioral_cloning`, `categorical_dqn`, `cql`, `ddpg`, `dqn`, `ppo`, `qtopt`, `random`, `reinforce`, `sac`, and `td3` subpackages [6] - so the README's list undercounts what actually ships. Contextual-bandits agents live separately under `tf_agents/bandits/agents/`: `bernoulli_thompson_sampling`, `dropout_thompson_sampling`, `exp3`, `exp3_mixture`, `greedy_multi_objective_neural`, `greedy_reward_prediction`, `lin_ucb`, `linear_bandit`, `linear_thompson_sampling`, `mixture`, `neural_boltzmann`, `neural_epsilon_greedy`, `neural_falcon`, `neural_linucb`, `ranking`, and `static_mixture` [7]. Import paths follow the pattern `tf_agents.agents.<family>.<file>.<ClassName>`, e.g. `tf_agents.agents.dqn.dqn_agent.DqnAgent` and `tf_agents.agents.ppo.ppo_agent.PPOAgent` [8]. Two of the shortlist's own `methods_seen` citations are not agents at all: `tf_agents/agents/ppo/ppo_actor_network.py` defines `PPOActorNetwork`, a network-construction helper PPO's example wires into the agent, not the agent class itself [9]; `tf_agents/bandits/policies/reward_prediction_base_policy.py` defines `RewardPredictionBasePolicy`, an abstract base policy that several bandits agents (e.g. `greedy_reward_prediction_agent.py`) build on [10]; and `tf_agents/bandits/agents/examples/v2/trainer.py`, labeled "Trainer" in the shortlist, is a shared driver/checkpoint/logging loop used by the bandits example scripts, not a distinct method [11].
+
+**Scale it handles**: the base pattern is one process on one GPU or CPU, driven by a hand-written Python loop (see Quick start). Neither the DQN, PPO, nor bandits example scripts use `tf.distribute`, `MirroredStrategy`, or any distribution-strategy device sharding - none of those terms appear in `dqn_train_eval.py`, the PPO clip-agent example, or `bandits_trainer.py` [3][12][11]. PPO's only documented scale mechanism is CPU-side environment parallelism: its example launches `parallel_py_environment.ParallelPyEnvironment` across `num_parallel_environments` (default 30) separate environment processes to collect more experience per iteration - this scales data collection throughput, not gradient computation across devices [12]. A newer `tf_agents/train/` Actor-Learner API splits collection (`Actor`) from gradient updates (`Learner`) around a Reverb replay-buffer server that "can be run alongside the main training script or as a separate job," and its own README states the split "allows users to easily scale their collection and training to run across multiple machines and accelerators improving training speed (more on this in a later release)" - i.e. the multi-machine claim is stated as future work with no benchmark attached [13]. That same directory ships a `tpu_ppo_learner_test.py`, hinting at TPU-side support for the PPO learner, but no docs page or example in what was read here describes running it on TPU or across nodes [14]. In short: environment-collection parallelism is documented and used; cross-device/cross-node gradient scaling has stated intent but no published mechanism or benchmark.
+
+**Install**: `pip install --user tf-agents[reverb]` is the README's and the live docs' recommended command [1][15]. Version 0.19.0, uploaded to PyPI 2023-12-14 [2]; the `tf_agents/version.py` file at the shortlist commit (2026-01-16) still declares `0.19.0` with a `dev` suffix, confirming no release has shipped since - the shortlist commit is a post-release, unreleased state, ahead of what `pip install` actually delivers [16]. `requires_python` is `>=3` in the PyPI metadata [2], though the release's own classifiers list only Python 3.8 through 3.11 and the README separately states 0.18.0 dropped Python 3.8 support - the two sources do not agree on the exact floor, and this card does not resolve that disagreement [1][17]. License is Apache 2.0 [2][17]. Read at the v0.19.0 tag (resolved to commit `737d758452990dc3c81b8aeab1a6ae4f63afa12c` [5]): the base install pins `tensorflow-probability~=0.23.0`, `gym>=0.17.0,<=0.23.0` (a hard upper bound - a collision risk for anyone already on a newer gym or on `gymnasium`), `typing-extensions==4.5.0`, and `pygame==2.1.3`, all exact or capped; `tensorflow` itself is NOT a base dependency - it only arrives through the `[reverb]` extra, which pins `tensorflow~=2.15.0`, `dm-reverb~=0.14.0`, and an unpinned `rlds` [2][17]. Neither the PyPI metadata nor `setup.py` states a CUDA or hardware minimum; the README's only hardware note is that TF-Agents itself "will only work with Linux" when Reverb is in use, which it describes as the common case [1][2][17].
+
+**Maintained by**: Google, via the TensorFlow org [2]; the GitHub Releases API returns an empty list - there are no formal GitHub Releases, only git tags such as `v0.19.0` [5]. Commits continue at low cadence past the last PyPI release: the most recent pushes (through the shortlist's own 2026-01-16 commit) are small compatibility fixes such as a NumPy 2.4 compatibility patch and an `np.integer`-to-`np.int64` dtype fix [4], not new features or a version bump.
+
+## Quick start
+
+The DQN example script's own docstring gives the smallest complete runnable form, training DQN on Gym's CartPole-v0 [3]:
+
+```bash
+tensorboard --logdir $HOME/tmp/dqn/gym/CartPole-v0/ --port 2223 &
+
+python tf_agents/agents/dqn/examples/v2/train_eval.py \
+  --root_dir=$HOME/tmp/dqn/gym/CartPole-v0/ \
+  --alsologtostderr
+```
+
+Install first with `pip install --user tf-agents[reverb]` [1]. There is no single quickstart code cell equivalent to a `Trainer().train()` call - each `tf_agents/agents/<name>/examples/v2/train_eval.py` script is itself the runnable example, invoked as a CLI program with `--root_dir` and, for gin-configurable parameters, `--gin_param` [3].
+
+## Start it
+
+- One process, one GPU/CPU: run a `train_eval.py` script as shown above; the script builds the environment, agent, replay buffer, and driver in-process and loops manually over `num_iterations` [3].
+- Scaling data collection: PPO's example exposes `--num_parallel_environments` (default 30), which spawns that many `ParallelPyEnvironment` worker processes to collect experience in parallel, alongside `--num_epochs` (default 25, PPO update epochs per iteration) and `--collect_episodes_per_iteration` (default 30) [12]. This parallelizes environment rollout, not the training step itself - no flag or documented option changes how many devices run `agent.train()`.
+- The newer `tf_agents/train/` Actor-Learner API separates the two roles explicitly: an `Actor` runs `steps_per_run` collection steps against a Reverb-backed replay-buffer observer, and a `Learner` (constructed with a root directory, a `train_step`, the agent, and a dataset function over the Reverb buffer) performs the gradient updates and writes its own checkpoints and summaries via a list of `triggers` such as `StepPerSecondLogTrigger` [13]. This is the code path the "scale to multiple machines" claim above is attached to.
+- No `Config` dataclass exists across methods the way trl's `TrainingArguments` subclasses do; instead every `train_eval` function is `@gin.configurable`, so its keyword defaults (e.g. DQN's `batch_size=64`, `learning_rate=1e-3`, `epsilon_greedy=0.1`, `gamma=0.99`, `replay_buffer_capacity=100000`) are overridden either as Python call arguments or via `--gin_param='train_eval.<name>=<value>'` on the CLI [3]. No precision/dtype default was found to differ from plain TensorFlow's float32 in any of the three example scripts read for this card.
+- Out-of-memory first aid: none is published in the DQN, PPO, or bandits example scripts or their docstrings read for this card - no OOM section or troubleshooting flag was found in `dqn_train_eval.py`, the PPO clip-agent example, or `bandits_trainer.py` [3][12][11].
+
+## Watch it
+
+Mechanics only - what a metric's shape means for a given algorithm lives on that method's own card.
+
+- **Enable it**: logging is always-on and local, with no external tracker required. Each `train_eval` script creates a `tf.compat.v2.summary.create_file_writer` pointed at a `train`/`eval` subdirectory under `--root_dir` and sets it as the default summary writer, so a TensorBoard event file is written by default the moment training starts [3]. Cadence is controlled by `--log_interval` (default 1000, absl logging of loss and steps/sec) and `--summary_interval` (default 1000, TF summary write cadence) [3].
+- **DQN's example logs** these train metrics via `TFStepMetric.tf_summaries`: `NumberOfEpisodes`, `EnvironmentSteps`, `AverageReturnMetric`, `AverageEpisodeLengthMetric`, plus a directly-logged `global_steps_per_sec` scalar [3]. The full metric-class catalog lives in `tf_agents/metrics/tf_metrics.py`: `EnvironmentSteps`, `NumberOfEpisodes`, `AverageReturnMetric`, `MaxReturnMetric`, `MinReturnMetric`, `AverageEpisodeLengthMetric`, `ChosenActionHistogram`, and `AverageReturnMultiMetric` [18].
+- **Bandits' example logs** `NumberOfEpisodes`, `AverageEpisodeLengthMetric`, an `EnvironmentSteps`-based `step_metric`, and either `AverageReturnMetric` (scalar reward) or `AverageReturnMultiMetric` (dict/vector reward), written through `export_utils.export_metrics` and each metric's own `tf_summaries` call [11].
+- **Sample-level logging**: none found. Because these are RL/bandits training loops rather than text generation, no example script read for this card logs sample trajectories, actions, or text to the tracker.
+- **Evaluate during training**: DQN's example takes `--eval_interval` (default 1000) and `--num_eval_episodes` (default 10), computing eval metrics against a separate `eval_tf_env` and `eval_policy` through `metric_utils.eager_compute`, with results also logged under a `Metrics/` summary prefix [3].
+- **Stopping**: no RL-specific stopping rule, threshold, or patience field was found in `dqn_train_eval.py`, the PPO clip-agent example, or `bandits_trainer.py` - all three simply loop for a fixed `num_iterations` / `training_loops` count with no early-stop condition [3][12][11].
+
+## Save it
+
+- DQN's example writes three independent checkpoint directories under `root_dir/train`, each a `tf_agents.utils.common.Checkpointer` wrapping a `tf.train.CheckpointManager` with `max_to_keep=20` by default: `train_checkpointer` (`train_dir`, holding the full `agent`, `global_step`, and a `MetricsGroup` of train metrics), `policy_checkpointer` (`train_dir/policy`, holding only the eval `policy` and `global_step`), and `rb_checkpointer` (`train_dir/replay_buffer`, `max_to_keep=1` in this example, holding only the `replay_buffer`) [19][3]. Save cadence is set by `--train_checkpoint_interval` (default 10000), `--policy_checkpoint_interval` (default 5000), and `--rb_checkpoint_interval` (default 20000) [3]. Resume calls `initialize_or_restore()` on each `Checkpointer` independently, but the example only calls it on `train_checkpointer` and `rb_checkpointer` - `policy_checkpointer` is never restored in this script, so a restart resumes the agent's training state and the replay buffer's collected experience, while the separately-saved eval policy checkpoint sits unused unless a caller restores it explicitly [3][19].
+- Bandits' example checkpoints agent, per-metric objects, and the step metric together into one `tf.train.Checkpoint`/`CheckpointManager(max_to_keep=5)` under `root_dir`, restoring automatically at start if a checkpoint exists, and separately calls a `policy_saver.PolicySaver.save(...)` export every 100 training loops when `save_policy=True` [11].
+- The deployable artifact is a policy `SavedModel`, produced by `tf_agents.policies.policy_saver.PolicySaver(policy).save(export_dir)`; its own docstring recommends calling `saver.save('policy_%d' % global_step)` periodically during training [9]. TF-Agents has no adapter/PEFT concept - there is no partial-weights save format here, only the full policy SavedModel or the full training-state checkpoint above.
+- **Loader handoff**: a saved policy directory is directly loadable with no framework glue - `tf.compat.v2.saved_model.load(export_dir)` returns an object exposing `action`, `get_initial_state`, and `get_train_step` as callable concrete functions (or, in flattened form, under `.signatures[...]`), ready to call `saved_policy.action(time_step, policy_state)` in a plain TensorFlow evaluation loop [9].
+
+## Find it in the docs
+
+- Address pattern for the human-readable docs: `https://www.tensorflow.org/agents/<page>`. Fetched 2026-08-11, TF-Agents docs showing the master-branch README content (not a version-pinned release build - see the pinned-vs-live note below): `https://www.tensorflow.org/agents/overview` mirrors the GitHub README [1][15]; `https://www.tensorflow.org/agents/tutorials/<notebook-stem>` serves each Colab tutorial, e.g. `1_dqn_tutorial`, `bandits_tutorial`, `10_checkpointer_policysaver_tutorial` [20].
+- API reference uses a flattened namespace rather than the Python import path: `https://www.tensorflow.org/agents/api_docs/python/tf_agents/agents/<ClassName>` resolves even for classes defined in submodules - `.../agents/PPOAgent` loads even though the class lives at `tf_agents.agents.ppo.ppo_agent.PPOAgent` in code, while the literal submodule path `.../agents/ppo/PPOAgent` 404s (checked 2026-08-11) [21].
+- Pinned-vs-live gap found directly: the live `overview` page and the README at the shortlist commit both instruct setting `TF_USE_LEGACY_KERAS=1` and installing `tf-keras` for the stable install path; that guidance is absent from the README as it stood at the `v0.19.0` release tag - so a reader following the live page for a `v0.19.0` install is being given an instruction the pinned release's own README never had [1][15][22].
+- Runnable references beyond the docs: each algorithm's own `tf_agents/<family>/examples/v2/train_eval.py` script (DQN's is quoted above) doubles as both the smoke-test and the full example; `docs/tutorials/` in the repo holds the Colab notebooks the README points to, including `0_intro_rl.ipynb` for newcomers and `bandits_tutorial.ipynb` for the bandits suite [23][1].
+- No community-tutorials page equivalent to trl's curated list was found on `tensorflow.org/agents`; the README's own "Tutorials" section is the only curation layer identified, and it points back into the repo's own `docs/tutorials/` rather than to external blogs [1]. No official MCP endpoint for these docs was found or is cited here.
+- Honest boundary: this is not an LLM/transformer fine-tuning library - there is no SFT/DPO/RLHF-style trainer here, only classic-RL and bandits agents over Gym/PyEnvironment-style environments [1][6][7]. No maintainer-reply "trap" from a closed issue met this card's citation bar (a maintainer association plus a recent, relevant date); the closest candidate found, a 2021-12-30 comment from a CONTRIBUTOR-associated user on a policy-save `AttributeError` pointing to an unreleased patch commit, predates the current release by two years and was not included [24].
+
+## Sources
+
+Fetched 2026-08-11 unless noted; all GitHub source citations are read at the shortlist commit `eb24cf5f93f99ed78261975cc61a7fc648febcd5` unless a different ref is named. Method names (DQN, PPO, SAC, ...) are deliberately cited to nothing here - their defining papers live on the methodology cards.
+
+[1] tensorflow/agents README at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/README.md.
+
+[2] tf-agents PyPI JSON API. https://pypi.org/pypi/tf-agents/json.
+
+[3] tf_agents/agents/dqn/examples/v2/train_eval.py at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/agents/dqn/examples/v2/train_eval.py.
+
+[4] tensorflow/agents commit list (GitHub API). https://api.github.com/repos/tensorflow/agents/commits.
+
+[5] tensorflow/agents GitHub Releases and tags APIs (Releases returns an empty list; v0.19.0 tag resolves to commit 737d758452990dc3c81b8aeab1a6ae4f63afa12c). https://api.github.com/repos/tensorflow/agents/releases and https://api.github.com/repos/tensorflow/agents/tags.
+
+[6] tensorflow/agents repository contents API, `tf_agents/agents` at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://api.github.com/repos/tensorflow/agents/contents/tf_agents/agents?ref=eb24cf5f93f99ed78261975cc61a7fc648febcd5.
+
+[7] tensorflow/agents repository contents API, `tf_agents/bandits/agents` at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://api.github.com/repos/tensorflow/agents/contents/tf_agents/bandits/agents?ref=eb24cf5f93f99ed78261975cc61a7fc648febcd5.
+
+[8] tf_agents PPOAgent API doc page, confirming the flattened-namespace import shown against the code's actual submodule location. https://www.tensorflow.org/agents/api_docs/python/tf_agents/agents/PPOAgent.
+
+[9] tf_agents/policies/policy_saver.py at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5 (`PolicySaver` class, its docstring's save/load usage example, and its `action`/`get_initial_state`/`get_train_step` signatures). https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/policies/policy_saver.py.
+
+[10] tf_agents/bandits/policies/reward_prediction_base_policy.py at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/bandits/policies/reward_prediction_base_policy.py.
+
+[11] tf_agents/bandits/agents/examples/v2/trainer.py at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/bandits/agents/examples/v2/trainer.py.
+
+[12] tf_agents/agents/ppo/examples/v2/train_eval_clip_agent.py at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/agents/ppo/examples/v2/train_eval_clip_agent.py.
+
+[13] tf_agents/train/README.md at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5 (Actor-Learner API description, Reverb replay-buffer server, and the multi-machine/accelerator scaling statement). https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/train/README.md.
+
+[14] tensorflow/agents repository contents API, `tf_agents/train` at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5 (lists `tpu_ppo_learner_test.py` among the directory's files). https://api.github.com/repos/tensorflow/agents/contents/tf_agents/train?ref=eb24cf5f93f99ed78261975cc61a7fc648febcd5.
+
+[15] tensorflow.org/agents/overview live page. https://www.tensorflow.org/agents/overview.
+
+[16] tf_agents/version.py at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5 (declares version 0.19.0 with the `dev` suffix active, i.e. no release has shipped past 0.19.0 as of this commit). https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/version.py.
+
+[17] tensorflow/agents setup.py at the v0.19.0 tag (commit 737d758452990dc3c81b8aeab1a6ae4f63afa12c) - `get_required_packages`, `get_reverb_packages`, `python_requires`, `classifiers`, `license`. https://raw.githubusercontent.com/tensorflow/agents/v0.19.0/setup.py.
+
+[18] tf_agents/metrics/tf_metrics.py at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/metrics/tf_metrics.py.
+
+[19] tf_agents/utils/common.py at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5 (`Checkpointer` class: constructor, `max_to_keep` default of 20, `initialize_or_restore`, `save`). https://raw.githubusercontent.com/tensorflow/agents/eb24cf5f93f99ed78261975cc61a7fc648febcd5/tf_agents/utils/common.py.
+
+[20] tensorflow.org/agents tutorials index and an individual tutorial page, confirming the `/agents/tutorials/<notebook-stem>` URL pattern (checked with `1_dqn_tutorial`). https://www.tensorflow.org/agents/tutorials and https://www.tensorflow.org/agents/tutorials/1_dqn_tutorial.
+
+[21] tensorflow.org/agents API doc pages, checked directly: `.../agents/PPOAgent` loads (200) while `.../agents/ppo/PPOAgent` 404s. https://www.tensorflow.org/agents/api_docs/python/tf_agents/agents/PPOAgent and https://www.tensorflow.org/agents/api_docs/python/tf_agents/agents/ppo/PPOAgent.
+
+[22] tensorflow/agents README at the v0.19.0 tag (commit 737d758452990dc3c81b8aeab1a6ae4f63afa12c) - lacks the `TF_USE_LEGACY_KERAS`/`tf-keras` guidance present in the live/master README. https://raw.githubusercontent.com/tensorflow/agents/v0.19.0/README.md.
+
+[23] tensorflow/agents repository contents API, `docs/tutorials` at commit eb24cf5f93f99ed78261975cc61a7fc648febcd5. https://api.github.com/repos/tensorflow/agents/contents/docs/tutorials?ref=eb24cf5f93f99ed78261975cc61a7fc648febcd5.
+
+[24] tensorflow/agents closed issue #693, "Unable to save trained tf policy," and its one comment (author `oars`, association CONTRIBUTOR, 2021-12-30) - read and deliberately not used as a card trap because of its age relative to the current release. https://github.com/tensorflow/agents/issues/693.
