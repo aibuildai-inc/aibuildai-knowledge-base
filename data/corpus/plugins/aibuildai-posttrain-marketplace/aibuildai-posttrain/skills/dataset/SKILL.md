@@ -51,6 +51,10 @@ The restriction cell is one clause, taken from the card's own opening. Everythin
 
 `references/finding-more.md` is a procedure, not a list: which endpoint to call, in what order, and the traps that return a wrong answer with an HTTP 200. Use it when the index has no fit. The search really is needed, and not as a last resort: datasets appear, change, and disappear, and this list is one snapshot taken on 2026-08-11.
 
+## Legal-domain data
+
+For legal post-training, the `legal-dataset` skill holds 43 legal dataset cards in this same format, and measures which legal training sets contain which legal benchmark's test items. Read it before training on legal data or reporting LegalBench, LexGLUE, CaselawQA or LawBench.
+
 ## How to read a card
 
 A card exists only because the dataset passed screening, so it leads with what the dataset is and how to use it, and the screening record sits in an appendix at the end. Read the opening paragraph, the bolded `Use it for`, `Licence`, `Hold out`, and `Trap` lines, and stop there for most decisions. The load line under `Load it` is exact and pinned to the revision every number on the card was read at, so it can be copied straight into a script - there is no second file to open before acting.

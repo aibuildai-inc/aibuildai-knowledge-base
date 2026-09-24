@@ -24,7 +24,7 @@ The corpus covers AI model building broadly, and post-training large language mo
 | `aibuildai-awesome-lists` | 460 | 110,640 | Domain knowledge from curated awesome lists: papers and tools per research area |
 | `aibuildai-playbooks` | 44 | 4,004 | Domain playbooks distilled from top solution write-ups for AI modeling tasks |
 | `aibuildai-huggingface` | 11 | 59 | The Hugging Face ecosystem: Hub datasets and models, trainers, evaluations, Gradio apps |
-| `aibuildai-posttrain` | 4 | 479 | Post-training a base language model: the workflow of one run, training data, methods, and frameworks |
+| `aibuildai-posttrain` | 5 | 526 | Post-training a base language model: the workflow of one run, training data, methods, and frameworks, and legal-domain training data |
 | `aibuildai-github` | 1 | 9 | Repositories for building AI models for molecular property prediction and drug discovery |
 
 The 460 awesome-list skills span the major areas of AI:
