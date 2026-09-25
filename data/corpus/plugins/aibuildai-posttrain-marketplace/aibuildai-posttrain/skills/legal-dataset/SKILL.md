@@ -36,7 +36,7 @@ The maintainers set Harvey LAB (`harveyai/harvey-labs`, card `references/harveya
 1. **What transfers is reading and writing documents, not recall.** Of 2,010 tasks, 498 are contract work, 161 M&A, 147 IP and 97 corporate governance; by work type, 488 analyze, 444 draft, 306 review. Data that trains finding exact terms in long agreements, spotting issues in them and writing structured work product transfers. Multiple-choice and label-classification data mostly does not: LAB never asks for a letter or a label.
 2. **The shape is agentic, and no legal dataset here has it.** Multi-turn tool use over files and producing a `.docx` come from the parent `dataset` skill's tool-calling and agent cards (for example `THUDM/AgentInstruct`), not from this skill. Mix legal data in for content.
 3. **The law is mostly U.S. and transactional.** Delaware appears in 29% of tasks, Texas 13%, the SEC or the Securities and Exchange Acts 10%, the EU or GDPR 9%. Chinese, Indian, French, Swedish, Canadian and Australian sets add little.
-4. **Contamination comes from copies of LAB on the Hub, not from this skill's older datasets.** LAB went public on 2026-05-06. Of the 43 datasets carded before LAB was the target, 39 have no file committed since then, so they cannot contain it, and the ones measured hold no LAB item. The Hub copies do: a full copy of 1,242 tasks with their rubrics, GLM-5.2 trajectories on 394 tasks, and ten repositories that each hold all 250 `firm-knowledge` rubrics (contamination map below).
+4. **Contamination comes from copies of LAB on the Hub, not from this skill's older datasets.** LAB went public on 2026-05-06. Of the 43 datasets carded before LAB was the target, 39 have no file committed since then, so they cannot contain it, and the ones measured hold no LAB rubric or instruction. The Hub copies do: a full copy of 1,242 tasks with their rubrics, GLM-5.2 trajectories on 394 tasks, and ten repositories that each hold all 250 `firm-knowledge` rubrics (contamination map below).
 
 ### Fit for LAB
 
@@ -108,7 +108,7 @@ Two datasets also leak within themselves: 56.56% of CAIL2018 `exercise_contest_t
 | `violetxi/harvey-eval-gpt56sol-*` (10 repositories) | `firm-knowledge` rubrics | 250 / 250 in each |
 | `ShubyM/harvey-lab-glm-traces` (GLM-5.2 trajectories) | instructions; documents | 394 / 2,010; 2,659 / 48,687 |
 | `violetxi/harvey-kl-ground-sessions`, `violetxi/harvey-note-conditioned-rollouts` | documents, almost all from the `firm-knowledge` store | 6,795 and 5,735 / 48,687 |
-| any of this skill's original 43 datasets | anything | 0 where measured; 39 were frozen before LAB existed |
+| any of this skill's original 43 datasets | rubrics, instructions or documents | 0, apart from one boilerplate SOX certification at exactly 50% in Nemotron; 39 were frozen before LAB existed |
 
 ## The full list
 

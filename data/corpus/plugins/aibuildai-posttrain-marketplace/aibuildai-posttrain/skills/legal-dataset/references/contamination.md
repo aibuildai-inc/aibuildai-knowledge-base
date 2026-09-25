@@ -172,7 +172,7 @@ Measured on 2026-09-24, after the maintainers named Harvey LAB (`harveyai/harvey
 | carded dataset | files after 2026-05-06 | scanned | rubrics ≥50% | instructions ≥50% | documents ≥50% |
 | --- | --- | --- | ---: | ---: | ---: |
 | `stindardlogic/legal-reasoning-dpo-100k` | 1 data file, 0.37 GB | all, 100,000 rows | 0 | 0 | 0 |
-| `nvidia/Nemotron-Pretraining-Legal-v1` | 21 data files, 6.99 GB | pending: scan running at this commit | | | |
+| `nvidia/Nemotron-Pretraining-Legal-v1` | 21 data files, 6.99 GB | all, 9,616,568 rows | 0 | 0 | 1 (at exactly 0.5: the SOX certification below) |
 | `pile-of-law/pile-of-law` | 3 data files, 3.16 GB (`courtlisteneropinions` 5 and 9, `courtlistenerdocketentries` validation 0) | not scanned | | | |
 | `a2aj/canadian-case-law` | 30 per-court files, 4.27 GB | not scanned | | | |
 
@@ -195,7 +195,7 @@ The two unscanned sets are real court opinions and docket entries; LAB's documen
 
 Every `violetxi/harvey-eval-gpt56sol-*` repository holds the same 250 rubrics: all of them are `firm-knowledge` tasks, as are 6,697 of the 6,795 documents in `harvey-kl-ground-sessions` and 5,640 of the 5,735 in `harvey-note-conditioned-rollouts`. `ShubyM/harvey-lab-glm-traces` holds no rubric text, but 394 task instructions (387 at ≥ 0.8) across 25 areas, led by `contracts` 97 and `corporate-ma` 44, and the documents the agent read.
 
-**New candidate datasets.** Scanned in full: `crosbylegal/RedlineBench` (9,888 rows) 0 items; `open-agreements/legal-practice-library` (1,622 rows from 140 non-Markdown files; its Markdown explainers and templates were not read) 0 items; `TheTokenFactory/sec-contracts-financial-extraction-instructions` (23,050 rows) one document at exactly 0.5 coverage, `diligence/rail-horizontal-merger/.../sox-302-404-certifications-2019-2024-11.docx`, the boilerplate text of a SOX certification. `chenghao/sec-material-contracts` (39.7 GB) was not scanned; its files were last committed on 2025-08-14, before LAB existed.
+**New candidate datasets.** Scanned in full: `crosbylegal/RedlineBench` (9,888 rows) 0 items; `open-agreements/legal-practice-library` (1,622 rows from 140 non-Markdown files; its Markdown explainers and templates were not read) 0 items; `TheTokenFactory/sec-contracts-financial-extraction-instructions` (23,050 rows) one document at exactly 0.5 coverage, `diligence/rail-horizontal-merger/.../sox-302-404-certifications-2019-2024-11.docx`, the boilerplate text of a SOX certification. Nemotron's single hit is the same document at the same coverage: the certification language is statutory, not LAB's. `chenghao/sec-material-contracts` (39.7 GB) was not scanned; its files were last committed on 2025-08-14, before LAB existed.
 
 **What to do with this.** Never train on any repository in the second table if you report LAB, and treat a Hub repository whose name mentions Harvey or LAB as contaminated until measured. The `firm-knowledge` split is the most exposed: its whole rubric set is public in at least ten repositories besides LAB itself. The older legal datasets in this skill are not a LAB contamination risk.
 
