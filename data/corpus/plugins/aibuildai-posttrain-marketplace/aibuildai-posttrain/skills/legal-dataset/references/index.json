@@ -1,7 +1,7 @@
 {
- "read_at": "2026-09-23",
+ "read_at": "2026-09-23 (five LAB additions 2026-09-24)",
  "selection_rule": "legal-domain datasets on the Hugging Face Hub whose content could be read and judged; each judged for use, origin and risk",
- "count": 43,
+ "count": 48,
  "datasets": [
   {
    "id": "pile-of-law/pile-of-law",
@@ -1517,6 +1517,181 @@
    "flag": "contained-in-training-sets",
    "commit": "23c262cf1d5593760be72eae0c76b9c0817fef68",
    "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "harveyai/harvey-labs",
+   "file": "references/harveyai__harvey-labs.md",
+   "url": "https://github.com/harveyai/harvey-labs",
+   "kind": "agentic-eval",
+   "use": "eval",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 2010,
+   "rows_display": "2,010 tasks at commit 1dd8140",
+   "splits": {
+    "none": 2010
+   },
+   "columns": {
+    "task.json": "title, work_type, tags, instructions, deliverables, criteria"
+   },
+   "licence_card_field": "MIT",
+   "licence_display": "MIT",
+   "flag": "copies-on-hub",
+   "commit": "1dd81403b2fbb60596f7aea3fcecafad7bf73143",
+   "language": "en",
+   "found_by": [
+    "maintainer"
+   ]
+  },
+  {
+   "id": "crosbylegal/RedlineBench",
+   "file": "references/crosbylegal__RedlineBench.md",
+   "url": "https://huggingface.co/datasets/crosbylegal/RedlineBench",
+   "kind": "agentic-eval",
+   "use": "eval",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 140,
+   "rows_display": "140 tasks",
+   "splits": {
+    "tasks/test": 140
+   },
+   "columns": {
+    "task_id": "string",
+    "scenario_id": "string",
+    "scenario_label": "string",
+    "represented_party": "string",
+    "counterparty": "string",
+    "rubric_variant": "string",
+    "instruction_preview": "string",
+    "rubric_category_counts": "string",
+    "contract_path": "string",
+    "rubrics_path": "string",
+    "attorney_redline_doc_path": "string",
+    "source_task_path": "string",
+    "turn": "int64",
+    "rubric_count": "int64",
+    "rubric_criteria_preview": "list<string>"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": null,
+   "commit": "eee1b6790982ed1279e86bec7616b662a61993e6",
+   "language": "en",
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "chenghao/sec-material-contracts",
+   "file": "references/chenghao__sec-material-contracts.md",
+   "url": "https://huggingface.co/datasets/chenghao/sec-material-contracts",
+   "kind": "text",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 1141632,
+   "rows_display": "1,141,632",
+   "splits": {
+    "default/train": 1141632
+   },
+   "columns": {
+    "index_html_url": "string",
+    "index_text_url": "string",
+    "cik": "string",
+    "name": "string",
+    "type": "string",
+    "filing_date": "string",
+    "report_date": "string",
+    "seq": "string",
+    "desc": "string",
+    "doc_type": "string",
+    "size": "string",
+    "filename": "string",
+    "file_url": "string",
+    "file": "string",
+    "extension": "string",
+    "filing_metadata": "string",
+    "file_content": "string"
+   },
+   "licence_card_field": "cc-by-sa-4.0",
+   "licence_display": "cc-by-sa-4.0",
+   "flag": "not-deduplicated",
+   "commit": "bc6a0be3fa359e426733633439316f66a76dbf41",
+   "language": "en",
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "open-agreements/legal-practice-library",
+   "file": "references/open-agreements__legal-practice-library.md",
+   "url": "https://huggingface.co/datasets/open-agreements/legal-practice-library",
+   "kind": "text",
+   "use": "train",
+   "origin": "unknown",
+   "gated": false,
+   "partial": false,
+   "rows_served": 119,
+   "rows_display": "119 (plus about 1,600 repository files)",
+   "splits": {
+    "default/train": 119
+   },
+   "columns": {
+    "topic": "string",
+    "slug": "string",
+    "jurisdiction": "string",
+    "country_code": "string",
+    "canonical_url": "string",
+    "license": "string",
+    "last_reviewed": "string",
+    "snapshot_as_of": "string",
+    "markdown": "string",
+    "stale": "bool"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": "unreviewed",
+   "commit": "e6c1bdbe1df9016cb20c843f30d1e9edff449eab",
+   "language": "en",
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "TheTokenFactory/sec-contracts-financial-extraction-instructions",
+   "file": "references/TheTokenFactory__sec-contracts-financial-extraction-instructions.md",
+   "url": "https://huggingface.co/datasets/TheTokenFactory/sec-contracts-financial-extraction-instructions",
+   "kind": "sft",
+   "use": "train",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 23049,
+   "rows_display": "23,049 (7,683 examples x 3 formats)",
+   "splits": {
+    "sharegpt/train": 3430,
+    "sharegpt/corrective": 4253,
+    "alpaca/train": 3430,
+    "alpaca/corrective": 4253,
+    "openai/train": 3430,
+    "openai/corrective": 4253
+   },
+   "columns": {
+    "conversations": "list<struct<from,value>>",
+    "metadata": "struct"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": "model-written-labels",
+   "commit": "c90ac749f9056901c8c3ed22ae1ff7c894c9b696",
+   "language": "en",
    "found_by": [
     "hub-search"
    ]

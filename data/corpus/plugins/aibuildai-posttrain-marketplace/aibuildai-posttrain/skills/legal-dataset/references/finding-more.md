@@ -30,6 +30,9 @@ A legal dataset found by search must be screened against the benchmarks it could
 | Supreme Court Database, Songer database | CaselawQA | `ricdomolm/lawma-tasks` `test`, and any SCDB-coded training set |
 | CAIL2018 | LawBench 3-1, 3-3, 3-4 | `china-ai-law-challenge/cail2018`, DISC-Law-SFT judgment rows |
 | Chinese judicial exam (JEC-QA) | LawBench 1-2, 3-6; AGIEval JEC-QA | `ShengbinYue/DISC-Law-SFT` `exam-*` rows |
+| Harvey LAB tasks, rubrics and synthetic documents (GitHub, public since 2026-05-06) | Harvey LAB, the target | `irfanjamil/Harvey-LAB`, `ShubyM/harvey-lab-glm-traces`, the `violetxi/harvey-*` repositories (`firm-knowledge` rubrics, sessions and rollouts), `narcolepticchicken/harvey-qwen35-isft`, `Hanno-Labs/harvey-labs-llm-artifact-analysis` (documents only) |
+
+For LAB, date comes first: a repository whose files were all last committed before 2026-05-06 cannot contain it, which the tree API answers in one call (`/api/datasets/<id>/tree/<sha>?recursive=true&expand=true`, field `lastCommit.date`). Everything newer that mentions Harvey, LAB, or legal agent traces gets the scan in `contamination.md`, section "Harvey LAB", with `irfanjamil/Harvey-LAB` as the positive control.
 
 To screen a find, run the containment check in `contamination.md` with the relevant evaluation set, **with its positive control**. A zero is evidence only when a source known to contain the items scores above zero in the same run.
 

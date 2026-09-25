@@ -53,7 +53,7 @@ The restriction cell is one clause, taken from the card's own opening. Everythin
 
 ## Legal-domain data
 
-For legal post-training, the `legal-dataset` skill holds 43 legal dataset cards in this same format, and measures which legal training sets contain which legal benchmark's test items. Read it before training on legal data or reporting LegalBench, LexGLUE, CaselawQA or LawBench.
+For legal post-training, the `legal-dataset` skill holds 48 legal dataset cards in this same format, targets Harvey LAB (`harveyai/harvey-labs`, an agentic legal benchmark), and measures which training sets contain which legal benchmark's test items, including the copies of LAB already on the Hub. Read it before training on legal data or reporting Harvey LAB, LegalBench, LexGLUE, CaselawQA or LawBench.
 
 ## How to read a card
 

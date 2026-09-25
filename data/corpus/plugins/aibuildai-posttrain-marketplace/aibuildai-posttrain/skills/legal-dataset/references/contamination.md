@@ -1,12 +1,13 @@
 # Measured contamination, split leakage and duplication
 
-This file holds the measurements this skill ran itself, on 2026-09-23, and the method to rerun them. The parent `dataset` skill's cards take every number from a source; legal post-training cannot, because the question that matters most - does this training set carry the benchmark I will report? - is answered by no dataset card. So these numbers are measured, and every card that cites them points here.
+This file holds the measurements this skill ran itself, on 2026-09-23 (and on 2026-09-24 for Harvey LAB), and the method to rerun them. The parent `dataset` skill's cards take every number from a source; legal post-training cannot, because the question that matters most - does this training set carry the benchmark I will report? - is answered by no dataset card. So these numbers are measured, and every card that cites them points here.
 
 ## What was measured
 
 1. **Benchmark containment.** For each evaluation set, how many of its test items appear inside a training-side source. Three evaluation families: LegalBench (all 162 tasks, `test` splits, 90,894 rows), CaseHOLD (LexGLUE `case_hold` test and `casehold/casehold` `all/test`), and the Chinese pair LawBench (the five tasks in `doolayer/LawBench`) plus AGIEval JEC-QA-KD.
 2. **Split leakage.** Exact matches between a dataset's own test and train splits.
 3. **Duplication.** Exact repeats inside a training split, on the key that matters for that dataset.
+4. **Harvey LAB exposure** (added 2026-09-24, when LAB became the target). Which Hub repositories carry LAB's rubrics, instructions or documents, and which carded datasets could: section "Harvey LAB".
 
 ## Method
 
@@ -151,6 +152,52 @@ CAIL2018's contest splits are not disjoint from its first-stage training data: 5
 | `DISC-Law-SFT DISC-Law-SFT-Pair.jsonl` | input+output (id excluded) | 166,758 | 161,704 | 5,054 | 3.03 | 55 |
 | `DISC-Law-SFT DISC-Law-SFT-Triplet-QA-released.jsonl` | input+output (id excluded) | 23,331 | 23,331 | 0 | 0.0 | 1 |
 | `DISC-Law-SFT DISC-Law-SFT-Triplet-released.jsonl` | input+output (id excluded) | 16,000 | 16,000 | 0 | 0.0 | 1 |
+
+## Harvey LAB
+
+Measured on 2026-09-24, after the maintainers named Harvey LAB (`harveyai/harvey-labs`, commit `1dd8140`) as this skill's target benchmark. LAB is different from the benchmarks above in two ways that change what the measurement has to cover. It has no training split, and it went public on 2026-05-06, after most of this skill's datasets were frozen. So the question is not "which training set holds the test split" but "which Hub repository copies LAB, or holds model runs on it".
+
+**Evaluation items.** Three kinds per task, 52,707 items in all: the rubric (every `match_criteria` joined, 2,010 items), the instructions (2,010), and every source document with extractable text (`.docx`, `.eml`, `.txt`, `.json`; 48,687 items). `.xlsx` and `.pptx` sources were not read.
+
+**Method.** The same as above: lowercased alphanumeric tokens, word 8-grams, coverage at ≥ 0.5 and ≥ 0.8, every string field of a source row joined. One change for size: documents keep at most 50 evenly spaced 8-grams instead of 200 (rubrics and instructions keep 200), so the 2.8 million-entry index fits in a laptop's memory. Matching uses an Aho-Corasick automaton over the whole row text rather than a hash lookup per n-gram; the result is the same set of hits.
+
+**Controls.**
+
+- *self*: LAB's own text against the index: 2,010 / 2,010 rubrics, 2,010 / 2,010 instructions, 48,687 / 48,687 documents at ≥ 0.8.
+- *words sorted*: each item's sampled 8-grams with their words sorted: 0 of 52,707.
+- *positive*: `irfanjamil/Harvey-LAB`, a Hub copy of LAB with 1,243 task rows. It returns 1,242 rubrics and 1,242 instructions at ≥ 0.5, which is every LAB task in the 24 practice areas it copied (1,251 today) except 9, consistent with tasks added or renamed after the copy was made; it has no `contracts`, `diligence` or `firm-knowledge` task. Its rubrics at ≥ 0.8 are 957: the copy predates later rubric edits.
+
+**Which datasets could hold LAB at all.** A file last committed before 2026-05-06 cannot contain LAB. Reading each carded dataset's file tree at its pinned revision (`/api/datasets/<id>/tree/<sha>?expand=true`), 39 of this skill's original 43 datasets have no file committed after that date. The other four were scanned file by file, only the files committed after it:
+
+| carded dataset | files after 2026-05-06 | scanned | rubrics ≥50% | instructions ≥50% | documents ≥50% |
+| --- | --- | --- | ---: | ---: | ---: |
+| `stindardlogic/legal-reasoning-dpo-100k` | 1 data file, 0.37 GB | all, 100,000 rows | 0 | 0 | 0 |
+| `nvidia/Nemotron-Pretraining-Legal-v1` | 21 data files, 6.99 GB | pending: scan running at this commit | | | |
+| `pile-of-law/pile-of-law` | 3 data files, 3.16 GB (`courtlisteneropinions` 5 and 9, `courtlistenerdocketentries` validation 0) | not scanned | | | |
+| `a2aj/canadian-case-law` | 30 per-court files, 4.27 GB | not scanned | | | |
+
+The two unscanned sets are real court opinions and docket entries; LAB's documents are synthetic matters, so a match is not plausible, but it was not measured.
+
+**Hub repositories that copy or run LAB.** Found by searching the Hub for `harvey`, `harvey_lab`, `harvey-lab`, `legal-agent` and `legal_agent` (2026-09-24), then scanned in full at their current revision:
+
+| repository | what it is | rows | rubrics ≥50% | instructions ≥50% | documents ≥50% |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `irfanjamil/Harvey-LAB` | LAB itself: task, instructions, criteria and documents, re-split 1,057 `train` / 186 `eval` | 1,243 | 1,242 | 1,242 | 6,841 |
+| `ShubyM/harvey-lab-glm-traces` | GLM-5.2 agent trajectories on LAB tasks, raw and SFT-formatted | 1,787 | 0 | 394 | 2,659 |
+| `violetxi/harvey-eval-gpt56sol-*` (10 repos) | evaluation sets and runs for the `firm-knowledge` tasks | 3,278 to 12,772 each | 250 each | 250 each | 27 to 276 |
+| `violetxi/harvey-kl-ground-sessions` | agent sessions over the `firm-knowledge` document store | 44,115 | 0 | 0 | 6,795 |
+| `violetxi/harvey-note-conditioned-rollouts` | 31,000 Qwen3.5-9B trajectories over the same store | 292,078 | 0 | 0 | 5,735 |
+| `violetxi/harvey-notes-v4` | notes distilled from those rollouts | 1,159,338 | 0 | 0 | 5 |
+| `Hanno-Labs/harvey-labs-llm-artifact-analysis` | refusal-classifier features built from LAB `.docx` outputs | 67,924 | 0 | 0 | 265 |
+| `narcolepticchicken/harvey-qwen35-isft` | training harness files; two `corporate-ma` tasks inside | 2,653 | 0 | 2 | 8 |
+| `violetxi/harvey-closed-book-*` (9 repos), `violetxi/harvey-eval-recall-*` (7 repos) | closed-book and recall evaluations | 10,111 / 15,870 each | 0 | 0 | 0 |
+| `narcolepticchicken/legal-agent-traces-v5`, `narcolepticchicken/legal-agent-router-dataset-v4` | legal agent traces and router data | 2,011 / 15,524 | 0 | 0 | 0 |
+
+Every `violetxi/harvey-eval-gpt56sol-*` repository holds the same 250 rubrics: all of them are `firm-knowledge` tasks, as are 6,697 of the 6,795 documents in `harvey-kl-ground-sessions` and 5,640 of the 5,735 in `harvey-note-conditioned-rollouts`. `ShubyM/harvey-lab-glm-traces` holds no rubric text, but 394 task instructions (387 at ≥ 0.8) across 25 areas, led by `contracts` 97 and `corporate-ma` 44, and the documents the agent read.
+
+**New candidate datasets.** Scanned in full: `crosbylegal/RedlineBench` (9,888 rows) 0 items; `open-agreements/legal-practice-library` (1,622 rows from 140 non-Markdown files; its Markdown explainers and templates were not read) 0 items; `TheTokenFactory/sec-contracts-financial-extraction-instructions` (23,050 rows) one document at exactly 0.5 coverage, `diligence/rail-horizontal-merger/.../sox-302-404-certifications-2019-2024-11.docx`, the boilerplate text of a SOX certification. `chenghao/sec-material-contracts` (39.7 GB) was not scanned; its files were last committed on 2025-08-14, before LAB existed.
+
+**What to do with this.** Never train on any repository in the second table if you report LAB, and treat a Hub repository whose name mentions Harvey or LAB as contaminated until measured. The `firm-knowledge` split is the most exposed: its whole rubric set is public in at least ten repositories besides LAB itself. The older legal datasets in this skill are not a LAB contamination risk.
 
 ## Rerunning it
 

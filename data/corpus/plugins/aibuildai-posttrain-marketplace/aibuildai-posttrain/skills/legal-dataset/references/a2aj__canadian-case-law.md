@@ -12,7 +12,7 @@ About 226,000 Canadian court and tribunal decisions, English and French side by 
 
 **Shape**: 226,019 rows in one `train` split, fully indexed (`partial` false) [5]; 21 columns [6]. The card's table gives per-court counts, from 29 (Public Service Disclosure Protection Tribunal) to 52,361 (Supreme Court of British Columbia), and warns "Counts are approximate and will drift as the dataset is updated" [1].
 
-**Hold out**: nothing inside the repository - one `train` split. No external benchmark in this skill is drawn from Canadian decisions, apart from LegalBench's `canada_tax_court_outcomes` task, which uses Tax Court of Canada judgments - a court this corpus covers (`TCC`, 8,124 rows per the card) [1].
+**Hold out**: nothing inside the repository - one `train` split. No external benchmark in this skill is drawn from Canadian decisions, apart from LegalBench's `canada_tax_court_outcomes` task, which uses Tax Court of Canada judgments - a court this corpus covers (`TCC`, 8,124 rows per the card) [1]. Harvey LAB: 30 of its per-court files were committed after LAB went public (most on 2026-09-20); they are Canadian court decisions and were not measured against LAB (`references/contamination.md`, "Harvey LAB").
 
 **Origin**: decisions written by Canadian courts and tribunals, scraped from their public websites [1]. Hub API at the check date: `downloads` 2,291, `downloadsAllTime` 51,458, `likes` 15; last modified 2026-09-20 [3].
 

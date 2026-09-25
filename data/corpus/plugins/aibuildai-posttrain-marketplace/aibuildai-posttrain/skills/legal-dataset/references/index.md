@@ -1,24 +1,33 @@
 # Every legal post-training dataset in this skill
 
-This is the full list: 43 datasets, read at 2026-09-23. The SKILL.md body carries only the recommended set and the contamination map, so the common case never opens this file. Each row points at its card, and the card holds the licence as stated and as the sources' own terms state it, the exact columns and splits, the pinned load line, and a real sample row.
+This is the full list: 48 datasets, read at 2026-09-23; the five added for the Harvey LAB target were read at 2026-09-24. The SKILL.md body carries only the recommended set and the contamination map, so the common case never opens this file. Each row points at its card, and the card holds the licence as stated and as the sources' own terms state it, the exact columns and splits, the pinned load line, and a real sample row.
 
 Groups are by the shape of the data. `Use` is the verdict recorded with the selection: `train` means it may be trained on, `eval` means hold it out, `both` means part of it is a benchmark split or it contains benchmark items; the card names which. `Origin` says who wrote the text: `human`, `model`, `mixed`, or `unknown`. `Flag` repeats the screening row's flag, when there is one.
 
-**Read this before you build a training mix.** 9 of these 43 datasets are marked `eval`: listed so they can be recognised and kept out. Another 17 are marked `both`. Several `train` and `both` datasets contain benchmark test items; `references/contamination.md` has the measurements.
+**Read this before you build a training mix.** 11 of these 48 datasets are marked `eval`, including the target benchmark `harveyai/harvey-labs`: listed so they can be recognised and kept out. Another 17 are marked `both`. Several `train` and `both` datasets contain benchmark test items; `references/contamination.md` has the measurements.
 
-## Plain text (continued pretraining) (7)
+## Agentic evaluation sets (2)
 
 | Dataset | Rows | Licence field | Use | Origin | Flag | Card |
 |---|---|---|---|---|---|---|
+| `harveyai/harvey-labs` (GitHub) | 2,010 tasks at commit `1dd8140` | MIT | eval | mixed | copies-on-hub | `harveyai__harvey-labs.md` |
+| `crosbylegal/RedlineBench` | 140 tasks | cc-by-4.0 | eval | mixed |  | `crosbylegal__RedlineBench.md` |
+
+## Plain text (continued pretraining) (9)
+
+| Dataset | Rows | Licence field | Use | Origin | Flag | Card |
+|---|---|---|---|---|---|---|
+| `chenghao/sec-material-contracts` | 1,141,632 | cc-by-sa-4.0 | train | human | not-deduplicated | `chenghao__sec-material-contracts.md` |
 | `a2aj/canadian-case-law` | 226,019 | mit (upstream terms per row) | train | human | licence-per-source | `a2aj__canadian-case-law.md` |
 | `common-pile/caselaw_access_project` | 6,919,240 declared on the card | none on the card (rows tagged Public Domain) | train | human |  | `common-pile__caselaw_access_project.md` |
 | `HFforLegal/case-law` | 541,371 declared on the card | cc-by-4.0 | train | human |  | `HFforLegal__case-law.md` |
 | `isaacus/open-australian-legal-corpus` | 232,560 declared on the card | other (CC BY 4.0 collection, per-source terms) | train | human | licence-per-source | `isaacus__open-australian-legal-corpus.md` |
 | `joelniklaus/Multi_Legal_Pile` | viewer serves no rows; 689GB per the card | cc-by-nc-sa-4.0 (per-source licences inside) | train | mixed | script-loaded | `joelniklaus__Multi_Legal_Pile.md` |
+| `open-agreements/legal-practice-library` | 119 (plus about 1,600 repository files) | cc-by-4.0 | train | unknown | unreviewed | `open-agreements__legal-practice-library.md` |
 | `nvidia/Nemotron-Pretraining-Legal-v1` | 9,616,568 | cc-by-4.0 | both | mixed | contains-benchmark-items | `nvidia__Nemotron-Pretraining-Legal-v1.md` |
 | `pile-of-law/pile-of-law` | viewer disabled; 256GB per the paper | cc-by-nc-sa-4.0 | train | human | not-decontaminated | `pile-of-law__pile-of-law.md` |
 
-## Instruction and answer pairs (SFT) (10)
+## Instruction and answer pairs (SFT) (11)
 
 | Dataset | Rows | Licence field | Use | Origin | Flag | Card |
 |---|---|---|---|---|---|---|
@@ -31,6 +40,7 @@ Groups are by the shape of the data. `Use` is the verdict recorded with the sele
 | `Prarabdha/indian-legal-supervised-fine-tuning-data` | 6,055,371 | apache-2.0 | train | mixed |  | `Prarabdha__indian-legal-supervised-fine-tuning-data.md` |
 | `ricdomolm/lawma-instructions` | 554,419 | none on the card | train | human | no-licence | `ricdomolm__lawma-instructions.md` |
 | `ShengbinYue/DISC-Law-SFT` | 285,781 (measured, 4 files) | apache-2.0 | both | mixed | contains-benchmark-items | `ShengbinYue__DISC-Law-SFT.md` |
+| `TheTokenFactory/sec-contracts-financial-extraction-instructions` | 23,049 (7,683 examples x 3 formats) | cc-by-4.0 | train | mixed | model-written-labels | `TheTokenFactory__sec-contracts-financial-extraction-instructions.md` |
 | `ymoslem/Law-StackExchange` | 24,370 | cc-by-sa-4.0 | train | human |  | `ymoslem__Law-StackExchange.md` |
 
 ## Preference pairs (3)
@@ -107,6 +117,11 @@ Groups are by the shape of the data. `Use` is the verdict recorded with the sele
 | `common-pile/caselaw_access_project_filtered` | covered as a neighbor on the `common-pile/caselaw_access_project` card |
 | `jonathanli/law-stack-exchange` | covered as a neighbor on the `ymoslem/Law-StackExchange` card (questions only, topic labels) |
 | `ricdomolm/lawma-instructions_*` variants | per-tokenizer truncations of `ricdomolm/lawma-instructions`; named on its card |
+| `irfanjamil/Harvey-LAB` | a copy of Harvey LAB (1,242 tasks with rubrics and documents); never train on it if you report LAB. Measured in `contamination.md`, "Harvey LAB" |
+| `ShubyM/harvey-lab-glm-traces` | GLM-5.2 trajectories on 394 LAB tasks; the same |
+| `violetxi/harvey-*` (29 repositories) | evaluation sets, sessions, rollouts and notes on LAB's `firm-knowledge` tasks; ten hold all 250 of its rubrics |
+| `narcolepticchicken/harvey-qwen35-isft`, `Hanno-Labs/harvey-labs-llm-artifact-analysis` | training-harness files and classifier features built on LAB outputs; small LAB fragments inside |
+| `paperinstruments/diligence-bench`, `TryDotAtwo/legal-corpus-raw-batches` | found by the LAB searches; a financial-analysis benchmark, and an unscreened raw legal corpus |
 | per-country statute scrapes (`endomorphosis/ipfs_*_laws`, `justicedao/ipfs_*`), smart-contract code sets, retrieval-benchmark repackagings (`mteb/*`) | found by the search, but not post-training data for legal ability, or copies of a carded source |
 
 ## How this list was built

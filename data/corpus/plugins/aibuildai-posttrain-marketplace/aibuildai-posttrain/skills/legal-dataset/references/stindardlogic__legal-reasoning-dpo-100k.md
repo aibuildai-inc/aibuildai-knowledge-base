@@ -12,7 +12,7 @@ Sold as 100,000 synthetic U.S. legal DPO pairs; measured, it is 16 distinct prom
 
 **Shape**: 100,000 rows in one `train` split [3]; five columns (`prompt`, `chosen`, `rejected`, `metadata`, `id`) [4]. The Parquet file is 15,987,635 bytes for 355,768,750 bytes in memory, a 22x ratio that is itself a sign of repetition [3].
 
-**Hold out**: no split is set aside, and none can be: any split of 16 repeated triples puts the same pairs on both sides.
+**Hold out**: no split is set aside, and none can be: any split of 16 repeated triples puts the same pairs on both sides. Harvey LAB: its data file was committed on 2026-07-22, after LAB went public, and was measured: none of LAB's 2,010 rubrics, 2,010 instructions or 48,687 documents is contained (`references/contamination.md`, "Harvey LAB").
 
 **Origin**: model-generated, per the card's own "synthetic" description [1]; the generating model is not named. Hub API at the check date: `downloads` 59, `downloadsAllTime` 152, `likes` 0; created 2026-07-22 [2].
 
