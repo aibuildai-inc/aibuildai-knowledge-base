@@ -1,0 +1,1700 @@
+{
+ "read_at": "2026-09-23 (five later additions 2026-09-24)",
+ "selection_rule": "legal-domain datasets on the Hugging Face Hub whose content could be read and judged; each judged for use, origin and risk",
+ "count": 48,
+ "datasets": [
+  {
+   "id": "pile-of-law/pile-of-law",
+   "file": "references/pile-of-law__pile-of-law.md",
+   "url": "https://huggingface.co/datasets/pile-of-law/pile-of-law",
+   "kind": "text",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": null,
+   "rows_served": null,
+   "rows_display": "viewer disabled; 256GB per the paper",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": [
+    "cc-by-nc-sa-4.0"
+   ],
+   "licence_display": "cc-by-nc-sa-4.0",
+   "flag": "not-decontaminated",
+   "commit": "2e96169e7e4b43f8ea36230515ebb44b27423b94",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "joelniklaus/Multi_Legal_Pile",
+   "file": "references/joelniklaus__Multi_Legal_Pile.md",
+   "url": "https://huggingface.co/datasets/joelniklaus/Multi_Legal_Pile",
+   "kind": "text",
+   "use": "train",
+   "origin": "mixed",
+   "gated": false,
+   "partial": null,
+   "rows_served": null,
+   "rows_display": "viewer serves no rows; 689GB per the card",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": [
+    "cc-by-nc-sa-4.0"
+   ],
+   "licence_display": "cc-by-nc-sa-4.0 (per-source licences inside)",
+   "flag": "script-loaded",
+   "commit": "911e1d214162fd11d2c78d3f1428cbfcbe07782c",
+   "language": [
+    "bg",
+    "cs",
+    "da",
+    "de",
+    "el",
+    "en",
+    "es",
+    "et",
+    "fi",
+    "fr",
+    "ga",
+    "hr",
+    "hu",
+    "it",
+    "lt",
+    "lv",
+    "mt",
+    "nl",
+    "pl",
+    "pt",
+    "ro",
+    "sk",
+    "sl",
+    "sv"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "HFforLegal/case-law",
+   "file": "references/HFforLegal__case-law.md",
+   "url": "https://huggingface.co/datasets/HFforLegal/case-law",
+   "kind": "text",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": true,
+   "rows_served": 282390,
+   "rows_display": "541,371 declared on the card",
+   "splits": {
+    "default/us": 282390
+   },
+   "columns": {
+    "id": "string",
+    "title": "string",
+    "citation": "string",
+    "docket_number": "string",
+    "state": "string",
+    "issuer": "string",
+    "document": "string",
+    "hash": "string",
+    "timestamp": "string"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": null,
+   "commit": "dc0151fad300088cc7c21773bd3d680e0a514311",
+   "language": [
+    "fr",
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "a2aj/canadian-case-law",
+   "file": "references/a2aj__canadian-case-law.md",
+   "url": "https://huggingface.co/datasets/a2aj/canadian-case-law",
+   "kind": "text",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 226019,
+   "rows_display": "226,019",
+   "splits": {
+    "default/train": 226019
+   },
+   "columns": {
+    "dataset": "string",
+    "citation_en": "string",
+    "citation2_en": "string",
+    "name_en": "string",
+    "document_date_en": "timestamp[us, tz=UTC]",
+    "url_en": "string",
+    "scraped_timestamp_en": "timestamp[us, tz=UTC]",
+    "unofficial_text_en": "string",
+    "cases_cited_en": "list<string>",
+    "cases_citing_en": "list<string>",
+    "citation_fr": "string",
+    "citation2_fr": "string",
+    "name_fr": "string",
+    "document_date_fr": "timestamp[us, tz=UTC]",
+    "url_fr": "string",
+    "scraped_timestamp_fr": "timestamp[us, tz=UTC]",
+    "unofficial_text_fr": "string",
+    "cases_cited_fr": "list<string>",
+    "cases_citing_fr": "list<string>",
+    "citing_cases_count": "int64",
+    "upstream_license": "string"
+   },
+   "licence_card_field": "mit",
+   "licence_display": "mit (upstream terms per row)",
+   "flag": "licence-per-source",
+   "commit": "c2bf798c3e0b20f7a44f4998f8003f5b5b8e2240",
+   "language": [
+    "en",
+    "fr"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "nvidia/Nemotron-Pretraining-Legal-v1",
+   "file": "references/nvidia__Nemotron-Pretraining-Legal-v1.md",
+   "url": "https://huggingface.co/datasets/nvidia/Nemotron-Pretraining-Legal-v1",
+   "kind": "text",
+   "use": "both",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 9616568,
+   "rows_display": "9,616,568",
+   "splits": {
+    "Nemotron-Pretraining-Legal-California-Code-Of-Regulations/train": 57523,
+    "Nemotron-Pretraining-Legal-Case-Law-Summary/train": 53137,
+    "Nemotron-Pretraining-Legal-CaseHOLD/train": 5449347,
+    "Nemotron-Pretraining-Legal-Definition-Classification/train": 10200,
+    "Nemotron-Pretraining-Legal-Diversity-Jurisdiction/train": 6480,
+    "Nemotron-Pretraining-Legal-Function-Of-Decision/train": 70039,
+    "Nemotron-Pretraining-Legal-GlobalCit/train": 88898,
+    "Nemotron-Pretraining-Legal-LegalBench-CUAD-v2/train": 460031,
+    "Nemotron-Pretraining-Legal-NYCourts-Judicial-Ethics-Opinions/train": 5511,
+    "Nemotron-Pretraining-Legal-ToS-Clause-Understanding/train": 6831,
+    "Nemotron-Pretraining-Legal-ToSDR-QA/train": 7569,
+    "Nemotron-Pretraining-Legal-eCFR/train": 35173,
+    "Nemotron-Pretraining-Legal-eCFR-QA/train": 3365829
+   },
+   "columns": {
+    "text": "large_string",
+    "license": "large_string",
+    "metadata": "struct<category: large_string, models_used: large_string>",
+    "uuid": "large_string"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": "contains-benchmark-items",
+   "commit": "3d91d58a5c0c46fe9944300ec46719f97a385b13",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "lawinstruct/lawinstruct",
+   "file": "references/lawinstruct__lawinstruct.md",
+   "url": "https://huggingface.co/datasets/lawinstruct/lawinstruct",
+   "kind": "sft",
+   "use": "both",
+   "origin": "mixed",
+   "gated": false,
+   "partial": null,
+   "rows_served": null,
+   "rows_display": "viewer serves no rows; 142 files, 10.6 GB",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": [
+    "mit"
+   ],
+   "licence_display": "mit (per-source licences inside)",
+   "flag": "contains-benchmark-items",
+   "commit": "578e100783654ba791e55e5ebaaac343c66f408d",
+   "language": [
+    "bg",
+    "cs",
+    "da",
+    "de",
+    "el",
+    "en",
+    "es",
+    "et",
+    "fi",
+    "fr",
+    "ga",
+    "hr",
+    "hu",
+    "it",
+    "lt",
+    "lv",
+    "mt",
+    "nl",
+    "pl",
+    "pt",
+    "ro",
+    "sk",
+    "sl",
+    "sv",
+    "zh",
+    "ja",
+    "ko"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "common-pile/caselaw_access_project",
+   "file": "references/common-pile__caselaw_access_project.md",
+   "url": "https://huggingface.co/datasets/common-pile/caselaw_access_project",
+   "kind": "text",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": true,
+   "rows_served": 351619,
+   "rows_display": "6,919,240 declared on the card",
+   "splits": {
+    "default/train": 351619
+   },
+   "columns": {
+    "id": "string",
+    "source": "string",
+    "added": "string",
+    "created": "string",
+    "metadata": "struct<author: string, license: string, url: string>",
+    "text": "string"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card (rows tagged Public Domain)",
+   "flag": null,
+   "commit": "3c2cb5080b3a16a04d8d8d07b28eaec7c1ba7a90",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "isaacus/open-australian-legal-corpus",
+   "file": "references/isaacus__open-australian-legal-corpus.md",
+   "url": "https://huggingface.co/datasets/isaacus/open-australian-legal-corpus",
+   "kind": "text",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": true,
+   "rows_served": 118346,
+   "rows_display": "232,560 declared on the card",
+   "splits": {
+    "corpus/corpus": 118346
+   },
+   "columns": {
+    "version_id": "string",
+    "type": "string",
+    "jurisdiction": "string",
+    "source": "string",
+    "mime": "string",
+    "date": "string",
+    "citation": "string",
+    "url": "string",
+    "when_scraped": "string",
+    "text": "string"
+   },
+   "licence_card_field": "other",
+   "licence_display": "other (CC BY 4.0 collection, per-source terms)",
+   "flag": "licence-per-source",
+   "commit": "ef45e3fec41a960919a31149eee6dab9aa39f725",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "ricdomolm/lawma-tasks",
+   "file": "references/ricdomolm__lawma-tasks.md",
+   "url": "https://huggingface.co/datasets/ricdomolm/lawma-tasks",
+   "kind": "mcq",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 692483,
+   "rows_display": "692,483",
+   "splits": {
+    "n_configs": 260,
+    "totals_by_split": {
+     "test": 138064,
+     "train": 484786,
+     "val": 69633
+    }
+   },
+   "columns": {
+    "opinion": "string",
+    "instruction": "string",
+    "question": "string",
+    "choices": "list<string>",
+    "answer": "list<int64>"
+   },
+   "licence_card_field": "mit",
+   "licence_display": "mit",
+   "flag": null,
+   "commit": "818f6cd30d4328cf03d7778ae2b159b46e0321db",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "ricdomolm/lawma-instructions",
+   "file": "references/ricdomolm__lawma-instructions.md",
+   "url": "https://huggingface.co/datasets/ricdomolm/lawma-instructions",
+   "kind": "sft",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 554419,
+   "rows_display": "554,419",
+   "splits": {
+    "default/train": 553419,
+    "default/validation": 1000
+   },
+   "columns": {
+    "task": "string",
+    "output": "string",
+    "instruction": "string"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": "no-licence",
+   "commit": "d35a9164bc698ba948c51a61b08c63a886eb3605",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "ricdomolm/caselawqa-8k",
+   "file": "references/ricdomolm__caselawqa-8k.md",
+   "url": "https://huggingface.co/datasets/ricdomolm/caselawqa-8k",
+   "kind": "mcq",
+   "use": "eval",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 22000,
+   "rows_display": "22,000",
+   "splits": {
+    "1k/val": 1000,
+    "1k/test": 1000,
+    "sc/val": 5000,
+    "sc/test": 5000,
+    "songer/val": 5000,
+    "songer/test": 5000
+   },
+   "columns": {
+    "opinion": "string",
+    "instruction": "string",
+    "question": "string",
+    "choices": "list<string>",
+    "answer": "list<int64>",
+    "task": "string"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": null,
+   "commit": "2cf6113b00220ef83343de87e46479a4c2214522",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "isaacus/open-australian-legal-qa",
+   "file": "references/isaacus__open-australian-legal-qa.md",
+   "url": "https://huggingface.co/datasets/isaacus/open-australian-legal-qa",
+   "kind": "sft",
+   "use": "train",
+   "origin": "model",
+   "gated": false,
+   "partial": false,
+   "rows_served": 2124,
+   "rows_display": "2,124",
+   "splits": {
+    "default/train": 2124
+   },
+   "columns": {
+    "question": "string",
+    "answer": "string",
+    "text": "string",
+    "prompt": "string",
+    "source": "struct<version_id: string, type: string, jurisdiction: string, source: string, citation: string, url: string, text: string>"
+   },
+   "licence_card_field": "other",
+   "licence_display": "other (corpus licence)",
+   "flag": null,
+   "commit": "a2178afc2cff8af50fe4365c7d6f9cecf91dbe4b",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "ymoslem/Law-StackExchange",
+   "file": "references/ymoslem__Law-StackExchange.md",
+   "url": "https://huggingface.co/datasets/ymoslem/Law-StackExchange",
+   "kind": "sft",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 24370,
+   "rows_display": "24,370",
+   "splits": {
+    "default/train": 24370
+   },
+   "columns": {
+    "question_title": "string",
+    "score": "int64",
+    "link": "string",
+    "license": "string",
+    "question_body": "string",
+    "question_id": "int64",
+    "answers": "list<struct<answer_id: int64, body: string, score: int64>>",
+    "tags": "list<string>"
+   },
+   "licence_card_field": "cc-by-sa-4.0",
+   "licence_display": "cc-by-sa-4.0",
+   "flag": null,
+   "commit": "ab2dbaad9a71b6550316994c8fcd69f24f7f16e6",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "Alignment-Lab-AI/Lawyer-Instruct",
+   "file": "references/Alignment-Lab-AI__Lawyer-Instruct.md",
+   "url": "https://huggingface.co/datasets/Alignment-Lab-AI/Lawyer-Instruct",
+   "kind": "sft",
+   "use": "train",
+   "origin": "model",
+   "gated": false,
+   "partial": false,
+   "rows_served": 9241,
+   "rows_display": "9,241",
+   "splits": {
+    "default/train": 9241
+   },
+   "columns": {
+    "instruction": "string",
+    "input": "string",
+    "output": "string"
+   },
+   "licence_card_field": "apache-2.0",
+   "licence_display": "apache-2.0",
+   "flag": "off-topic",
+   "commit": "1dd073c3f7e27633dcafb18ed16467a32f65b515",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "dzunggg/legal-qa-v1",
+   "file": "references/dzunggg__legal-qa-v1.md",
+   "url": "https://huggingface.co/datasets/dzunggg/legal-qa-v1",
+   "kind": "sft",
+   "use": "train",
+   "origin": "unknown",
+   "gated": false,
+   "partial": false,
+   "rows_served": 3742,
+   "rows_display": "3,742",
+   "splits": {
+    "default/train": 3742
+   },
+   "columns": {
+    "question": "string",
+    "answer": "string"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": "no-licence",
+   "commit": "6280beb74faf5b4dfd1f63adbf7d18908b377b93",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "nisaar/LLAMA2_Legal_Dataset_4.4k_Instructions",
+   "file": "references/nisaar__LLAMA2_Legal_Dataset_4.4k_Instructions.md",
+   "url": "https://huggingface.co/datasets/nisaar/LLAMA2_Legal_Dataset_4.4k_Instructions",
+   "kind": "sft",
+   "use": "train",
+   "origin": "unknown",
+   "gated": false,
+   "partial": false,
+   "rows_served": 4394,
+   "rows_display": "4,394",
+   "splits": {
+    "default/train": 4394
+   },
+   "columns": {
+    "instruction": "string",
+    "input": "string",
+    "output": "string",
+    "prompt": "string",
+    "text": "string"
+   },
+   "licence_card_field": "apache-2.0",
+   "licence_display": "apache-2.0",
+   "flag": "low-diversity",
+   "commit": "cfadbf50741c89ea05a93183210bfe57ae345cfd",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "ShengbinYue/DISC-Law-SFT",
+   "file": "references/ShengbinYue__DISC-Law-SFT.md",
+   "url": "https://huggingface.co/datasets/ShengbinYue/DISC-Law-SFT",
+   "kind": "sft",
+   "use": "both",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 0,
+   "rows_display": "285,781 (measured, 4 files)",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": "apache-2.0",
+   "licence_display": "apache-2.0",
+   "flag": "contains-benchmark-items",
+   "commit": "fb12cf02809a85724f7e36977529b1d4b5f9f920",
+   "language": [
+    "zh"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "louisbrulenaudet/legalkit",
+   "file": "references/louisbrulenaudet__legalkit.md",
+   "url": "https://huggingface.co/datasets/louisbrulenaudet/legalkit",
+   "kind": "sft",
+   "use": "train",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 53000,
+   "rows_display": "53,000",
+   "splits": {
+    "default/train": 53000
+   },
+   "columns": {
+    "input": "string",
+    "output": "string",
+    "start": "string",
+    "expiration": "string",
+    "num": "string",
+    "query": "string"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": null,
+   "commit": "fe8aeff9e0c838b5f309ee1374c7a277162a985e",
+   "language": [
+    "fr"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "Prarabdha/indian-legal-supervised-fine-tuning-data",
+   "file": "references/Prarabdha__indian-legal-supervised-fine-tuning-data.md",
+   "url": "https://huggingface.co/datasets/Prarabdha/indian-legal-supervised-fine-tuning-data",
+   "kind": "sft",
+   "use": "train",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 6055371,
+   "rows_display": "6,055,371",
+   "splits": {
+    "default/train": 6055371
+   },
+   "columns": {
+    "context": "string",
+    "question": "string",
+    "response": "string"
+   },
+   "licence_card_field": "apache-2.0",
+   "licence_display": "apache-2.0",
+   "flag": null,
+   "commit": "05e30cb9536ae6f0d7570c490eb95d73a5117552",
+   "language": [
+    "hi",
+    "en",
+    "ta",
+    "mr",
+    "bn",
+    "or",
+    "te"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "stindardlogic/legal-reasoning-dpo-100k",
+   "file": "references/stindardlogic__legal-reasoning-dpo-100k.md",
+   "url": "https://huggingface.co/datasets/stindardlogic/legal-reasoning-dpo-100k",
+   "kind": "preference",
+   "use": "train",
+   "origin": "model",
+   "gated": false,
+   "partial": false,
+   "rows_served": 100000,
+   "rows_display": "100,000 (16 unique)",
+   "splits": {
+    "default/train": 100000
+   },
+   "columns": {
+    "prompt": "string",
+    "chosen": "string",
+    "rejected": "string",
+    "metadata": "struct<category: string, context: string>",
+    "id": "string"
+   },
+   "licence_card_field": "apache-2.0",
+   "licence_display": "apache-2.0",
+   "flag": "massive-duplication",
+   "commit": "31db58e87aad732d3be9e71797bef989d42b3929",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "mb7419/legal-advice-reddit_preference",
+   "file": "references/mb7419__legal-advice-reddit_preference.md",
+   "url": "https://huggingface.co/datasets/mb7419/legal-advice-reddit_preference",
+   "kind": "preference",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 70324,
+   "rows_display": "70,324",
+   "splits": {
+    "default/train": 70324
+   },
+   "columns": {
+    "post_id": "string",
+    "post_score": "float64",
+    "post": "string",
+    "chosen_ans": "string",
+    "rejected_ans": "string",
+    "chosen_score": "float64",
+    "rejected_score": "float64"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": "no-licence",
+   "commit": "7e274e709c468cf302683dd7a986c54a23a64252",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "FredrikBL/Legal-Snigel-DPO",
+   "file": "references/FredrikBL__Legal-Snigel-DPO.md",
+   "url": "https://huggingface.co/datasets/FredrikBL/Legal-Snigel-DPO",
+   "kind": "preference",
+   "use": "both",
+   "origin": "model",
+   "gated": false,
+   "partial": false,
+   "rows_served": 1998,
+   "rows_display": "1,998",
+   "splits": {
+    "default/train": 1598,
+    "default/test": 400
+   },
+   "columns": {
+    "beteckning": "string",
+    "titel": "string",
+    "prompt": "string",
+    "rejected": "string",
+    "chosen": "string",
+    "__index_level_0__": "int64"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": "no-licence",
+   "commit": "3aff0060c43a1e0748a9cab2030af10c86e453cc",
+   "language": [
+    "sv"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "coastalcph/lex_glue",
+   "file": "references/coastalcph__lex_glue.md",
+   "url": "https://huggingface.co/datasets/coastalcph/lex_glue",
+   "kind": "classification",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 236714,
+   "rows_display": "236,714",
+   "splits": {
+    "case_hold/train": 45000,
+    "case_hold/test": 3600,
+    "case_hold/validation": 3900,
+    "ecthr_a/train": 9000,
+    "ecthr_a/test": 1000,
+    "ecthr_a/validation": 1000,
+    "ecthr_b/train": 9000,
+    "ecthr_b/test": 1000,
+    "ecthr_b/validation": 1000,
+    "eurlex/train": 55000,
+    "eurlex/test": 5000,
+    "eurlex/validation": 5000,
+    "ledgar/train": 60000,
+    "ledgar/test": 10000,
+    "ledgar/validation": 10000,
+    "scotus/train": 5000,
+    "scotus/test": 1400,
+    "scotus/validation": 1400,
+    "unfair_tos/train": 5532,
+    "unfair_tos/test": 1607,
+    "unfair_tos/validation": 2275
+   },
+   "columns": {
+    "context": "string",
+    "endings": "list<string>",
+    "label": "class_label[0, 1, 2, 3, 4]"
+   },
+   "licence_card_field": [
+    "cc-by-4.0"
+   ],
+   "licence_display": "cc-by-4.0",
+   "flag": null,
+   "commit": "c23fdff1a6bf74e0e1a71cb86f1e781d37da888c",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "casehold/casehold",
+   "file": "references/casehold__casehold.md",
+   "url": "https://huggingface.co/datasets/casehold/casehold",
+   "kind": "mcq",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 584507,
+   "rows_display": "584,507 across all configs (53,137 in `all`)",
+   "splits": {
+    "all/train": 42509,
+    "all/validation": 5314,
+    "all/test": 5314,
+    "fold_1/train": 42562,
+    "fold_1/validation": 5261,
+    "fold_1/test": 5314,
+    "fold_10/train": 42563,
+    "fold_10/validation": 5261,
+    "fold_10/test": 5313,
+    "fold_2/train": 42562,
+    "fold_2/validation": 5261,
+    "fold_2/test": 5314,
+    "fold_3/train": 42562,
+    "fold_3/validation": 5261,
+    "fold_3/test": 5314,
+    "fold_4/train": 42562,
+    "fold_4/validation": 5261,
+    "fold_4/test": 5314,
+    "fold_5/train": 42562,
+    "fold_5/validation": 5261,
+    "fold_5/test": 5314,
+    "fold_6/train": 42562,
+    "fold_6/validation": 5261,
+    "fold_6/test": 5314,
+    "fold_7/train": 42562,
+    "fold_7/validation": 5261,
+    "fold_7/test": 5314,
+    "fold_8/train": 42563,
+    "fold_8/validation": 5261,
+    "fold_8/test": 5313,
+    "fold_9/train": 42563,
+    "fold_9/validation": 5261,
+    "fold_9/test": 5313
+   },
+   "columns": {
+    "example_id": "int32",
+    "citing_prompt": "string",
+    "holding_0": "string",
+    "holding_1": "string",
+    "holding_2": "string",
+    "holding_3": "string",
+    "holding_4": "string",
+    "label": "string"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": "no-licence",
+   "commit": "acc4532a67e0966e9ed7ec4ca543e8532f983b0c",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "theatticusproject/cuad-qa",
+   "file": "references/theatticusproject__cuad-qa.md",
+   "url": "https://huggingface.co/datasets/theatticusproject/cuad-qa",
+   "kind": "qa",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": null,
+   "rows_served": null,
+   "rows_display": "26,632 questions (card); viewer serves no rows",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": [
+    "cc-by-4.0"
+   ],
+   "licence_display": "cc-by-4.0",
+   "flag": "overlaps-LegalBench",
+   "commit": "6d9a118fb629814c4384a1e63cfc84f5c01894b3",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "theatticusproject/cuad",
+   "file": "references/theatticusproject__cuad.md",
+   "url": "https://huggingface.co/datasets/theatticusproject/cuad",
+   "kind": "files",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 84325,
+   "rows_display": "510 contracts (viewer: 84,325 lines)",
+   "splits": {
+    "default/train": 84325
+   },
+   "columns": {
+    "text": "string"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": null,
+   "commit": "a3c393f5d103fd0c516374e4fdff676c8176dcb1",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "theatticusproject/maud",
+   "file": "references/theatticusproject__maud.md",
+   "url": "https://huggingface.co/datasets/theatticusproject/maud",
+   "kind": "mcq",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 39231,
+   "rows_display": "39,231",
+   "splits": {
+    "default/train": 25827,
+    "default/validation": 6753,
+    "default/test": 6651
+   },
+   "columns": {
+    "data_type": "string",
+    "contract_name": "string",
+    "text": "string",
+    "answer": "string",
+    "label": "int64",
+    "question": "string",
+    "subquestion": "string",
+    "text_type": "string",
+    "id": "string",
+    "category": "string"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": "overlaps-LegalBench",
+   "commit": "37d5c3b95d18dcd8404cc5ce3fd5069be062392f",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "kiddothe2b/contract-nli",
+   "file": "references/kiddothe2b__contract-nli.md",
+   "url": "https://huggingface.co/datasets/kiddothe2b/contract-nli",
+   "kind": "nli",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 20107,
+   "rows_display": "20,107",
+   "splits": {
+    "contractnli_a/train": 6819,
+    "contractnli_a/test": 1991,
+    "contractnli_a/validation": 978,
+    "contractnli_b/train": 7191,
+    "contractnli_b/test": 2091,
+    "contractnli_b/validation": 1037
+   },
+   "columns": {
+    "premise": "string",
+    "hypothesis": "string",
+    "label": "class_label[contradiction, entailment, neutral]"
+   },
+   "licence_card_field": "cc-by-nc-sa-4.0",
+   "licence_display": "cc-by-nc-sa-4.0",
+   "flag": null,
+   "commit": "059927b91122a6827e7dbb4f296f6da8f5dcee1c",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "FiscalNote/billsum",
+   "file": "references/FiscalNote__billsum.md",
+   "url": "https://huggingface.co/datasets/FiscalNote/billsum",
+   "kind": "summarization",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 23455,
+   "rows_display": "23,455",
+   "splits": {
+    "default/train": 18949,
+    "default/test": 3269,
+    "default/ca_test": 1237
+   },
+   "columns": {
+    "text": "string",
+    "summary": "string",
+    "title": "string"
+   },
+   "licence_card_field": [
+    "cc0-1.0"
+   ],
+   "licence_display": "cc0-1.0",
+   "flag": null,
+   "commit": "3d8510441c06a3d9dfb32eb0d7f80151730bcc4f",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "coastalcph/multi_eurlex",
+   "file": "references/coastalcph__multi_eurlex.md",
+   "url": "https://huggingface.co/datasets/coastalcph/multi_eurlex",
+   "kind": "classification",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": null,
+   "rows_served": null,
+   "rows_display": "viewer serves no rows; 65,000 docs per full language",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": [
+    "cc-by-sa-4.0"
+   ],
+   "licence_display": "cc-by-sa-4.0 (body says cc-by-4.0)",
+   "flag": "script-loaded",
+   "commit": "2020d0350241461069a54177b639f0e6c7a7a712",
+   "language": [
+    "bg",
+    "cs",
+    "da",
+    "de",
+    "el",
+    "en",
+    "es",
+    "et",
+    "fi",
+    "fr",
+    "hr",
+    "hu",
+    "it",
+    "lt",
+    "lv",
+    "mt",
+    "nl",
+    "pl",
+    "pt",
+    "ro",
+    "sk",
+    "sl",
+    "sv"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "dennlinger/eur-lex-sum",
+   "file": "references/dennlinger__eur-lex-sum.md",
+   "url": "https://huggingface.co/datasets/dennlinger/eur-lex-sum",
+   "kind": "summarization",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": null,
+   "rows_served": null,
+   "rows_display": "viewer serves no rows; English 1,504",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": [
+    "cc-by-4.0"
+   ],
+   "licence_display": "cc-by-4.0 (body says cc-by-sa-4.0)",
+   "flag": "script-loaded",
+   "commit": "33ecb2d630298e3f912d067aaaa71aaf4ee92404",
+   "language": [
+    "bg",
+    "hr",
+    "cs",
+    "da",
+    "nl",
+    "en",
+    "et",
+    "fi",
+    "fr",
+    "de",
+    "el",
+    "hu",
+    "ga",
+    "it",
+    "lv",
+    "lt",
+    "mt",
+    "pl",
+    "pt",
+    "ro",
+    "sk",
+    "sl",
+    "es",
+    "sv"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "reglab/barexam_qa",
+   "file": "references/reglab__barexam_qa.md",
+   "url": "https://huggingface.co/datasets/reglab/barexam_qa",
+   "kind": "mcq",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": null,
+   "rows_served": null,
+   "rows_display": "1,195 questions (measured)",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": "cc-by-sa-4.0",
+   "licence_display": "cc-by-sa-4.0",
+   "flag": null,
+   "commit": "b7c245a7e4739f6c785faa2489e283c8daa449d1",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "ChicagoHAI/CaseSumm",
+   "file": "references/ChicagoHAI__CaseSumm.md",
+   "url": "https://huggingface.co/datasets/ChicagoHAI/CaseSumm",
+   "kind": "summarization",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 27071,
+   "rows_display": "27,071",
+   "splits": {
+    "default/train": 27071
+   },
+   "columns": {
+    "citation": "string",
+    "syllabus": "string",
+    "opinion": "string"
+   },
+   "licence_card_field": "cc-by-nc-3.0",
+   "licence_display": "cc-by-nc-3.0 (card body: NC 4.0 / NC-SA 4.0)",
+   "flag": "licence-conflict",
+   "commit": "880acec67a69766075ddb42882de4722efdeddb2",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "jhu-clsp/CLERC",
+   "file": "references/jhu-clsp__CLERC.md",
+   "url": "https://huggingface.co/datasets/jhu-clsp/CLERC",
+   "kind": "retrieval",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": true,
+   "rows_served": 105699,
+   "rows_display": "generation test 1,000 (measured); viewer partial",
+   "splits": {
+    "default/train": 105699
+   },
+   "columns": {
+    "query_id": "string",
+    "query": "string",
+    "positive_passages": "list<struct<docid: string, title: string, text: string>>",
+    "negative_passages": "list<struct<docid: string, title: string, text: string>>"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": "no-licence",
+   "commit": "ef042f8ab436f78704f17faa0a866d1b2b862f6f",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "china-ai-law-challenge/cail2018",
+   "file": "references/china-ai-law-challenge__cail2018.md",
+   "url": "https://huggingface.co/datasets/china-ai-law-challenge/cail2018",
+   "kind": "classification",
+   "use": "both",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 2168025,
+   "rows_display": "2,168,025",
+   "splits": {
+    "default/exercise_contest_train": 154592,
+    "default/exercise_contest_valid": 17131,
+    "default/exercise_contest_test": 32508,
+    "default/first_stage_train": 1710856,
+    "default/first_stage_test": 217016,
+    "default/final_test": 35922
+   },
+   "columns": {
+    "fact": "string",
+    "relevant_articles": "list<int32>",
+    "accusation": "list<string>",
+    "punish_of_money": "float32",
+    "criminals": "list<string>",
+    "death_penalty": "bool",
+    "imprisonment": "float32",
+    "life_imprisonment": "bool"
+   },
+   "licence_card_field": [
+    "unknown"
+   ],
+   "licence_display": "unknown",
+   "flag": "split-leakage",
+   "commit": "775098da3ba75f033781f8061900b62503e9bea0",
+   "language": [
+    "zh"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "lighteval/legal_summarization",
+   "file": "references/lighteval__legal_summarization.md",
+   "url": "https://huggingface.co/datasets/lighteval/legal_summarization",
+   "kind": "summarization",
+   "use": "eval",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 26860,
+   "rows_display": "26,860",
+   "splits": {
+    "BillSum/train": 18949,
+    "BillSum/test": 3269,
+    "EurLexSum/train": 1129,
+    "EurLexSum/test": 188,
+    "EurLexSum/validation": 187,
+    "MultiLexSum/train": 2210,
+    "MultiLexSum/test": 616,
+    "MultiLexSum/validation": 312
+   },
+   "columns": {
+    "article": "string",
+    "summary": "string"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": "no-licence",
+   "commit": "e8b8f0aed467234d29138d540e6163573476276c",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "nguha/legalbench",
+   "file": "references/nguha__legalbench.md",
+   "url": "https://huggingface.co/datasets/nguha/legalbench",
+   "kind": "classification",
+   "use": "eval",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 91750,
+   "rows_display": "91,750",
+   "splits": {
+    "n_configs": 162,
+    "totals_by_split": {
+     "test": 90894,
+     "train": 856
+    }
+   },
+   "columns": {
+    "index": "int64",
+    "answer": "string",
+    "text": "string"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0 (per-task licences)",
+   "flag": null,
+   "commit": "daec8237410aa23e3faf4bc41ad8b3a7e1696826",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "reglab/housing_qa",
+   "file": "references/reglab__housing_qa.md",
+   "url": "https://huggingface.co/datasets/reglab/housing_qa",
+   "kind": "qa",
+   "use": "eval",
+   "origin": "human",
+   "gated": false,
+   "partial": null,
+   "rows_served": null,
+   "rows_display": "6,853 (+9,297 aux)",
+   "splits": {},
+   "columns": null,
+   "licence_card_field": "cc-by-sa-4.0",
+   "licence_display": "cc-by-sa-4.0",
+   "flag": null,
+   "commit": "761550cc974fa1d9141ffd39014db89efa2a7230",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "AdaptLLM/law-tasks",
+   "file": "references/AdaptLLM__law-tasks.md",
+   "url": "https://huggingface.co/datasets/AdaptLLM/law-tasks",
+   "kind": "mcq",
+   "use": "eval",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 5216,
+   "rows_display": "5,216",
+   "splits": {
+    "CaseHOLD/test": 3549,
+    "SCOTUS/test": 60,
+    "UNFAIR_ToS/test": 1607
+   },
+   "columns": {
+    "id": "int64",
+    "input_options": "list<string>",
+    "output": "string",
+    "gold_index": "int64"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": null,
+   "commit": "9833f318db11941509f2b56a29b423757f8acbd9",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "isaacus/legal-rag-bench",
+   "file": "references/isaacus__legal-rag-bench.md",
+   "url": "https://huggingface.co/datasets/isaacus/legal-rag-bench",
+   "kind": "qa",
+   "use": "eval",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 4976,
+   "rows_display": "4,976",
+   "splits": {
+    "corpus/test": 4876,
+    "qa/test": 100
+   },
+   "columns": {
+    "id": "string",
+    "title": "string",
+    "text": "string",
+    "footnotes": "string"
+   },
+   "licence_card_field": "cc-by-nc-sa-4.0",
+   "licence_display": "cc-by-nc-sa-4.0",
+   "flag": null,
+   "commit": "db0b31dc6d195ce9916897e1ac5e4e6209736c8a",
+   "language": [
+    "en"
+   ],
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "reglab/legal_rag_hallucinations",
+   "file": "references/reglab__legal_rag_hallucinations.md",
+   "url": "https://huggingface.co/datasets/reglab/legal_rag_hallucinations",
+   "kind": "qa",
+   "use": "eval",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 500,
+   "rows_display": "500 (400 responses + 100 questions)",
+   "splits": {
+    "default/train": 500
+   },
+   "columns": {
+    "Question ID": "string",
+    "Question Category": "string",
+    "Model": "string",
+    "Question": "string",
+    "Response": "string",
+    "Correctness": "string",
+    "Groundedness": "string",
+    "Label": "string"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": null,
+   "commit": "6364efad0dede984e9f4aeb1ca07cffb7fa85a77",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "hails/agieval-jec-qa-kd",
+   "file": "references/hails__agieval-jec-qa-kd.md",
+   "url": "https://huggingface.co/datasets/hails/agieval-jec-qa-kd",
+   "kind": "mcq",
+   "use": "eval",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 1000,
+   "rows_display": "1,000",
+   "splits": {
+    "default/test": 1000
+   },
+   "columns": {
+    "query": "string",
+    "choices": "list<string>",
+    "gold": "list<int64>"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": null,
+   "commit": "970133b139bcf1cc07f944851dba0e6b715d5659",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "doolayer/LawBench",
+   "file": "references/doolayer__LawBench.md",
+   "url": "https://huggingface.co/datasets/doolayer/LawBench",
+   "kind": "mcq",
+   "use": "eval",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 2500,
+   "rows_display": "2,500",
+   "splits": {
+    "1-2/test": 500,
+    "3-1/test": 500,
+    "3-3/test": 500,
+    "3-4/test": 500,
+    "3-6/test": 500
+   },
+   "columns": {
+    "instruction": "string",
+    "question": "string",
+    "answer": "string"
+   },
+   "licence_card_field": null,
+   "licence_display": "none on the card",
+   "flag": "contained-in-training-sets",
+   "commit": "23c262cf1d5593760be72eae0c76b9c0817fef68",
+   "language": null,
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "harveyai/harvey-labs",
+   "file": "references/harveyai__harvey-labs.md",
+   "url": "https://github.com/harveyai/harvey-labs",
+   "kind": "agentic-eval",
+   "use": "eval",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 2010,
+   "rows_display": "2,010 tasks at commit 1dd8140",
+   "splits": {
+    "none": 2010
+   },
+   "columns": {
+    "task.json": "title, work_type, tags, instructions, deliverables, criteria"
+   },
+   "licence_card_field": "MIT",
+   "licence_display": "MIT",
+   "flag": "",
+   "commit": "1dd81403b2fbb60596f7aea3fcecafad7bf73143",
+   "language": "en",
+   "found_by": [
+    "maintainer"
+   ]
+  },
+  {
+   "id": "crosbylegal/RedlineBench",
+   "file": "references/crosbylegal__RedlineBench.md",
+   "url": "https://huggingface.co/datasets/crosbylegal/RedlineBench",
+   "kind": "agentic-eval",
+   "use": "eval",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 140,
+   "rows_display": "140 tasks",
+   "splits": {
+    "tasks/test": 140
+   },
+   "columns": {
+    "task_id": "string",
+    "scenario_id": "string",
+    "scenario_label": "string",
+    "represented_party": "string",
+    "counterparty": "string",
+    "rubric_variant": "string",
+    "instruction_preview": "string",
+    "rubric_category_counts": "string",
+    "contract_path": "string",
+    "rubrics_path": "string",
+    "attorney_redline_doc_path": "string",
+    "source_task_path": "string",
+    "turn": "int64",
+    "rubric_count": "int64",
+    "rubric_criteria_preview": "list<string>"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": null,
+   "commit": "eee1b6790982ed1279e86bec7616b662a61993e6",
+   "language": "en",
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "chenghao/sec-material-contracts",
+   "file": "references/chenghao__sec-material-contracts.md",
+   "url": "https://huggingface.co/datasets/chenghao/sec-material-contracts",
+   "kind": "text",
+   "use": "train",
+   "origin": "human",
+   "gated": false,
+   "partial": false,
+   "rows_served": 1141632,
+   "rows_display": "1,141,632",
+   "splits": {
+    "default/train": 1141632
+   },
+   "columns": {
+    "index_html_url": "string",
+    "index_text_url": "string",
+    "cik": "string",
+    "name": "string",
+    "type": "string",
+    "filing_date": "string",
+    "report_date": "string",
+    "seq": "string",
+    "desc": "string",
+    "doc_type": "string",
+    "size": "string",
+    "filename": "string",
+    "file_url": "string",
+    "file": "string",
+    "extension": "string",
+    "filing_metadata": "string",
+    "file_content": "string"
+   },
+   "licence_card_field": "cc-by-sa-4.0",
+   "licence_display": "cc-by-sa-4.0",
+   "flag": "not-deduplicated",
+   "commit": "bc6a0be3fa359e426733633439316f66a76dbf41",
+   "language": "en",
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "open-agreements/legal-practice-library",
+   "file": "references/open-agreements__legal-practice-library.md",
+   "url": "https://huggingface.co/datasets/open-agreements/legal-practice-library",
+   "kind": "text",
+   "use": "train",
+   "origin": "unknown",
+   "gated": false,
+   "partial": false,
+   "rows_served": 119,
+   "rows_display": "119 (plus about 1,600 repository files)",
+   "splits": {
+    "default/train": 119
+   },
+   "columns": {
+    "topic": "string",
+    "slug": "string",
+    "jurisdiction": "string",
+    "country_code": "string",
+    "canonical_url": "string",
+    "license": "string",
+    "last_reviewed": "string",
+    "snapshot_as_of": "string",
+    "markdown": "string",
+    "stale": "bool"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": "unreviewed",
+   "commit": "e6c1bdbe1df9016cb20c843f30d1e9edff449eab",
+   "language": "en",
+   "found_by": [
+    "hub-search"
+   ]
+  },
+  {
+   "id": "TheTokenFactory/sec-contracts-financial-extraction-instructions",
+   "file": "references/TheTokenFactory__sec-contracts-financial-extraction-instructions.md",
+   "url": "https://huggingface.co/datasets/TheTokenFactory/sec-contracts-financial-extraction-instructions",
+   "kind": "sft",
+   "use": "train",
+   "origin": "mixed",
+   "gated": false,
+   "partial": false,
+   "rows_served": 23049,
+   "rows_display": "23,049 (7,683 examples x 3 formats)",
+   "splits": {
+    "sharegpt/train": 3430,
+    "sharegpt/corrective": 4253,
+    "alpaca/train": 3430,
+    "alpaca/corrective": 4253,
+    "openai/train": 3430,
+    "openai/corrective": 4253
+   },
+   "columns": {
+    "conversations": "list<struct<from,value>>",
+    "metadata": "struct"
+   },
+   "licence_card_field": "cc-by-4.0",
+   "licence_display": "cc-by-4.0",
+   "flag": "model-written-labels",
+   "commit": "c90ac749f9056901c8c3ed22ae1ff7c894c9b696",
+   "language": "en",
+   "found_by": [
+    "hub-search"
+   ]
+  }
+ ]
+}
