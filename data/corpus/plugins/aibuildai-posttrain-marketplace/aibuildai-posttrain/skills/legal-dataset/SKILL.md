@@ -89,6 +89,8 @@ Several of them are built from training data in this skill. If you report the be
 
 Two datasets also leak within themselves: many CAIL2018 `exercise_contest_test` facts are in its own `first_stage_train`, and every MAUD `test` row's contract also appears in MAUD `train`. A benchmark published after a training set's last commit cannot be inside it; for newer sets, `references/finding-more.md` gives the screening procedure.
 
+How each of these benchmarks grades an answer - its extraction rule, aggregation and judge - is in the `legal-evaluation` skill.
+
 ## The full list
 
 `references/index.md` holds all 48 datasets grouped by kind, with rows, the licence field, whether the dataset may be trained on (`train`, `both`, `eval`), who wrote the text, and each card's flag. `references/index.json` holds the same list with the measured columns, splits, pinned commit and licence fields, for matching by field.
